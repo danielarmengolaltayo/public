@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+
+<body>
+  <!-- <nav>{% include nav.html %}</nav> -->
+  <div class="wrapper">
+    <div id="left">
+      <!-- <nav>{% include nav.html %}</nav> -->
+      <main>{{ content }}</main>
+      <footer>{% include footer.html %}</footer>
+
+    </div>
+    <div id="right">
+
+      <!-- <nav>&nbsp;</nav> -->
+      <div id="links">
+        {% for b in page.links %}
+        <div class="links-box" id="{{ b.url }}" style="display:none;">
+
+          {{ b.content | markdownify }}
+
+          <content>
+            <div class="backlinks">
+              {% if b.backlinks.size > 0 %}
+              <div class="font-size-small">Pages linking to this page</div>
+              <!-- <div style="display: grid; grid-gap: 1em; grid-template-columns: repeat(1fr);"> -->
+              {% for backlink in b.backlinks %}
+              <!-- <div class="backlink-box"> -->
+              <a class="internal-link"
+                href="{{ site.baseurl }}{{ backlink.url }}{%- if site.use_html_extension -%}.html{%- endif -%}">←
+                {{ backlink.title }}</a><br>
+              <!-- <div>{{ backlink.excerpt | strip_html | truncatewords: 20 }}</div> -->
+              <!-- </div> -->
+              {% endfor %}
+              <!-- </div> -->
+              {% endif %}
+            </div>
+          </content>
+
+          <footer>{% include footer.html %}</footer>
+
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+    <div id="gradient"></div>
+
+    <!-- <div id="file">
+      {% if page.img %}
+      <img class="photo-full" src="assets/{{ page.img }}">
+      {% endif %}
+    </div> -->
+
+  </div>
+
+  {% include link-previews.html wrapperQuerySelector="content" %}
+</body>
+
+</html>

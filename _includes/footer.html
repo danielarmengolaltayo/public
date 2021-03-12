@@ -1,0 +1,7 @@
+<time class="font-size-small" datetime="{{ page.last_modified_at | date_to_xmlschema }}">{% if page.type != 'pages' %}
+    Last updated on {{ page.last_modified_at | date: "%B %-d, %Y" }}
+    {% endif %}
+</time>
+<!-- 
+This is the footer. Include anything you'd like here, like a link to an <a class="internal-link" href="/about">About</a>
+page. -->

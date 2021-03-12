@@ -1,0 +1,36 @@
+<!-- That file is not particularly elegant. This will need a refactor at some point. -->
+<script>
+    function hideTooltip() {
+        document.getElementById(event.target.pathname).style.display = "none";
+    }
+
+    function showTooltip(event) {
+        // console.log("test: " + event.target.pathname);
+        document.getElementById(event.target.pathname).style.display = "block";
+    }
+
+    function setupListeners(linkElement) {
+        linkElement.addEventListener('mouseleave', function (_event) {
+            // hideTooltip();
+            linkElement.blur();
+        });
+        linkElement.addEventListener('blur', function (_event) {
+            hideTooltip();
+            // document.getElementById("file").style.display = "inline-block";
+        });
+        linkElement.addEventListener('mouseenter', function (event) {
+            document.activeElement.blur();
+            // showTooltip(event);
+            linkElement.focus();
+        });
+        linkElement.addEventListener('focus', function (event) {
+            // document.getElementById("file").style.display = "none";
+            showTooltip(event);
+        });
+        document.getElementById("right").addEventListener('mousemove', function (event) {
+            linkElement.blur();
+        })
+    }
+
+    document.querySelectorAll('{{ include.wrapperQuerySelector }} a').forEach(setupListeners);
+</script>
