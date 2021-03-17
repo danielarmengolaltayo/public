@@ -58,8 +58,11 @@ time {
   // margin: 0.5em 0 1em;
 }
 
+h1,
 .font-size-small{
   font-size: 0.8em;
+  line-height: 1.6 !important;
+  font-weight: normal;
 }
 
 footer {
@@ -75,8 +78,10 @@ p{
 img {
   max-width: 100%;
   display: block;
-  margin: 0 auto 0 0;
-  // max-height: 75vh;
+  // margin: 0 auto;
+  margin: 0 auto 30px 0;
+  max-height: 65vh;
+  // max-height: calc(100vh - (#{$left-right-padding} * 2));
   // border-radius: $border-radius;
   //perque totes les imatges passin per sobre del gradient
   position: relative;
@@ -233,4 +238,30 @@ code {
 .backlinks{
   margin-top: $left-right-padding;
   // margin-top: calc(#{$left-right-padding} * 2);
+}
+
+.gallery{
+  display: inline-flex;
+}
+
+.gallery-left,
+.gallery-right{
+  // width: 50%;
+}
+
+.gallery-left{
+  width: 100px;
+  margin-right: 15px;
+}
+
+.gallery-right{
+  width: calc(100% - 100px);
+  margin-left: 15px;
+}
+
+.internal-link img{
+  // width: 50px;
+  height: 50px;;
+  margin: 0;
+  display: inline-block;
 }
