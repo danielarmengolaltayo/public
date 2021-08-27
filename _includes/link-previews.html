@@ -7,6 +7,8 @@
     function showTooltip(event) {
         // console.log("test: " + event.target.pathname);
         document.getElementById(event.target.pathname).style.display = "block";
+        console.log("hola: " + event.target);
+        drawCanvas(event.target);
     }
 
     function setupListeners(linkElement) {
@@ -29,8 +31,15 @@
         });
         document.getElementById("right").addEventListener('mousemove', function (event) {
             linkElement.blur();
-        })
+        });
     }
 
     document.querySelectorAll('{{ include.wrapperQuerySelector }} a').forEach(setupListeners);
+
+    var internalLinks = document.getElementsByClassName("internal-link");
+    for (var i = 0; i < internalLinks.length; i++) {
+        if (internalLinks[i].href == window.location.href) {
+            internalLinks[i].classList.add("highlight-backlink");
+        }
+    }
 </script>

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class BidirectionalLinksGenerator < Jekyll::Generator
   def generate(site)
-    graph_nodes = []
-    graph_edges = []
 
     all_notes = site.collections['notes'].docs
     all_pages = site.pages
@@ -25,41 +23,40 @@ class BidirectionalLinksGenerator < Jekyll::Generator
         # alhora que puc posar el text que vulgui a la web
         # [this is a link to the note about cats]([[cats]])
         current_note.content = current_note.content.gsub(
-          /\[(.+?)(?=\])\]\(\[\[(#{title_from_filename})\]\]\)/i,
-          "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+          /\[([^\]]+?)(?=\])\]\(\[\[(#{title_from_filename})\]\]\)/i,
+          "<a class='internal-link' id='#{current_note.url}#{note_potentially_linked_to.url}' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
         )
 
-        # Replace double-bracketed links with label using note title
-        # [[A note about cats|this is a link to the note about cats]]
-        current_note.content = current_note.content.gsub(
-          /\[\[#{title_from_filename}\|(.+?)(?=\])\]\]/i,
-          "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        )
+        # les següents regex expressions interactuen amb la anterior i la trenquen !!!!
+   
+        # # Replace double-bracketed links with label using note title
+        # # [[A note about cats|this is a link to the note about cats]]
+        # current_note.content = current_note.content.gsub(
+        #   /\[\[#{title_from_filename}\|(.+?)(?=\])\]\]/i,
+        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+        # )
 
-        # Replace double-bracketed links with label using note filename
-        # [[cats|this is a link to the note about cats]]
-        current_note.content = current_note.content.gsub(
-          /\[\[#{note_potentially_linked_to.data['title']}\|(.+?)(?=\])\]\]/i,
-          "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        )
+        # # Replace double-bracketed links with label using note filename
+        # # [[cats|this is a link to the note about cats]]
+        # current_note.content = current_note.content.gsub(
+        #   /\[\[#{note_potentially_linked_to.data['title']}\|(.+?)(?=\])\]\]/i,
+        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+        # )
 
-        # Replace double-bracketed links using note title
-        # [[a note about cats]]
-        current_note.content = current_note.content.gsub(
-          /\[\[(#{note_potentially_linked_to.data['title']})\]\]/i,
-          "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        )
+        # # Replace double-bracketed links using note title
+        # # [[a note about cats]]
+        # current_note.content = current_note.content.gsub(
+        #   /\[\[(#{note_potentially_linked_to.data['title']})\]\]/i,
+        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+        # )
 
-        # Replace double-bracketed links using note filename
-        # [[cats]]
-        current_note.content = current_note.content.gsub(
-          /\[\[(#{title_from_filename})\]\]/i,
-          "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        )
+        # # Replace double-bracketed links using note filename
+        # # [[cats]]
+        # current_note.content = current_note.content.gsub(
+        #   /\[\[(#{title_from_filename})\]\]/i,
+        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+        # )
 
-        
-
-        
       end
 
       # At this point, all remaining double-bracket-wrapped words are
@@ -76,55 +73,41 @@ class BidirectionalLinksGenerator < Jekyll::Generator
       )
     end
 
-    # Identify note backlinks and add them to each note
+    # # Identify note backlinks and add them to each note
+    # all_notes.each do |current_note|
+    #   notes_linking_to_current_note = all_notes.filter do |e|
+    #     # avoid backlinks to the same note (e.url != current_note.url)
+    #     e.content.include?(current_note.url) && e.url != current_note.url 
+    #   end
+    #   current_note.data['backlinks'] = notes_linking_to_current_note
+    # end
+
+    # # Identify connected notes (bidirectional connections) and add them to each note
+    # all_notes.each do |current_note|
+    #   connected_notes = all_notes.filter do |e|
+    #     # avoid backlinks to the same note (e.url != current_note.url)
+    #     (current_note.content.include?(e.url) || e.content.include?(current_note.url)) && e.url != current_note.url 
+    #   end
+    #   current_note.data['links'] = connected_notes
+    # end
+
     all_notes.each do |current_note|
-      # Nodes: Jekyll
-      notes_linking_to_current_note = all_notes.filter do |e|
-        e.content.include?(current_note.url)
+      # identify linked notes (unidirectional: from, to | bidirectional: both) 
+      linked_notes = all_notes.filter do |e|
+        # avoid backlinks to the same note (e.url != current_note.url)
+        (current_note.content.include?(e.url) || e.content.include?(current_note.url)) && e.url != current_note.url 
       end
-
-      # Nodes: Graph
-      # graph_nodes << {
-      #   id: note_id_from_note(current_note),
-      #   path: "#{site.baseurl}#{current_note.url}#{link_extension}",
-      #   label: current_note.data['title'],
-      # } unless current_note.path.include?('_notes/index.html')
-
-      # Edges: Jekyll
+      # and add them to the data associated to each note
+      current_note.data['links'] = linked_notes
+      # identify note backlinks (only unidirectional links)
+      notes_linking_to_current_note = current_note.data['links'].filter do |e|
+        e.content.include?(current_note.url) && !current_note.content.include?(e.url)
+      end
+      # and add them to the data associated to each note
       current_note.data['backlinks'] = notes_linking_to_current_note
-
-      # Edges: Graph
-      # notes_linking_to_current_note.each do |n|
-      #   graph_edges << {
-      #     source: note_id_from_note(n),
-      #     target: note_id_from_note(current_note),
-      #   }
-      # end
+      # no confondre el concepte de backlinks aqui, ja que no contempla aquelles notes que estan conectades cap a les dues direccions
     end
 
-    # Identify links to other notes and add them to each note
-    all_notes.each do |current_note|
-      # Nodes: Jekyll
-      links_to_other_notes = all_notes.filter do |e|
-        # current_note.content.include?(e.url)
-        current_note.content.include?(e.url) || e.content.include?(current_note.url)
-      end
-      # Edges: Jekyll
-      current_note.data['links'] = links_to_other_notes
-    end
-
-    # File.write('_includes/notes_graph.json', JSON.dump({
-    #   edges: graph_edges,
-    #   nodes: graph_nodes,
-    # }))
   end
 
-  # def note_id_from_note(note)
-  #   note.data['title']
-  #     .dup
-  #     .gsub(/\W+/, ' ')
-  #     .delete(' ')
-  #     .to_i(36)
-  #     .to_s
-  # end
 end

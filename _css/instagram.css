@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.main {
+    /* width: 50%; */
+    width: 612px;
+    margin: auto;
+    text-align: center;
+}
+
+.gallery2 {
+    display: table;
+}
+
+.gallery2 img {
+    /* width: 30%; */
+    width: 200px;
+    height: 200px;
+    vertical-align: top;
+    object-fit: cover;
+    margin: 2px;
+}
+
+a {
+    margin: 0;
+    padding: 0;
+}
+
+/* LQIP (Low Quality Image Placeholder)/blurry image placeholder/Blur up image technique */
+/* https://github.com/aFarkas/lazysizes */
+
+.blur-up {
+    /* -webkit-filter: blur(10px);
+    filter: blur(10px); */
+    /* transition: filter 400ms, -webkit-filter 400ms; */
+    image-rendering: pixelated;
+}
+
+.blur-up.lazyloaded {
+    /* -webkit-filter: blur(0);
+    filter: blur(0); */
+    image-rendering: auto;
+}
