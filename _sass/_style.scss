@@ -206,13 +206,16 @@ blockquote {
 // }
 
 a {
-  transition: background 200ms;
+  // transition: background 200ms;
   // padding: 0 0.1em;
-  text-decoration: none;
-  border-bottom: 1px solid #00f;
-  color: $color-primary;
+  &:link, &:visited, &:active {
+    text-decoration: none;
+    color: $color-primary;
+    background: transparent;
+    border-bottom: 1px solid #00f;
+  }
   &:hover, &:focus {
-    color: #00f !important;
+    color: #00f;
     border-bottom: 1px solid #00f;
     background: $color-hover-external-link;
   }
@@ -229,13 +232,15 @@ a {
 }
 
 a.internal-link {
-  border-color: $color-primary;
-  // background-color: ;
-  &:focus {
-    color: $color-primary !important;
+  &:link, &:visited, &:hover, &:active {
+    color: $color-primary;
+    background: transparent;
     border-color: $color-primary;
-    // background: #fffaf1;
+  }
+  &:focus {
+    color: $color-primary;
     background: $color-hover-internal-link;
+    border-color: $color-primary;
     img {
       opacity: 0;
     }
@@ -245,7 +250,7 @@ a.internal-link {
 a.internal-link-disconnected{
   border-color: $color-primary;
   &:focus {
-    color: $color-primary !important;
+    color: $color-primary;
     background: $color-hover-external-link;
   }
 }
