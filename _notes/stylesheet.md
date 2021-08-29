@@ -1,4 +1,7 @@
 ---
+id: ERROR wrong filename pattern YYYYMMDDHHMMauthor_id (author_id is optional)
+created: YYYY-MM-DD
+last-modified: 2021-08-28
 title: Style Sheet
 ---
 
@@ -11,10 +14,8 @@ title: Style Sheet
 
 # Header h1 Header h1 Header h1 Header h1 Header h1 Header h1 Header h1 Header h1 Header h1 Header h1
 ## Header h2 Header h2 Header h2 Header h2 Header h2 Header h2 Header h2 Header h2 Header h2 Header h2
-### Header h3 Header h3 Header h3 Header h3 Header h3 Header h3 Header h3 Header h3 Header h3 Header h3
-#### Header h4 Header h4 Header h4 Header h4 Header h4 Header h4 Header h4 Header h4 Header h4 Header h4 
-##### Header h5 Header h5 Header h5 Header h5 Header h5 Header h5 Header h5 Header h5 Header h5 Header h5 (same as h4 but without padding-bottom)
-###### Header h6 Header h6 Header h6 Header h6 Header h6 Header h6 Header h6 Header h6 Header h6 Header h6 (style unassigned)
+
+---
 
 - List element A
   - List element A1
@@ -26,8 +27,6 @@ title: Style Sheet
 1.    List element
 2. List element
 3. List element
-
----
 
 | Table | Syntax | Test |
 | :--- | :---: | ---: |

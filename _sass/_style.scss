@@ -52,12 +52,22 @@ body {
   width: 50%;
   box-sizing: border-box;
   // height: 100vh;
+  .primary {
+    padding-top: 2rem;
+  }
+  .secondary {
+    padding-top: 0;
+  }
+  .primary, .secondary {
+    padding-bottom: 0;
+  }
 }
 
 #left {
   // border-right: 1px solid #dadada;
-  .primary, .secondary{
-    padding: 2rem 1rem 0 2rem;
+  .primary, .secondary {
+    padding-right: 1rem;
+    padding-left: 2rem;
   }
   img {
     max-height: 65vh;
@@ -67,8 +77,9 @@ body {
 #right {
   position: fixed;
   right: 0px;
-  .primary, .secondary{
-    padding: 2rem 2rem 0 1rem;
+  .primary, .secondary {
+    padding-right: 2rem;
+    padding-left: 1rem;
   }
   img {
     max-height: 35vh;
@@ -105,32 +116,21 @@ time {
   // color: $color-primary;
 }
 
-h1, h2, h3, h4, h5, h6, .font-size-small{
+h1{
   margin: 0;
+  font-size: 1.5em;
+  line-height: 1.4 !important;
   padding: 0 0 1rem 0;
 }
 
-h1, h2{
-  font-size: 1.5em;
-  line-height: 1.4 !important;
-}
-
-h2, h4, h5, h6{
-  font-weight: normal;
-}
-
-h3, h4, h5, h6, .font-size-small{
+h2, .font-size-small{
   font-size: 0.8em;
-  line-height: 1.6 !important;
 }
 
-// h5{
-//   margin: 0;
-//   padding: 0 !important;
-// }
-
-h6{
-  color: red;
+h2{
+  margin: 0;
+  padding: 0 0 0.3rem 0;
+  font-weight: normal;
 }
 
 hr{
@@ -191,9 +191,9 @@ blockquote {
   width: 100%;
   // background: $color-secondary-background;
   color: $color-secondary;
-  a.internal-link {
-    color: $color-secondary;
-    border-color: $color-secondary;
+  a:link, a:visited, a:visited:after, a:active, a:after, a.internal-link {
+    // color: $color-secondary;
+    // border-color: $color-secondary;
   }
 }
 
@@ -219,7 +219,7 @@ a {
     border-bottom: 1px solid #00f;
     background: $color-hover-external-link;
   }
-  &:after {
+  &:after, &:visited:after {
     position: relative;
     top: -0.5em;
     font-size: 0.7em;
@@ -278,7 +278,7 @@ a.img-link {
 .highlight-backlink {
   color: $color-primary !important;
   border-color: $color-primary !important;
-  background: $color-hover-internal-link;
+  background: $color-hover-internal-link !important;
   img {
     opacity: 0;
   }
