@@ -1,3 +1,6 @@
+# Run On Save for Visual Studio Code (+ auto save in VSCODE)
+# https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave
+
 # list of resources
 # https://stackoverflow.com/questions/14643531/changing-contents-of-a-file-through-shell-script
 # https://stackoverflow.com/questions/25486667/sed-without-backup-file

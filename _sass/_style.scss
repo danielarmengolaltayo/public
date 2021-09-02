@@ -123,7 +123,7 @@ h1{
   padding: 0 0 1rem 0;
 }
 
-h2, .font-size-small{
+h2, .font-size-small, .tag{
   font-size: 0.8em;
 }
 
@@ -191,9 +191,21 @@ blockquote {
   width: 100%;
   // background: $color-secondary-background;
   color: $color-secondary;
-  a:link, a:visited, a:visited:after, a:active, a:after, a.internal-link {
-    // color: $color-secondary;
-    // border-color: $color-secondary;
+  a:link, a:visited, a:visited:after, a:active, a:after, a.internal-link:link, a.internal-link:visited, a.internal-link:active {
+    color: $color-secondary;
+    border-color: $color-secondary;
+  }
+  a.internal-link:hover, a.internal-link:focus {
+    color: $color-primary;
+    border-color: $color-primary;
+  }
+  a:hover, a:focus {
+    color: #00f;
+    border-bottom: 1px solid #00f;
+    background: $color-hover-external-link;
+  }
+  a:hover:after, a:focus:after {
+    color: #00f;
   }
 }
 
