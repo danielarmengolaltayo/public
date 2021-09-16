@@ -1,0 +1,9 @@
+# Redirects from what the browser requests to what we serve
+/                       /202103150041
+/pointless              /202104111309
+/follow                 /202103150141
+/artificialselfie       /202104131142
+/iamastrangeloop        /202103150108
+/strangeloop            /iamastrangeloop
+/about                  /202103120016
+/statement              /202104071659
