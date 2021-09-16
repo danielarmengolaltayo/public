@@ -5,4 +5,6 @@ id: home
 permalink: /
 ---
 
-[hello]([[202103120016]])
+<meta http-equiv="Refresh" content="0; url=/202103150041" />
+
+<!-- [hello]([[202103120016]]) -->
