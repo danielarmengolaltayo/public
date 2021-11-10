@@ -13,8 +13,8 @@ class BidirectionalLinksGenerator < Jekyll::Generator
 
     # Convert all Wiki/Roam-style double-bracket link syntax to plain HTML
     # anchor tag elements (<a>) with "internal-link" CSS class
-    all_docs.each do |current_note|
-      all_docs.each do |note_potentially_linked_to|
+    all_notes.each do |current_note|
+      all_notes.each do |note_potentially_linked_to|
         title_from_filename = File.basename(
           note_potentially_linked_to.basename,
           File.extname(note_potentially_linked_to.basename)
@@ -26,7 +26,7 @@ class BidirectionalLinksGenerator < Jekyll::Generator
         # [this is a link to the note about cats]([[cats]])
         current_note.content = current_note.content.gsub(
           /\[([^\]]+?)(?=\])\]\(\[\[(#{title_from_filename})\]\]\)/i,
-          "<a class='internal-link' id='#{current_note.url}#{note_potentially_linked_to.url}' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+          "<a class='internal-link #{current_note.collection.label}' id='#{current_note.url}#{note_potentially_linked_to.url}' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
         )
 
         # les següents regex expressions interactuen amb la anterior i la trenquen !!!!

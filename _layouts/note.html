@@ -14,6 +14,8 @@ layout: default
 <content>
   <div class="primary">
     {{ content }}
+    {% if page.type == "reference" %}<p><a href="{{ page.ref_url }}">{{ page.title }}</a> {% if page.img_url %}(<a
+        href="{{ page.img_url }}" target="_blank">image source</a>){% endif %}</p>{% endif %}
   </div>
 </content>
 

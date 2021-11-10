@@ -26,6 +26,7 @@ collections:
   private:
     output: true
     permalink: /:slug
+    label: "private" # @ bidirectional_links_generator
 
 defaults:
   - scope:
