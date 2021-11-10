@@ -11,3 +11,5 @@ _site/
 # Notes graph metadata
 _includes/notes_graph.json
 
+# Drafts folder, aka private notes
+_drafts/
