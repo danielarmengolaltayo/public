@@ -23,6 +23,9 @@ collections:
   notes:
     output: true
     permalink: /:slug
+  private:
+    output: true
+    permalink: /:slug
 
 defaults:
   - scope:
@@ -31,5 +34,9 @@ defaults:
       layout: "default"
   - scope:
       path: "_notes/**/*.md"
+    values:
+      layout: "note"
+  - scope:
+      path: "_private/**/*.md"
     values:
       layout: "note"

@@ -3,9 +3,10 @@ class BidirectionalLinksGenerator < Jekyll::Generator
   def generate(site)
 
     all_notes = site.collections['notes'].docs
+    all_private_notes = site.collections['private'].docs
     all_pages = site.pages
 
-    all_docs = all_notes + all_pages
+    all_docs = all_notes + all_private_notes + all_pages
 
     link_extension = !!site.config["use_html_extension"] ? '.html' : ''
 
