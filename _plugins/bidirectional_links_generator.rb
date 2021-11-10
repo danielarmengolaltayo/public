@@ -25,7 +25,7 @@ class BidirectionalLinksGenerator < Jekyll::Generator
         # alhora que puc posar el text que vulgui a la web
         # [this is a link to the note about cats]([[cats]])
         current_note.content = current_note.content.gsub(
-          /\[([^\]]+?)(?=\])\]\(\[\[(#{title_from_filename})\]\]\)/i,
+          /\[([^\]]+?)(?=\])\]\((#{title_from_filename})\)/i,
           "<a class='internal-link #{current_note.collection.label}' id='#{current_note.url}#{note_potentially_linked_to.url}' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
         )
 
