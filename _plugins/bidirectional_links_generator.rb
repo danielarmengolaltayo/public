@@ -92,7 +92,7 @@ class BidirectionalLinksGenerator < Jekyll::Generator
     #   current_note.data['links'] = connected_notes
     # end
 
-    all_notes.each do |current_note|
+    all_docs.each do |current_note|
       # identify linked notes (unidirectional: from, to | bidirectional: both) 
       linked_notes = all_notes.filter do |e|
         # avoid backlinks to the same note (e.url != current_note.url)
