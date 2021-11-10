@@ -38,6 +38,6 @@ defaults:
     values:
       layout: "note"
   - scope:
-      path: "private/**/*.md"
+      path: "_private/**/*.md"
     values:
       layout: "note"

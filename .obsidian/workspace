@@ -1,0 +1,96 @@
+{
+  "main": {
+    "id": "8b667052cb0ee25a",
+    "type": "split",
+    "children": [
+      {
+        "id": "7619439644f2fc76",
+        "type": "leaf",
+        "state": {
+          "type": "empty",
+          "state": {}
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "42250f0d4e918321",
+    "type": "split",
+    "children": [
+      {
+        "id": "34b184465c44a341",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "85c3da52b7866773",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "f8b0f3183008d483",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 243
+  },
+  "right": {
+    "id": "e183f2dcd947c3b9",
+    "type": "split",
+    "children": [
+      {
+        "id": "1e8757d8ed21abc0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "37374c12bf174b3a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "7619439644f2fc76",
+  "lastOpenFiles": [
+    "private/202109261924.md",
+    "private/testtttttt.md",
+    "private/202110031616.md",
+    "[[202103120016]].md",
+    "private/202110241152.md",
+    "private/202110241155.md",
+    "private/202110232141.md",
+    "private/Untitled.md",
+    "[[202110031616]].md"
+  ]
+}
