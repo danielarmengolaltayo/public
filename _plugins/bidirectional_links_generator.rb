@@ -2,11 +2,12 @@
 class BidirectionalLinksGenerator < Jekyll::Generator
   def generate(site)
 
-    all_notes = site.collections['notes'].docs
+    all_public_notes = site.collections['notes'].docs
     all_private_notes = site.collections['private'].docs
+    all_notes = all_public_notes + all_private_notes
     all_pages = site.pages
 
-    all_docs = all_notes + all_private_notes + all_pages
+    all_docs = all_notes + all_pages
 
     link_extension = !!site.config["use_html_extension"] ? '.html' : ''
 
@@ -92,7 +93,7 @@ class BidirectionalLinksGenerator < Jekyll::Generator
     #   current_note.data['links'] = connected_notes
     # end
 
-    all_docs.each do |current_note|
+    all_notes.each do |current_note|
       # identify linked notes (unidirectional: from, to | bidirectional: both) 
       linked_notes = all_notes.filter do |e|
         # avoid backlinks to the same note (e.url != current_note.url)
