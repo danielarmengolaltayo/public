@@ -1,7 +1,4 @@
 ---
-id: ERROR wrong filename pattern YYYYMMDDHHMMauthor_id (author_id is optional)
-created: YYYY-MM-DD
-last-modified: 2021-08-28
 title: Style Sheet
 ---
 
