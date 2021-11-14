@@ -32,15 +32,13 @@
               {% endfor %}
             </div>
             {% endif %}
-            {% if page.last-modified %}
             <footer>
               <time class="font-size-small"
-                datetime="{{ b.last-modified | date_to_xmlschema }}">{% if b.type != 'pages' %}
-                Last updated on {{ b.last-modified | date: "%B %-d, %Y" }}
+                datetime="{{ b.path | file_mod_date | date_to_xmlschema }}">{% if b.type != 'pages' %}
+                Last updated on {{ b.path | file_mod_date | date: "%B %-d, %Y" }}
                 {% endif %}
               </time>
             </footer>
-            {% endif %}
           </div>
 
         </div>

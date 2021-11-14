@@ -1,3 +1,5 @@
 {
-  "useMarkdownLinks": false
+  "useMarkdownLinks": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "_private"
 }
