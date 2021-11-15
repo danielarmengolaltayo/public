@@ -4,27 +4,29 @@
     "type": "split",
     "children": [
       {
-        "id": "7619439644f2fc76",
+        "id": "12100dfd0da5150b",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202110031616.md",
+            "file": "_private/references.md",
             "mode": "source"
           },
           "pinned": true
         }
       },
       {
-        "id": "20b4356a2fab12ee",
+        "id": "8ea00c59461718db",
         "type": "leaf",
+        "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/references.md",
+            "file": "_private/202104011641.md",
             "mode": "source"
-          }
+          },
+          "pinned": true
         }
       }
     ],
@@ -52,29 +54,13 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "title: \"#artificialselfie\"",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
-            }
-          }
-        ]
-      },
-      {
-        "id": "58db016fd3beb641",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "03a595ce6c033ef9",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "graph",
-              "state": {},
-              "pinned": true
             }
           }
         ]
@@ -114,17 +100,17 @@
     "width": 481.5,
     "collapsed": true
   },
-  "active": "20b4356a2fab12ee",
+  "active": "12100dfd0da5150b",
   "lastOpenFiles": [
     "_private/references.md",
-    "files/pointless/references.md",
-    "_private/pointless.md",
-    "_private/202103252144.md",
-    "_private/202110031616.md",
-    "_notes/202105291521.md",
-    "_notes/202105271855.md",
-    "_private/foam.md",
-    "_notes/202003091215.md",
-    "_private/202103252153.md"
+    "_private/inventory.md",
+    "_private/202111152329.md",
+    "_private/202111151755.md",
+    "_private/wishlist.md",
+    "_private/kai.md",
+    "_private/bio-link.md",
+    "_private/bio.md",
+    "_private/idea518.md",
+    "_private/random-happiness.md"
   ]
 }

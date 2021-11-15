@@ -1,5 +1,10 @@
 {
   "useMarkdownLinks": false,
   "newFileLocation": "folder",
-  "newFileFolderPath": "_private"
+  "newFileFolderPath": "_private",
+  "foldHeading": true,
+  "foldIndent": true,
+  "tabSize": 4,
+  "autoConvertHtml": false,
+  "useTab": false
 }
