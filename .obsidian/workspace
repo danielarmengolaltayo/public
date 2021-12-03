@@ -4,29 +4,60 @@
     "type": "split",
     "children": [
       {
-        "id": "12100dfd0da5150b",
+        "id": "82d3dbcbdea8889a",
+        "type": "split",
+        "children": [
+          {
+            "id": "9e2826d451d10729",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_private/202111251437.md",
+                "mode": "source"
+              },
+              "pinned": true
+            }
+          },
+          {
+            "id": "a9301820fa147587",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_private/abby-nocon.md",
+                "mode": "source"
+              },
+              "pinned": true
+            }
+          }
+        ],
+        "direction": "horizontal"
+      },
+      {
+        "id": "0713a0fab7612a97",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/references.md",
+            "file": "_private/202109131128.md",
             "mode": "source"
           },
           "pinned": true
         }
       },
       {
-        "id": "8ea00c59461718db",
+        "id": "18a4086d5bec05bc",
         "type": "leaf",
-        "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202104011641.md",
+            "file": "_private/202109171432.md",
             "mode": "source"
-          },
-          "pinned": true
+          }
         }
       }
     ],
@@ -39,6 +70,7 @@
       {
         "id": "34b184465c44a341",
         "type": "tabs",
+        "dimension": 30.866601752677703,
         "children": [
           {
             "id": "85c3da52b7866773",
@@ -54,7 +86,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "title: \"#artificialselfie\"",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -68,6 +100,7 @@
       {
         "id": "c13e4196d450e2a1",
         "type": "tabs",
+        "dimension": 69.1333982473223,
         "children": [
           {
             "id": "37374c12bf174b3a",
@@ -75,14 +108,14 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_private/references.md",
-                "collapseAll": true,
+                "file": "_private/202109171432.md",
+                "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": false
+                "unlinkedCollapsed": true
               }
             }
           }
@@ -100,17 +133,17 @@
     "width": 481.5,
     "collapsed": true
   },
-  "active": "12100dfd0da5150b",
+  "active": "18a4086d5bec05bc",
   "lastOpenFiles": [
-    "_private/references.md",
-    "_private/inventory.md",
-    "_private/202111152329.md",
-    "_private/202111151755.md",
-    "_private/wishlist.md",
-    "_private/kai.md",
-    "_private/bio-link.md",
-    "_private/bio.md",
-    "_private/idea518.md",
-    "_private/random-happiness.md"
+    "_private/202109171432.md",
+    "_private/202109131128.md",
+    "_private/202110191726.md",
+    "_private/diners.md",
+    "_private/202109261924.md",
+    "_private/simon-bianco.md",
+    "_private/202110031616.md",
+    "_private/202107281939.md",
+    "_private/202109011726.md",
+    "_private/elisava.md"
   ]
 }

@@ -3,8 +3,12 @@ class BidirectionalLinksGenerator < Jekyll::Generator
   def generate(site)
 
     all_public_notes = site.collections['notes'].docs
-    all_private_notes = site.collections['private'].docs
-    all_notes = all_public_notes + all_private_notes
+    if site.collections['private'] then
+      all_private_notes = site.collections['private'].docs
+      all_notes = all_public_notes + all_private_notes
+    else 
+      all_notes = all_public_notes
+    end
     all_pages = site.pages
 
     all_docs = all_notes + all_pages
@@ -15,48 +19,31 @@ class BidirectionalLinksGenerator < Jekyll::Generator
     # anchor tag elements (<a>) with "internal-link" CSS class
     all_notes.each do |current_note|
       all_notes.each do |note_potentially_linked_to|
-        title_from_filename = File.basename(
+
+        # https://apidock.com/ruby/File/extname/class#824-File-name-without-the-extension
+        note_filename = File.basename(
           note_potentially_linked_to.basename,
           File.extname(note_potentially_linked_to.basename)
-        ).gsub('_', ' ').gsub('-', ' ').capitalize
-
-        # Replace ?? links using note filename
-        # per a mantenir la possibilitat de navegar els links correctament dins de foam
-        # alhora que puc posar el text que vulgui a la web
-        # [this is a link to the note about cats]([[cats]])
-        current_note.content = current_note.content.gsub(
-          /\[([^\]]+?)(?=\])\]\((#{title_from_filename})\)/i,
-          "<a class='internal-link #{current_note.collection.label}' id='#{current_note.url}#{note_potentially_linked_to.url}' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
         )
 
-        # les següents regex expressions interactuen amb la anterior i la trenquen !!!!
-   
-        # # Replace double-bracketed links with label using note title
-        # # [[A note about cats|this is a link to the note about cats]]
-        # current_note.content = current_note.content.gsub(
-        #   /\[\[#{title_from_filename}\|(.+?)(?=\])\]\]/i,
-        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        # )
+        link_code = "<a class='internal-link #{current_note.collection.label}' id='#{current_note.url}#{note_potentially_linked_to.url}' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+
+        # Replace markdown links using note filename
+        # [label for a note about cats](cats)
+        current_note.content = current_note.content.gsub(
+          /\[([^\]]+?)(?=\])\]\((#{note_filename})\)/i, link_code
+        )
+
+        # Replace double-bracketed links using note filename
+        # [[cats]]
+        current_note.content = current_note.content.gsub(
+          /\[\[(#{note_filename})\]\]/i, link_code
+        )
 
         # # Replace double-bracketed links with label using note filename
-        # # [[cats|this is a link to the note about cats]]
+        # # [[cats|label for a note about cats]]
         # current_note.content = current_note.content.gsub(
-        #   /\[\[#{note_potentially_linked_to.data['title']}\|(.+?)(?=\])\]\]/i,
-        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        # )
-
-        # # Replace double-bracketed links using note title
-        # # [[a note about cats]]
-        # current_note.content = current_note.content.gsub(
-        #   /\[\[(#{note_potentially_linked_to.data['title']})\]\]/i,
-        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
-        # )
-
-        # # Replace double-bracketed links using note filename
-        # # [[cats]]
-        # current_note.content = current_note.content.gsub(
-        #   /\[\[(#{title_from_filename})\]\]/i,
-        #   "<a class='internal-link' href='#{site.baseurl}#{note_potentially_linked_to.url}#{link_extension}'>\\1</a>"
+        #   /\[\[#{note_filename}\|(.+?)(?=\])\]\]/i, link_code
         # )
 
       end

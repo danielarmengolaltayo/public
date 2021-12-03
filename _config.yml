@@ -1,6 +1,8 @@
 title:               'armengol-altayo.com'
 include:             ['_pages', '_libraries', '_scripts', '_css', '_redirects']
-exclude:             ['_includes/notes_graph.json', '_private/files']
+# if you prefix any folder or file with underscore, Jekyll ignores it
+exclude:             ['_private/files']
+
 # You may need to change the base URL depending on your deploy configuration.
 # Specifically, when using GitHub Pages, the baseurl should point to where GitHub
 # Pages deploys your repository (which is usually the repository name).
@@ -30,10 +32,6 @@ collections:
     label: "private" # @ bidirectional_links_generator
 
 defaults:
-  - scope:
-      path: "**/*"
-    values:
-      layout: "default"
   - scope:
       path: "_notes/**/*.md"
     values:
