@@ -4,40 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "82d3dbcbdea8889a",
-        "type": "split",
-        "children": [
-          {
-            "id": "9e2826d451d10729",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_private/202111251437.md",
-                "mode": "source"
-              },
-              "pinned": true
-            }
-          },
-          {
-            "id": "a9301820fa147587",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_private/abby-nocon.md",
-                "mode": "source"
-              },
-              "pinned": true
-            }
-          }
-        ],
-        "direction": "horizontal"
-      },
-      {
-        "id": "0713a0fab7612a97",
+        "id": "3695f85ac9a8d10b",
         "type": "leaf",
         "pinned": true,
         "state": {
@@ -50,14 +17,29 @@
         }
       },
       {
-        "id": "18a4086d5bec05bc",
+        "id": "387f8dcc262e54b1",
         "type": "leaf",
+        "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202109171432.md",
+            "file": "_private/202112101031.md",
             "mode": "source"
-          }
+          },
+          "pinned": true
+        }
+      },
+      {
+        "id": "acaf7e77f8fa7268",
+        "type": "leaf",
+        "pinned": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "_private/202112101058.md",
+            "mode": "source"
+          },
+          "pinned": true
         }
       }
     ],
@@ -86,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "noah kalina",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -95,7 +77,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "c13e4196d450e2a1",
@@ -108,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_private/202109171432.md",
+                "file": "_private/202112101058.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -133,17 +116,17 @@
     "width": 481.5,
     "collapsed": true
   },
-  "active": "18a4086d5bec05bc",
+  "active": "acaf7e77f8fa7268",
   "lastOpenFiles": [
-    "_private/202109171432.md",
+    "_private/202112101058.md",
     "_private/202109131128.md",
-    "_private/202110191726.md",
-    "_private/diners.md",
-    "_private/202109261924.md",
-    "_private/simon-bianco.md",
+    "_private/202110231019.md",
+    "_private/202110232048.md",
     "_private/202110031616.md",
     "_private/202107281939.md",
-    "_private/202109011726.md",
-    "_private/elisava.md"
+    "_private/202110231835.md",
+    "_private/elisava.md",
+    "_private/202112101031.md",
+    "_private/everyday.md"
   ]
 }
