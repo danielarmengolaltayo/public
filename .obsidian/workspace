@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "3695f85ac9a8d10b",
+        "id": "f29ee83ca13d25ae",
         "type": "leaf",
         "pinned": true,
         "state": {
@@ -17,29 +17,27 @@
         }
       },
       {
-        "id": "387f8dcc262e54b1",
+        "id": "65a336bc1c38d5e8",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202112101031.md",
+            "file": "_private/202112151533.md",
             "mode": "source"
           },
           "pinned": true
         }
       },
       {
-        "id": "acaf7e77f8fa7268",
+        "id": "7eed34d1d85745f3",
         "type": "leaf",
-        "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202112101058.md",
+            "file": "_private/202104201640.md",
             "mode": "source"
-          },
-          "pinned": true
+          }
         }
       }
     ],
@@ -77,8 +75,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "c13e4196d450e2a1",
@@ -91,7 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_private/202112101058.md",
+                "file": "_private/202104201640.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +103,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 262
+    "width": 262,
+    "collapsed": true
   },
   "right": {
     "id": "e183f2dcd947c3b9",
@@ -116,17 +114,17 @@
     "width": 481.5,
     "collapsed": true
   },
-  "active": "acaf7e77f8fa7268",
+  "active": "7eed34d1d85745f3",
   "lastOpenFiles": [
-    "_private/202112101058.md",
+    "_private/202104201640.md",
+    "_private/wishlist.md",
+    "_private/202112151533.md",
+    "_private/everything-videogame.md",
+    "_private/everything2.md",
+    "_private/andreas-refsgaard.md",
     "_private/202109131128.md",
-    "_private/202110231019.md",
-    "_private/202110232048.md",
-    "_private/202110031616.md",
-    "_private/202107281939.md",
-    "_private/202110231835.md",
-    "_private/elisava.md",
-    "_private/202112101031.md",
-    "_private/everyday.md"
+    "_private/202112091856.md",
+    "_private/202112161043.md",
+    "_private/202112151613.md"
   ]
 }
