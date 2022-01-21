@@ -1,5 +1,9 @@
 {
   "baseFontSize": 13,
   "cssTheme": "Minimal",
-  "theme": "obsidian"
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "highlight-the-bold"
+  ],
+  "baseFontSizeAction": false
 }

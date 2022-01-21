@@ -1,42 +1,73 @@
 {
   "main": {
-    "id": "8b667052cb0ee25a",
+    "id": "3c65c7fadd3dd854",
     "type": "split",
     "children": [
       {
-        "id": "f29ee83ca13d25ae",
+        "id": "c2c88adcbbca6179",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202109131128.md",
-            "mode": "source"
+            "file": "_private/202201150112.md",
+            "mode": "source",
+            "source": false
           },
           "pinned": true
         }
       },
       {
-        "id": "65a336bc1c38d5e8",
+        "id": "c72e59ae8626e87e",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202112151533.md",
-            "mode": "source"
+            "file": "_private/202112231909.md",
+            "mode": "source",
+            "source": false
           },
           "pinned": true
         }
       },
       {
-        "id": "7eed34d1d85745f3",
+        "id": "c64721eef47cbaa0",
+        "type": "leaf",
+        "pinned": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "_private/202201201754.md",
+            "mode": "source",
+            "source": false
+          },
+          "pinned": true
+        }
+      },
+      {
+        "id": "3bd5ef9217436915",
+        "type": "leaf",
+        "pinned": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "_private/202201202014.md",
+            "mode": "source",
+            "source": false
+          },
+          "pinned": true
+        }
+      },
+      {
+        "id": "eccc1fa31db623c8",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202104201640.md",
-            "mode": "source"
+            "file": "_private/constellations-drawings.md",
+            "mode": "source",
+            "source": false
           }
         }
       }
@@ -44,16 +75,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "42250f0d4e918321",
+    "id": "acdeeef1a2538a14",
     "type": "split",
     "children": [
       {
-        "id": "34b184465c44a341",
+        "id": "79b72abd9e434c72",
         "type": "tabs",
-        "dimension": 30.866601752677703,
         "children": [
           {
-            "id": "85c3da52b7866773",
+            "id": "ec4ba9e8d478db9d",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -61,12 +91,12 @@
             }
           },
           {
-            "id": "f8b0f3183008d483",
+            "id": "244f6f1fd4931e49",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "noah kalina",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -76,19 +106,27 @@
             }
           }
         ]
-      },
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "920b8b27175e1f36",
+    "type": "split",
+    "children": [
       {
-        "id": "c13e4196d450e2a1",
+        "id": "7c0a2b05fe70cd70",
         "type": "tabs",
-        "dimension": 69.1333982473223,
         "children": [
           {
-            "id": "37374c12bf174b3a",
+            "id": "a948672399978765",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_private/202104201640.md",
+                "file": "_private/constellations-drawings.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,28 +141,20 @@
       }
     ],
     "direction": "horizontal",
-    "width": 262,
+    "width": 300,
     "collapsed": true
   },
-  "right": {
-    "id": "e183f2dcd947c3b9",
-    "type": "split",
-    "children": [],
-    "direction": "horizontal",
-    "width": 481.5,
-    "collapsed": true
-  },
-  "active": "7eed34d1d85745f3",
+  "active": "eccc1fa31db623c8",
   "lastOpenFiles": [
-    "_private/202104201640.md",
-    "_private/wishlist.md",
-    "_private/202112151533.md",
-    "_private/everything-videogame.md",
-    "_private/everything2.md",
-    "_private/andreas-refsgaard.md",
-    "_private/202109131128.md",
-    "_private/202112091856.md",
-    "_private/202112161043.md",
-    "_private/202112151613.md"
+    "_private/constellations-drawings.md",
+    "_private/202201202014.md",
+    "_private/202201150112.md",
+    "_private/202201210114.md",
+    "_private/kjetil-golid.md",
+    "_private/202201201754.md",
+    "_private/202104011641.md",
+    "_private/references.md",
+    "_private/pablo-picasso.md",
+    "_private/202201210032.md"
   ]
 }
