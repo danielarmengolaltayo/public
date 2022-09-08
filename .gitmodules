@@ -1,4 +1,4 @@
 [submodule "_private"]
 	path = _private
 	url = https://github.com/danielarmengolaltayo/private.git
-	ignore = all
+	ignore = dirty
