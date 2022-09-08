@@ -1,7 +1,7 @@
 title:               'armengol-altayo.com'
 include:             ['_pages', '_libraries', '_scripts', '_css', '_redirects']
 # if you prefix any folder or file with underscore, Jekyll ignores it
-exclude:             ['_private']
+exclude:             ['_private/files']
 
 # You may need to change the base URL depending on your deploy configuration.
 # Specifically, when using GitHub Pages, the baseurl should point to where GitHub
