@@ -1,0 +1,12 @@
+.portrait .image-embed img{
+     width:200px !important;
+      height:200px !important;
+      object-fit:cover;
+      border-radius:50%;
+}
+
+.portrait .image-embed:active img{
+    width: calc(100% - 20px) !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+}

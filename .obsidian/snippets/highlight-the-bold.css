@@ -1,4 +1,5 @@
 .is-live-preview .cm-strong {
-    color: gold;
+    color: black;
+    background-color: #dddddd;
     font-weight: normal;
 }

@@ -1,9 +1,15 @@
 {
-  "baseFontSize": 13,
+  "baseFontSize": 14,
   "cssTheme": "Minimal",
   "theme": "obsidian",
   "enabledCssSnippets": [
-    "highlight-the-bold"
+    "highlight-the-bold",
+    "aesthetic-details",
+    "portraits",
+    "small-imgs"
   ],
-  "baseFontSizeAction": false
+  "baseFontSizeAction": false,
+  "interfaceFontFamily": "",
+  "monospaceFontFamily": "",
+  "textFontFamily": ""
 }

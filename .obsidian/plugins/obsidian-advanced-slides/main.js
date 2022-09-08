@@ -2270,7 +2270,7 @@ var require_loader = __commonJS({
         iterator(documents[index]);
       }
     }
-    function load(input, options) {
+    function load2(input, options) {
       var documents = loadDocuments(input, options);
       if (documents.length === 0) {
         return void 0;
@@ -2287,10 +2287,10 @@ var require_loader = __commonJS({
       return loadAll(input, iterator, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));
     }
     function safeLoad(input, options) {
-      return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));
+      return load2(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));
     }
     module2.exports.loadAll = loadAll;
-    module2.exports.load = load;
+    module2.exports.load = load2;
     module2.exports.safeLoadAll = safeLoadAll;
     module2.exports.safeLoad = safeLoad;
   }
@@ -8550,7 +8550,7 @@ var require_browser = __commonJS({
     exports.log = log;
     exports.formatArgs = formatArgs;
     exports.save = save;
-    exports.load = load;
+    exports.load = load2;
     exports.useColors = useColors;
     exports.storage = typeof chrome != "undefined" && typeof chrome.storage != "undefined" ? chrome.storage.local : localstorage();
     exports.colors = [
@@ -8606,7 +8606,7 @@ var require_browser = __commonJS({
       } catch (e) {
       }
     }
-    function load() {
+    function load2() {
       var r;
       try {
         r = exports.storage.debug;
@@ -8617,7 +8617,7 @@ var require_browser = __commonJS({
       }
       return r;
     }
-    exports.enable(load());
+    exports.enable(load2());
     function localstorage() {
       try {
         return window.localStorage;
@@ -9333,7 +9333,7 @@ var require_browser2 = __commonJS({
     exports.log = log;
     exports.formatArgs = formatArgs;
     exports.save = save;
-    exports.load = load;
+    exports.load = load2;
     exports.useColors = useColors;
     exports.storage = typeof chrome != "undefined" && typeof chrome.storage != "undefined" ? chrome.storage.local : localstorage();
     exports.colors = [
@@ -9389,7 +9389,7 @@ var require_browser2 = __commonJS({
       } catch (e) {
       }
     }
-    function load() {
+    function load2() {
       var r;
       try {
         r = exports.storage.debug;
@@ -9400,7 +9400,7 @@ var require_browser2 = __commonJS({
       }
       return r;
     }
-    exports.enable(load());
+    exports.enable(load2());
     function localstorage() {
       try {
         return window.localStorage;
@@ -11509,7 +11509,7 @@ var require_browser4 = __commonJS({
     exports.log = log;
     exports.formatArgs = formatArgs;
     exports.save = save;
-    exports.load = load;
+    exports.load = load2;
     exports.useColors = useColors;
     exports.storage = typeof chrome != "undefined" && typeof chrome.storage != "undefined" ? chrome.storage.local : localstorage();
     exports.colors = [
@@ -11565,7 +11565,7 @@ var require_browser4 = __commonJS({
       } catch (e) {
       }
     }
-    function load() {
+    function load2() {
       var r;
       try {
         r = exports.storage.debug;
@@ -11576,7 +11576,7 @@ var require_browser4 = __commonJS({
       }
       return r;
     }
-    exports.enable(load());
+    exports.enable(load2());
     function localstorage() {
       try {
         return window.localStorage;
@@ -24005,9 +24005,9 @@ var require_express2 = __commonJS({
   }
 });
 
-// node_modules/fs-extra/node_modules/universalify/index.js
+// node_modules/universalify/index.js
 var require_universalify = __commonJS({
-  "node_modules/fs-extra/node_modules/universalify/index.js"(exports) {
+  "node_modules/universalify/index.js"(exports) {
     "use strict";
     exports.fromCallback = function(fn2) {
       return Object.defineProperty(function(...args) {
@@ -26216,33 +26216,6 @@ var require_ensure = __commonJS({
   }
 });
 
-// node_modules/jsonfile/node_modules/universalify/index.js
-var require_universalify2 = __commonJS({
-  "node_modules/jsonfile/node_modules/universalify/index.js"(exports) {
-    "use strict";
-    exports.fromCallback = function(fn2) {
-      return Object.defineProperty(function(...args) {
-        if (typeof args[args.length - 1] === "function")
-          fn2.apply(this, args);
-        else {
-          return new Promise((resolve, reject) => {
-            fn2.call(this, ...args, (err, res) => err != null ? reject(err) : resolve(res));
-          });
-        }
-      }, "name", { value: fn2.name });
-    };
-    exports.fromPromise = function(fn2) {
-      return Object.defineProperty(function(...args) {
-        const cb = args[args.length - 1];
-        if (typeof cb !== "function")
-          return fn2.apply(this, args);
-        else
-          fn2.apply(this, args.slice(0, -1)).then((r) => cb(null, r), cb);
-      }, "name", { value: fn2.name });
-    };
-  }
-});
-
 // node_modules/jsonfile/utils.js
 var require_utils4 = __commonJS({
   "node_modules/jsonfile/utils.js"(exports, module2) {
@@ -26269,7 +26242,7 @@ var require_jsonfile = __commonJS({
     } catch (_4) {
       _fs = require("fs");
     }
-    var universalify = require_universalify2();
+    var universalify = require_universalify();
     var { stringify, stripBom } = require_utils4();
     async function _readFile(file, options = {}) {
       if (typeof options === "string") {
@@ -32519,6 +32492,17 @@ var require_color = __commonJS({
           return new Color2(value);
         }
         return colorString.to.hex(this.rgb().round().color);
+      },
+      hexa(value) {
+        if (arguments.length > 0) {
+          return new Color2(value);
+        }
+        const rgbArray = this.rgb().round().color;
+        let alphaHex = Math.round(this.valpha * 255).toString(16).toUpperCase();
+        if (alphaHex.length === 1) {
+          alphaHex = "0" + alphaHex;
+        }
+        return colorString.to.hex(rgbArray) + alphaHex;
       },
       rgbNumber() {
         const rgb = this.rgb().color;
@@ -43107,7 +43091,6 @@ var require_safe_buffer = __commonJS({
     function SafeBuffer(arg, encodingOrOffset, length) {
       return Buffer2(arg, encodingOrOffset, length);
     }
-    SafeBuffer.prototype = Object.create(Buffer2.prototype);
     copyProps(Buffer2, SafeBuffer);
     SafeBuffer.from = function(arg, encodingOrOffset, length) {
       if (typeof arg === "number") {
@@ -55808,142 +55791,6 @@ var require_extsprintf = __commonJS({
   }
 });
 
-// node_modules/verror/node_modules/extsprintf/lib/extsprintf.js
-var require_extsprintf2 = __commonJS({
-  "node_modules/verror/node_modules/extsprintf/lib/extsprintf.js"(exports) {
-    var mod_assert = require("assert");
-    var mod_util = require("util");
-    exports.sprintf = jsSprintf;
-    exports.printf = jsPrintf;
-    exports.fprintf = jsFprintf;
-    function jsSprintf(ofmt) {
-      var regex = [
-        "([^%]*)",
-        "%",
-        "(['\\-+ #0]*?)",
-        "([1-9]\\d*)?",
-        "(\\.([1-9]\\d*))?",
-        "[lhjztL]*?",
-        "([diouxXfFeEgGaAcCsSp%jr])"
-      ].join("");
-      var re = new RegExp(regex);
-      var args = Array.prototype.slice.call(arguments, 1);
-      var fmt = ofmt;
-      var flags, width2, precision, conversion;
-      var left2, pad, sign, arg, match;
-      var ret = "";
-      var argn = 1;
-      var posn = 0;
-      var convposn;
-      var curconv;
-      mod_assert.equal("string", typeof fmt, "first argument must be a format string");
-      while ((match = re.exec(fmt)) !== null) {
-        ret += match[1];
-        fmt = fmt.substring(match[0].length);
-        curconv = match[0].substring(match[1].length);
-        convposn = posn + match[1].length + 1;
-        posn += match[0].length;
-        flags = match[2] || "";
-        width2 = match[3] || 0;
-        precision = match[4] || "";
-        conversion = match[6];
-        left2 = false;
-        sign = false;
-        pad = " ";
-        if (conversion == "%") {
-          ret += "%";
-          continue;
-        }
-        if (args.length === 0) {
-          throw jsError(ofmt, convposn, curconv, "has no matching argument (too few arguments passed)");
-        }
-        arg = args.shift();
-        argn++;
-        if (flags.match(/[\' #]/)) {
-          throw jsError(ofmt, convposn, curconv, "uses unsupported flags");
-        }
-        if (precision.length > 0) {
-          throw jsError(ofmt, convposn, curconv, "uses non-zero precision (not supported)");
-        }
-        if (flags.match(/-/))
-          left2 = true;
-        if (flags.match(/0/))
-          pad = "0";
-        if (flags.match(/\+/))
-          sign = true;
-        switch (conversion) {
-          case "s":
-            if (arg === void 0 || arg === null) {
-              throw jsError(ofmt, convposn, curconv, "attempted to print undefined or null as a string (argument " + argn + " to sprintf)");
-            }
-            ret += doPad(pad, width2, left2, arg.toString());
-            break;
-          case "d":
-            arg = Math.floor(arg);
-          case "f":
-            sign = sign && arg > 0 ? "+" : "";
-            ret += sign + doPad(pad, width2, left2, arg.toString());
-            break;
-          case "x":
-            ret += doPad(pad, width2, left2, arg.toString(16));
-            break;
-          case "j":
-            if (width2 === 0)
-              width2 = 10;
-            ret += mod_util.inspect(arg, false, width2);
-            break;
-          case "r":
-            ret += dumpException(arg);
-            break;
-          default:
-            throw jsError(ofmt, convposn, curconv, "is not supported");
-        }
-      }
-      ret += fmt;
-      return ret;
-    }
-    function jsError(fmtstr, convposn, curconv, reason) {
-      mod_assert.equal(typeof fmtstr, "string");
-      mod_assert.equal(typeof curconv, "string");
-      mod_assert.equal(typeof convposn, "number");
-      mod_assert.equal(typeof reason, "string");
-      return new Error('format string "' + fmtstr + '": conversion specifier "' + curconv + '" at character ' + convposn + " " + reason);
-    }
-    function jsPrintf() {
-      var args = Array.prototype.slice.call(arguments);
-      args.unshift(process.stdout);
-      jsFprintf.apply(null, args);
-    }
-    function jsFprintf(stream) {
-      var args = Array.prototype.slice.call(arguments, 1);
-      return stream.write(jsSprintf.apply(this, args));
-    }
-    function doPad(chr, width2, left2, str) {
-      var ret = str;
-      while (ret.length < width2) {
-        if (left2)
-          ret += chr;
-        else
-          ret = chr + ret;
-      }
-      return ret;
-    }
-    function dumpException(ex) {
-      var ret;
-      if (!(ex instanceof Error))
-        throw new Error(jsSprintf("invalid type for %%r: %j", ex));
-      ret = "EXCEPTION: " + ex.constructor.name + ": " + ex.stack;
-      if (ex.cause && typeof ex.cause === "function") {
-        var cex = ex.cause();
-        if (cex) {
-          ret += "\nCaused by: " + dumpException(cex);
-        }
-      }
-      return ret;
-    }
-  }
-});
-
 // node_modules/verror/node_modules/core-util-is/lib/util.js
 var require_util = __commonJS({
   "node_modules/verror/node_modules/core-util-is/lib/util.js"(exports) {
@@ -56018,7 +55865,7 @@ var require_verror = __commonJS({
   "node_modules/verror/lib/verror.js"(exports, module2) {
     var mod_assertplus = require_assert();
     var mod_util = require("util");
-    var mod_extsprintf = require_extsprintf2();
+    var mod_extsprintf = require_extsprintf();
     var mod_isError = require_util().isError;
     var sprintf = mod_extsprintf.sprintf;
     module2.exports = VError;
@@ -57209,8 +57056,8 @@ var require_lib5 = __commonJS({
 // node_modules/caseless/index.js
 var require_caseless = __commonJS({
   "node_modules/caseless/index.js"(exports, module2) {
-    function Caseless(dict) {
-      this.dict = dict || {};
+    function Caseless(dict2) {
+      this.dict = dict2 || {};
     }
     Caseless.prototype.set = function(name, value, clobber) {
       if (typeof name === "object") {
@@ -57260,8 +57107,8 @@ var require_caseless = __commonJS({
       var has = this.has(name);
       return delete this.dict[has || name];
     };
-    module2.exports = function(dict) {
-      return new Caseless(dict);
+    module2.exports = function(dict2) {
+      return new Caseless(dict2);
     };
     module2.exports.httpify = function(resp, headers) {
       var c = new Caseless(headers);
@@ -70808,7 +70655,7 @@ var require_jszip_min = __commonJS({
 __export(exports, {
   default: () => AdvancedSlidesPlugin
 });
-var import_obsidian6 = __toModule(require("obsidian"));
+var import_obsidian7 = __toModule(require("obsidian"));
 
 // src/constants.ts
 var ICON_DATA = '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><path fill="currentColor" stroke="currentColor" d="M100 74.242V1.516H0v72.726h45.453v15.153H31.816v9.09h36.368v-9.09H54.547V74.242Zm-90.91-9.09V10.605h81.82v54.547Zm0 0"/><path fill="currentColor" stroke="currentColor" d="M54.547 19.695h9.09V56.06h-9.09ZM72.727 25.758h9.09v30.305h-9.09ZM36.363 31.816h9.09V56.06h-9.09ZM18.184 22.727h9.09v33.335h-9.09Zm0 0"/></svg>';
@@ -70901,7 +70748,67 @@ var YamlParser = class {
     return import_lodash.default.pick(options, slidifyProps);
   }
   getRevealOptions(options) {
-    const revealProps = ["width", "height", "margin", "minScale", "maxScale", "controls", "controlsTutorial", "controlsLayout", "controlsBackArrows", "progress", "slideNumber", "showSlideNumber", "hashOneBasedIndex", "hash", "respondToHashChanges", "history", "keyboard", "keyboardCondition", "disableLayout", "overview", "center", "touch", "loop", "rtl", "navigationMode", "shuffle", "fragments", "fragmentInURL", "embedded", "help", "pause", "showNotes", "autoPlayMedia", "preloadIframes", "autoAnimate", "autoAnimateMatcher", "autoAnimateEasing", "autoAnimateDuration", "autoAnimateUnmatched", "autoSlide", "autoSlideStoppable", "autoSlideMethod", "defaultTiming", "mouseWheel", "previewLinks", "postMessage", "postMessageEvents", "focusBodyOnPageVisibilityChange", "transition", "transitionSpeed", "backgroundTransition", "pdfMaxPagesPerSlide", "pdfSeparateFragments", "pdfPageHeightOffset", "viewDistance", "mobileViewDistance", "display", "hideInactiveCursor", "hideCursorTime"];
+    const revealProps = [
+      "width",
+      "height",
+      "margin",
+      "minScale",
+      "maxScale",
+      "controls",
+      "controlsTutorial",
+      "controlsLayout",
+      "controlsBackArrows",
+      "progress",
+      "slideNumber",
+      "showSlideNumber",
+      "hashOneBasedIndex",
+      "hash",
+      "respondToHashChanges",
+      "history",
+      "keyboard",
+      "keyboardCondition",
+      "disableLayout",
+      "overview",
+      "center",
+      "touch",
+      "loop",
+      "rtl",
+      "navigationMode",
+      "shuffle",
+      "fragments",
+      "fragmentInURL",
+      "embedded",
+      "help",
+      "pause",
+      "showNotes",
+      "autoPlayMedia",
+      "preloadIframes",
+      "autoAnimate",
+      "autoAnimateMatcher",
+      "autoAnimateEasing",
+      "autoAnimateDuration",
+      "autoAnimateUnmatched",
+      "autoSlide",
+      "autoSlideStoppable",
+      "autoSlideMethod",
+      "defaultTiming",
+      "mouseWheel",
+      "previewLinks",
+      "postMessage",
+      "postMessageEvents",
+      "focusBodyOnPageVisibilityChange",
+      "transition",
+      "transitionSpeed",
+      "backgroundTransition",
+      "pdfMaxPagesPerSlide",
+      "pdfSeparateFragments",
+      "pdfPageHeightOffset",
+      "viewDistance",
+      "mobileViewDistance",
+      "display",
+      "hideInactiveCursor",
+      "hideCursorTime"
+    ];
     const globalSettings = import_lodash.default.pick(import_lodash.default.omitBy(this.settings, import_lodash.default.isEmpty), revealProps);
     const slideSettings = import_lodash.default.pick(options, revealProps);
     return import_lodash.default.defaults({}, slideSettings, globalSettings);
@@ -70932,6 +70839,10 @@ var RevealPreviewView = class extends import_obsidian.ItemView {
     this.yaml = new YamlParser(settings);
     this.addAction("slides", "Open in Browser", () => {
       window.open(home);
+    });
+    this.addAction("grid", "Show Grid", () => {
+      settings.showGrid = !settings.showGrid;
+      this.reloadIframe();
     });
     this.addAction("refresh", "Refresh Slides", () => {
       this.reloadIframe();
@@ -71583,8 +71494,8 @@ var BlockProcessor = class {
     return this.transformBlock(markdown);
   }
   transformBlock(markdown) {
-    markdown = markdown.replaceAll("::: block", '<div class="block">');
-    markdown = markdown.replaceAll(":::", "</div>");
+    markdown = markdown.replaceAll(/:::\sblock\s*/g, '<div class="block">\n\n');
+    markdown = markdown.replaceAll(":::", "</div>\n\n");
     return markdown;
   }
 };
@@ -71617,7 +71528,7 @@ var ExcalidrawProcessor = class {
 // src/processors/footNoteProcessor.ts
 var FootnoteProcessor = class {
   constructor() {
-    this.regex = /\[\^([^\]]*)]/gmi;
+    this.regex = /\[\^([^\]]*)]/im;
   }
   process(markdown, options) {
     let output = markdown;
@@ -71650,7 +71561,7 @@ var FootnoteProcessor = class {
             const split = line.split(reResult[0]);
             let result = split[0].trim();
             result += '<sup id="fnref:' + reResult[1] + '" role="doc-noteref">' + noteIdx + "</sup>";
-            result += "\n" + split[1].trim();
+            result += split[1].trim();
             noteIdx = noteIdx + 1;
             return result;
           }
@@ -71662,11 +71573,16 @@ var FootnoteProcessor = class {
     footNotesBlock += '<div class="footnotes" role="doc-endnotes">\n';
     footNotesBlock += "<ol>\n";
     footNotes.forEach((value, key) => {
-      footNotesBlock += '<li id="fn:' + key + '" role="doc-endnote"><p>' + value + "&nbsp;</p></li>";
+      footNotesBlock += '<li id="fn:' + key + '" role="doc-endnote"><p>\n\n' + value + "\n\n</p></li>";
     });
     footNotesBlock += "</ol>\n";
     footNotesBlock += "</div>\n";
-    return input + "\n" + footNotesBlock;
+    const footnotePlaceholder = "<%? footnotes %>";
+    if (input.includes(footnotePlaceholder)) {
+      return input.replaceAll(footnotePlaceholder, footNotesBlock);
+    } else {
+      return input + "\n" + footNotesBlock;
+    }
   }
 };
 
@@ -71678,9 +71594,17 @@ var FormatProcessor = class {
     this.commentRegex = /%%([^%]*)%%/gm;
   }
   process(markdown) {
-    return markdown.replaceAll(this.boldRegex, (sub, args) => {
-      return `**${args.trim()}**`;
-    }).replaceAll(this.markRegex, "<mark>$1</mark>").replaceAll(this.commentRegex, "");
+    let insideCodeBlock = false;
+    return markdown.split("\n").map((line) => {
+      if (line.indexOf("```") > 0) {
+        insideCodeBlock = !insideCodeBlock;
+      }
+      if (insideCodeBlock) {
+        return line;
+      } else {
+        return line.replaceAll(this.boldRegex, (sub, args) => `**${args.trim()}**`).replaceAll(this.markRegex, "<mark>$1</mark>").replaceAll(this.commentRegex, "");
+      }
+    }).join("\n").replaceAll(this.commentRegex, "");
   }
 };
 
@@ -71838,7 +71762,7 @@ var YamlStore = class {
 // src/transformers/gridTransformer.ts
 var GridTransformer = class {
   constructor() {
-    this.gridAttributeRegex = /^(?:(-?\d*(?:px)?)(?:\s|x)(-?\d*(?:px)?)|(center|top|bottom|left|right|topleft|topright|bottomleft|bottomright))$/m;
+    this.gridAttributeRegex = /^(?:(-?\d*(?:px)?)(?:\s*|x)(-?\d*(?:px)?)|(center|top|bottom|left|right|topleft|topright|bottomleft|bottomright))$/m;
     this.maxWidth = YamlStore.getInstance().options.width;
     this.maxHeight = YamlStore.getInstance().options.height;
   }
@@ -71860,11 +71784,14 @@ var GridTransformer = class {
         element.addStyle("min-height", height2);
         element.addStyle("width", width2);
         const flow = element.getAttribute("flow");
-        const [align, alignItems, justifyContent] = this.getAlignment(element.getAttribute("align"), flow);
+        const [align, alignItems, justifyContent, stretch] = this.getAlignment(element.getAttribute("align"), flow);
         const justifyCtx = element.getAttribute("justify-content") ?? justifyContent;
         element.deleteAttribute("align");
         if (align) {
           element.addAttribute("align", align, false);
+        }
+        if (stretch) {
+          element.addClass(stretch);
         }
         switch (flow) {
           case "row":
@@ -71894,58 +71821,64 @@ var GridTransformer = class {
     switch (input) {
       case "topleft":
         if (direction == "col") {
-          return ["left", "flex-start", "flex-start"];
+          return ["left", "flex-start", "flex-start", void 0];
         } else {
-          return ["left", "flex-start", "space-evenly"];
+          return ["left", "flex-start", "space-evenly", void 0];
         }
       case "topright":
         if (direction == "col") {
-          return ["right", "flex-end", "flex-start"];
+          return ["right", "flex-end", "flex-start", void 0];
         } else {
-          return ["right", "flex-start", "space-evenly"];
+          return ["right", "flex-start", "space-evenly", void 0];
         }
       case "bottomright":
         if (direction == "col") {
-          return ["right", "flex-end", "flex-end"];
+          return ["right", "flex-end", "flex-end", void 0];
         } else {
-          return ["right", "flex-end", "space-evenly"];
+          return ["right", "flex-end", "space-evenly", void 0];
         }
       case "bottomleft":
         if (direction == "col") {
-          return ["left", "flex-start", "flex-end"];
+          return ["left", "flex-start", "flex-end", void 0];
         } else {
-          return ["left", "flex-end", "space-evenly"];
+          return ["left", "flex-end", "space-evenly", void 0];
         }
       case "left":
         if (direction == "col") {
-          return ["left", "flex-start", "space-evenly"];
+          return ["left", "flex-start", "space-evenly", void 0];
         } else {
-          return ["left", "center", "space-evenly"];
+          return ["left", "center", "space-evenly", void 0];
         }
       case "right":
         if (direction == "col") {
-          return ["right", "flex-end", "space-evenly"];
+          return ["right", "flex-end", "space-evenly", void 0];
         } else {
-          return ["right", "center", "space-evenly"];
+          return ["right", "center", "space-evenly", void 0];
         }
       case "top":
         if (direction == "col") {
-          return [void 0, "center", "flex-start"];
+          return [void 0, "center", "flex-start", void 0];
         } else {
-          return [void 0, "flex-start", "space-evenly"];
+          return [void 0, "flex-start", "space-evenly", void 0];
         }
       case "bottom":
         if (direction == "col") {
-          return [void 0, "center", "flex-end"];
+          return [void 0, "center", "flex-end", void 0];
         } else {
-          return [void 0, "flex-end", "space-evenly"];
+          return [void 0, "flex-end", "space-evenly", void 0];
+        }
+      case "stretch":
+        if (direction == "col") {
+          return [void 0, "center", "space-evenly", "stretch-column"];
+        } else {
+          return [void 0, "center", "space-evenly", "stretch-row"];
         }
       case "block":
       case "justify":
-        return ["justify", "center", "space-evenly"];
+        return ["justify", "center", "space-evenly", void 0];
       case "center":
       default:
-        return [void 0, "center", "space-evenly"];
+        return [void 0, "center", "space-evenly", void 0];
     }
   }
   read(drag, drop) {
@@ -72214,7 +72147,7 @@ var CommentParser = class {
   constructor() {
     this.readCommentRegex = /<!--.*-->/;
     this.parseRegex = /<!--\s*(?:\.)?(element|slide):?\s*(.*)-->/;
-    this.parsePropertiesRegex = /([^=]*)\s*=\s*"([^"]*)"\s*|([^=]*)\s*=\s*'([^']*)'\s*/g;
+    this.parsePropertiesRegex = /([^=]*)\s*=\s*"([^"]*)"\s*|([^=]*)\s*=\s*'([^']*)'\s*|([^ ]*)\s*/g;
   }
   commentToString(comment) {
     return `<!-- .${comment.type}: ${this.buildAttributes(comment)} -->`;
@@ -72265,6 +72198,11 @@ var CommentParser = class {
           value = match;
           attributes.set(key, value);
         }
+        if (groupIndex == 5) {
+          if (match) {
+            attributes.set(match, "true");
+          }
+        }
       });
     }
     attributes.delete(void 0);
@@ -72276,24 +72214,32 @@ var CommentParser = class {
 var FragmentProcessor = class {
   constructor() {
     this.fragmentCounter = 1;
-    this.orderedListRegex = /\d\) /g;
+    this.orderedListRegex = /^\d\) /g;
+    this.codeBlockRegex = /```[^\n]*(?:\n[^`]*\n)```/g;
     this.parser = new CommentParser();
   }
   process(markdown, options) {
-    let output = markdown;
-    markdown.split(new RegExp(options.separator, "gmi")).map((slidegroup) => {
-      return slidegroup.split(new RegExp(options.verticalSeparator, "gmi")).map((slide) => {
+    const separatorRegexp = new RegExp(`${options.separator}|${options.verticalSeparator}`, "gmi");
+    const codeBlockLines = Array.from(markdown.matchAll(this.codeBlockRegex)).map(({ 0: match, index }) => ({
+      from: markdown.substring(0, index).split("\n").length - 1,
+      to: markdown.substring(0, index + match.length).split("\n").length - 1
+    }));
+    const output = markdown.split("\n").map((line, lineNumber) => {
+      if (`
+${line}
+`.match(separatorRegexp)) {
         this.fragmentCounter = 1;
-        const newSlide = slide.split("\n").map((line) => {
-          if (line.trim().startsWith("+ ") || this.orderedListRegex.test(line.trim())) {
-            return this.transformLine(line);
-          }
-          return line;
-        }).join("\n");
-        output = output.split(slide).join(newSlide);
-        return newSlide;
-      }).join(options.verticalSeparator);
-    }).join(options.separator);
+        return line;
+      }
+      const isCodeblockLine = codeBlockLines.some(({ from, to }) => lineNumber >= from && lineNumber <= to);
+      if (isCodeblockLine) {
+        return line;
+      }
+      if (line.trim().startsWith("+ ") || this.orderedListRegex.test(line.trim())) {
+        return this.transformLine(line);
+      }
+      return line;
+    }).join("\n");
     return output;
   }
   transformLine(line) {
@@ -72301,8 +72247,6 @@ var FragmentProcessor = class {
     if (line.includes("<!--")) {
       line = line.substring(0, line.indexOf("<!--"));
     }
-    line = line.replaceAll("+ ", "- ");
-    line = line.replaceAll(this.orderedListRegex, "1. ");
     if (!comment.hasAttribute("data-fragment-index")) {
       comment.addAttribute("data-fragment-index", this.fragmentCounter.toString());
       if (!comment.hasClass("fragment")) {
@@ -72310,7 +72254,10 @@ var FragmentProcessor = class {
       }
       this.fragmentCounter++;
     }
-    const output = line + this.parser.commentToString(comment);
+    const extra_replacement = "&shy;" + this.parser.commentToString(comment);
+    line = line.replaceAll("+ ", "- " + extra_replacement);
+    line = line.replaceAll(this.orderedListRegex, "1. " + extra_replacement);
+    const output = line;
     return output;
   }
 };
@@ -72318,17 +72265,25 @@ var FragmentProcessor = class {
 // src/processors/gridProcessor.ts
 var GridProcessor = class {
   constructor() {
-    this.gridRegex = /<\s*grid([^>]+)>(.*?)<\/grid>/sg;
+    this.gridBlockRegex = /<\s*grid(?:(?!(<grid|<\/grid>)).)*<\/grid>/gs;
+    this.gridRegex = /<\s*grid([^>]+)>(.*?)<\/grid>/s;
     this.gridPropertiesRegex = /([^=]*)\s*=\s*"([^"]*)"\s*|([^=]*)\s*=\s*'([^']*)'\s*/g;
   }
   process(markdown, options) {
     let output = markdown;
     markdown.split(new RegExp(options.separator, "gmi")).map((slidegroup) => {
       return slidegroup.split(new RegExp(options.verticalSeparator, "gmi")).map((slide) => {
-        if (this.gridRegex.test(slide)) {
-          const newSlide = this.transformSlide(slide);
-          output = output.split(slide).join(newSlide);
-          return newSlide;
+        if (this.gridBlockRegex.test(slide)) {
+          let before = this.transformSlide(slide);
+          let after;
+          while (after != before) {
+            if (after) {
+              before = after;
+            }
+            after = this.transformSlide(before);
+          }
+          output = output.split(slide).join(after);
+          return after;
         }
         return slide;
       }).join(options.verticalSeparator);
@@ -72337,13 +72292,14 @@ var GridProcessor = class {
   }
   transformSlide(slide) {
     const result = /* @__PURE__ */ new Map();
-    this.gridRegex.lastIndex = 0;
+    this.gridBlockRegex.lastIndex = 0;
     let m;
-    while ((m = this.gridRegex.exec(slide)) !== null) {
-      if (m.index === this.gridRegex.lastIndex) {
-        this.gridRegex.lastIndex++;
+    while ((m = this.gridBlockRegex.exec(slide)) !== null) {
+      if (m.index === this.gridBlockRegex.lastIndex) {
+        this.gridBlockRegex.lastIndex++;
       }
-      const [match, attr, inner] = m;
+      const gridTag = m[0];
+      const [match, attr, inner] = this.gridRegex.exec(gridTag);
       result.set(match, this.transformGrid(attr, inner));
     }
     for (const [key, value] of result) {
@@ -72378,7 +72334,8 @@ ${inner}</div>`;
 var ImageProcessor = class {
   constructor(utils) {
     this.markdownImageRegex = /^[ ]{0,3}!\[([^\]]*)\]\((.*?)\)\s?(<!--.*-->)?/im;
-    this.obsidianImageRegex = /!\[\[(.*(?:jpg|png|jpeg|gif|bmp|svg))\|?([^\]]*)??\]\]\s?(<!--.*-->)?/i;
+    this.obsidianImageRegex = /!\[\[(.*(?:jpg|png|jpeg|gif|bmp|webp|svg))\s*\|?\s*([^\]]*)??\]\]\s?(<!--.*-->)?/i;
+    this.obsidianImageReferenceRegex = /\[\[(.*(?:jpg|png|jpeg|webp|gif|bmp|svg))\|?([^\]]*)??\]\]/i;
     this.utils = utils;
     this.parser = new CommentParser();
   }
@@ -72386,6 +72343,9 @@ var ImageProcessor = class {
     return markdown.split("\n").map((line) => {
       if (this.obsidianImageRegex.test(line)) {
         return this.transformImageString(line);
+      }
+      if (this.obsidianImageReferenceRegex.test(line)) {
+        return this.transformImageReferenceString(line);
       }
       return line;
     }).map((line) => {
@@ -72395,6 +72355,11 @@ var ImageProcessor = class {
         return line;
       }
     }).join("\n");
+  }
+  transformImageReferenceString(line) {
+    const [match, image] = this.obsidianImageReferenceRegex.exec(line);
+    const filePath = this.utils.findFile(image);
+    return line.replaceAll(match, filePath);
   }
   transformImageString(line) {
     const [, image, ext, comment] = this.obsidianImageRegex.exec(line);
@@ -72419,6 +72384,9 @@ var ImageProcessor = class {
   }
   htmlify(line) {
     let [, alt, filePath, commentString] = this.markdownImageRegex.exec(line);
+    if (alt && alt.includes("|")) {
+      commentString = this.buildComment(alt.split("|")[1], commentString) ?? "";
+    }
     const comment = this.parser.parseLine(commentString) ?? this.parser.buildComment("element");
     const isIcon = this.isIcon(filePath);
     if (isIcon) {
@@ -72431,7 +72399,7 @@ var ImageProcessor = class {
         filePath = this.transformAbsoluteFilePath(filePath);
       }
       const imageHtml = `<img src="${filePath}" alt="${alt}" ${this.parser.buildAttributes(comment)}></img>`;
-      const pHtml = `<p ${this.parser.buildAttributes(this.parser.buildComment("element", ["line-height: 0"], ["reset-paragraph"]))}>${imageHtml}</p>
+      const pHtml = `<p ${this.parser.buildAttributes(this.parser.buildComment("element", ["line-height: 0"], ["reset-paragraph", "image-paragraph"]))}>${imageHtml}</p>
 `;
       return pHtml;
     }
@@ -72500,8 +72468,6 @@ var LatexProcessor = class {
         } else {
           return "`" + line + "`";
         }
-      }).map((line) => {
-        return line.replaceAll(/^\s*[\r\n]/gm, "");
       }).join("$$").slice(1, -1);
     }
     return markdown;
@@ -72638,10 +72604,1877 @@ var AutoClosingProcessor = class {
   }
 };
 
+// src/processors/emojiProcessor.ts
+var emoji = {
+  ":100:": "\u{1F4AF}",
+  ":1234:": "\u{1F522}",
+  ":+1:": "\u{1F44D}",
+  ":-1:": "\u{1F44E}",
+  ":1st_place_medal:": "\u{1F947}",
+  ":2nd_place_medal:": "\u{1F948}",
+  ":3rd_place_medal:": "\u{1F949}",
+  ":8ball:": "\u{1F3B1}",
+  ":a:": "\u{1F170}",
+  ":ab:": "\u{1F18E}",
+  ":abacus:": "\u{1F9EE}",
+  ":abc:": "\u{1F524}",
+  ":abcd:": "\u{1F521}",
+  ":accept:": "\u{1F251}",
+  ":accordion:": "\u{1FA97}",
+  ":adhesive_bandage:": "\u{1FA79}",
+  ":adult:": "\u{1F9D1}",
+  ":aerial_tramway:": "\u{1F6A1}",
+  ":afghanistan:": "\u{1F1E6}\u200D\u{1F1EB}",
+  ":airplane:": "\u2708",
+  ":aland_islands:": "\u{1F1E6}\u200D\u{1F1FD}",
+  ":alarm_clock:": "\u23F0",
+  ":albania:": "\u{1F1E6}\u200D\u{1F1F1}",
+  ":alembic:": "\u2697",
+  ":algeria:": "\u{1F1E9}\u200D\u{1F1FF}",
+  ":alien:": "\u{1F47D}",
+  ":ambulance:": "\u{1F691}",
+  ":american_samoa:": "\u{1F1E6}\u200D\u{1F1F8}",
+  ":amphora:": "\u{1F3FA}",
+  ":anatomical_heart:": "\u{1FAC0}",
+  ":anchor:": "\u2693",
+  ":andorra:": "\u{1F1E6}\u200D\u{1F1E9}",
+  ":angel:": "\u{1F47C}",
+  ":anger:": "\u{1F4A2}",
+  ":angola:": "\u{1F1E6}\u200D\u{1F1F4}",
+  ":angry:": "\u{1F620}",
+  ":anguilla:": "\u{1F1E6}\u200D\u{1F1EE}",
+  ":anguished:": "\u{1F627}",
+  ":ant:": "\u{1F41C}",
+  ":antarctica:": "\u{1F1E6}\u200D\u{1F1F6}",
+  ":antigua_barbuda:": "\u{1F1E6}\u200D\u{1F1EC}",
+  ":apple:": "\u{1F34E}",
+  ":aquarius:": "\u2652",
+  ":argentina:": "\u{1F1E6}\u200D\u{1F1F7}",
+  ":aries:": "\u2648",
+  ":armenia:": "\u{1F1E6}\u200D\u{1F1F2}",
+  ":arrow_backward:": "\u25C0",
+  ":arrow_double_down:": "\u23EC",
+  ":arrow_double_up:": "\u23EB",
+  ":arrow_down:": "\u2B07",
+  ":arrow_down_small:": "\u{1F53D}",
+  ":arrow_forward:": "\u25B6",
+  ":arrow_heading_down:": "\u2935",
+  ":arrow_heading_up:": "\u2934",
+  ":arrow_left:": "\u2B05",
+  ":arrow_lower_left:": "\u2199",
+  ":arrow_lower_right:": "\u2198",
+  ":arrow_right:": "\u27A1",
+  ":arrow_right_hook:": "\u21AA",
+  ":arrow_up:": "\u2B06",
+  ":arrow_up_down:": "\u2195",
+  ":arrow_up_small:": "\u{1F53C}",
+  ":arrow_upper_left:": "\u2196",
+  ":arrow_upper_right:": "\u2197",
+  ":arrows_clockwise:": "\u{1F503}",
+  ":arrows_counterclockwise:": "\u{1F504}",
+  ":art:": "\u{1F3A8}",
+  ":articulated_lorry:": "\u{1F69B}",
+  ":artificial_satellite:": "\u{1F6F0}",
+  ":artist:": "\u{1F9D1}\u200D\u{1F3A8}",
+  ":aruba:": "\u{1F1E6}\u200D\u{1F1FC}",
+  ":ascension_island:": "\u{1F1E6}\u200D\u{1F1E8}",
+  ":asterisk:": "*\u200D\u20E3",
+  ":astonished:": "\u{1F632}",
+  ":astronaut:": "\u{1F9D1}\u200D\u{1F680}",
+  ":athletic_shoe:": "\u{1F45F}",
+  ":atm:": "\u{1F3E7}",
+  ":atom_symbol:": "\u269B",
+  ":australia:": "\u{1F1E6}\u200D\u{1F1FA}",
+  ":austria:": "\u{1F1E6}\u200D\u{1F1F9}",
+  ":auto_rickshaw:": "\u{1F6FA}",
+  ":avocado:": "\u{1F951}",
+  ":axe:": "\u{1FA93}",
+  ":azerbaijan:": "\u{1F1E6}\u200D\u{1F1FF}",
+  ":b:": "\u{1F171}",
+  ":baby:": "\u{1F476}",
+  ":baby_bottle:": "\u{1F37C}",
+  ":baby_chick:": "\u{1F424}",
+  ":baby_symbol:": "\u{1F6BC}",
+  ":back:": "\u{1F519}",
+  ":bacon:": "\u{1F953}",
+  ":badger:": "\u{1F9A1}",
+  ":badminton:": "\u{1F3F8}",
+  ":bagel:": "\u{1F96F}",
+  ":baggage_claim:": "\u{1F6C4}",
+  ":baguette_bread:": "\u{1F956}",
+  ":bahamas:": "\u{1F1E7}\u200D\u{1F1F8}",
+  ":bahrain:": "\u{1F1E7}\u200D\u{1F1ED}",
+  ":balance_scale:": "\u2696",
+  ":bald_man:": "\u{1F468}\u200D\u{1F9B2}",
+  ":bald_woman:": "\u{1F469}\u200D\u{1F9B2}",
+  ":ballet_shoes:": "\u{1FA70}",
+  ":balloon:": "\u{1F388}",
+  ":ballot_box:": "\u{1F5F3}",
+  ":ballot_box_with_check:": "\u2611",
+  ":bamboo:": "\u{1F38D}",
+  ":banana:": "\u{1F34C}",
+  ":bangbang:": "\u203C",
+  ":bangladesh:": "\u{1F1E7}\u200D\u{1F1E9}",
+  ":banjo:": "\u{1FA95}",
+  ":bank:": "\u{1F3E6}",
+  ":bar_chart:": "\u{1F4CA}",
+  ":barbados:": "\u{1F1E7}\u200D\u{1F1E7}",
+  ":barber:": "\u{1F488}",
+  ":baseball:": "\u26BE",
+  ":basket:": "\u{1F9FA}",
+  ":basketball:": "\u{1F3C0}",
+  ":basketball_man:": "\u26F9\u200D\u2642",
+  ":basketball_woman:": "\u26F9\u200D\u2640",
+  ":bat:": "\u{1F987}",
+  ":bath:": "\u{1F6C0}",
+  ":bathtub:": "\u{1F6C1}",
+  ":battery:": "\u{1F50B}",
+  ":beach_umbrella:": "\u{1F3D6}",
+  ":bear:": "\u{1F43B}",
+  ":bearded_person:": "\u{1F9D4}",
+  ":beaver:": "\u{1F9AB}",
+  ":bed:": "\u{1F6CF}",
+  ":bee:": "\u{1F41D}",
+  ":beer:": "\u{1F37A}",
+  ":beers:": "\u{1F37B}",
+  ":beetle:": "\u{1FAB2}",
+  ":beginner:": "\u{1F530}",
+  ":belarus:": "\u{1F1E7}\u200D\u{1F1FE}",
+  ":belgium:": "\u{1F1E7}\u200D\u{1F1EA}",
+  ":belize:": "\u{1F1E7}\u200D\u{1F1FF}",
+  ":bell:": "\u{1F514}",
+  ":bell_pepper:": "\u{1FAD1}",
+  ":bellhop_bell:": "\u{1F6CE}",
+  ":benin:": "\u{1F1E7}\u200D\u{1F1EF}",
+  ":bento:": "\u{1F371}",
+  ":bermuda:": "\u{1F1E7}\u200D\u{1F1F2}",
+  ":beverage_box:": "\u{1F9C3}",
+  ":bhutan:": "\u{1F1E7}\u200D\u{1F1F9}",
+  ":bicyclist:": "\u{1F6B4}",
+  ":bike:": "\u{1F6B2}",
+  ":biking_man:": "\u{1F6B4}\u200D\u2642",
+  ":biking_woman:": "\u{1F6B4}\u200D\u2640",
+  ":bikini:": "\u{1F459}",
+  ":billed_cap:": "\u{1F9E2}",
+  ":biohazard:": "\u2623",
+  ":bird:": "\u{1F426}",
+  ":birthday:": "\u{1F382}",
+  ":bison:": "\u{1F9AC}",
+  ":black_cat:": "\u{1F408}\u200D\u2B1B",
+  ":black_circle:": "\u26AB",
+  ":black_flag:": "\u{1F3F4}",
+  ":black_heart:": "\u{1F5A4}",
+  ":black_joker:": "\u{1F0CF}",
+  ":black_large_square:": "\u2B1B",
+  ":black_medium_small_square:": "\u25FE",
+  ":black_medium_square:": "\u25FC",
+  ":black_nib:": "\u2712",
+  ":black_small_square:": "\u25AA",
+  ":black_square_button:": "\u{1F532}",
+  ":blond_haired_man:": "\u{1F471}\u200D\u2642",
+  ":blond_haired_person:": "\u{1F471}",
+  ":blond_haired_woman:": "\u{1F471}\u200D\u2640",
+  ":blonde_woman:": "\u{1F471}\u200D\u2640",
+  ":blossom:": "\u{1F33C}",
+  ":blowfish:": "\u{1F421}",
+  ":blue_book:": "\u{1F4D8}",
+  ":blue_car:": "\u{1F699}",
+  ":blue_heart:": "\u{1F499}",
+  ":blue_square:": "\u{1F7E6}",
+  ":blueberries:": "\u{1FAD0}",
+  ":blush:": "\u{1F60A}",
+  ":boar:": "\u{1F417}",
+  ":boat:": "\u26F5",
+  ":bolivia:": "\u{1F1E7}\u200D\u{1F1F4}",
+  ":bomb:": "\u{1F4A3}",
+  ":bone:": "\u{1F9B4}",
+  ":book:": "\u{1F4D6}",
+  ":bookmark:": "\u{1F516}",
+  ":bookmark_tabs:": "\u{1F4D1}",
+  ":books:": "\u{1F4DA}",
+  ":boom:": "\u{1F4A5}",
+  ":boomerang:": "\u{1FA83}",
+  ":boot:": "\u{1F462}",
+  ":bosnia_herzegovina:": "\u{1F1E7}\u200D\u{1F1E6}",
+  ":botswana:": "\u{1F1E7}\u200D\u{1F1FC}",
+  ":bouncing_ball_man:": "\u26F9\u200D\u2642",
+  ":bouncing_ball_person:": "\u26F9",
+  ":bouncing_ball_woman:": "\u26F9\u200D\u2640",
+  ":bouquet:": "\u{1F490}",
+  ":bouvet_island:": "\u{1F1E7}\u200D\u{1F1FB}",
+  ":bow:": "\u{1F647}",
+  ":bow_and_arrow:": "\u{1F3F9}",
+  ":bowing_man:": "\u{1F647}\u200D\u2642",
+  ":bowing_woman:": "\u{1F647}\u200D\u2640",
+  ":bowl_with_spoon:": "\u{1F963}",
+  ":bowling:": "\u{1F3B3}",
+  ":boxing_glove:": "\u{1F94A}",
+  ":boy:": "\u{1F466}",
+  ":brain:": "\u{1F9E0}",
+  ":brazil:": "\u{1F1E7}\u200D\u{1F1F7}",
+  ":bread:": "\u{1F35E}",
+  ":breast_feeding:": "\u{1F931}",
+  ":bricks:": "\u{1F9F1}",
+  ":bride_with_veil:": "\u{1F470}\u200D\u2640",
+  ":bridge_at_night:": "\u{1F309}",
+  ":briefcase:": "\u{1F4BC}",
+  ":british_indian_ocean_territory:": "\u{1F1EE}\u200D\u{1F1F4}",
+  ":british_virgin_islands:": "\u{1F1FB}\u200D\u{1F1EC}",
+  ":broccoli:": "\u{1F966}",
+  ":broken_heart:": "\u{1F494}",
+  ":broom:": "\u{1F9F9}",
+  ":brown_circle:": "\u{1F7E4}",
+  ":brown_heart:": "\u{1F90E}",
+  ":brown_square:": "\u{1F7EB}",
+  ":brunei:": "\u{1F1E7}\u200D\u{1F1F3}",
+  ":bubble_tea:": "\u{1F9CB}",
+  ":bucket:": "\u{1FAA3}",
+  ":bug:": "\u{1F41B}",
+  ":building_construction:": "\u{1F3D7}",
+  ":bulb:": "\u{1F4A1}",
+  ":bulgaria:": "\u{1F1E7}\u200D\u{1F1EC}",
+  ":bullettrain_front:": "\u{1F685}",
+  ":bullettrain_side:": "\u{1F684}",
+  ":burkina_faso:": "\u{1F1E7}\u200D\u{1F1EB}",
+  ":burrito:": "\u{1F32F}",
+  ":burundi:": "\u{1F1E7}\u200D\u{1F1EE}",
+  ":bus:": "\u{1F68C}",
+  ":business_suit_levitating:": "\u{1F574}",
+  ":busstop:": "\u{1F68F}",
+  ":bust_in_silhouette:": "\u{1F464}",
+  ":busts_in_silhouette:": "\u{1F465}",
+  ":butter:": "\u{1F9C8}",
+  ":butterfly:": "\u{1F98B}",
+  ":cactus:": "\u{1F335}",
+  ":cake:": "\u{1F370}",
+  ":calendar:": "\u{1F4C6}",
+  ":call_me_hand:": "\u{1F919}",
+  ":calling:": "\u{1F4F2}",
+  ":cambodia:": "\u{1F1F0}\u200D\u{1F1ED}",
+  ":camel:": "\u{1F42B}",
+  ":camera:": "\u{1F4F7}",
+  ":camera_flash:": "\u{1F4F8}",
+  ":cameroon:": "\u{1F1E8}\u200D\u{1F1F2}",
+  ":camping:": "\u{1F3D5}",
+  ":canada:": "\u{1F1E8}\u200D\u{1F1E6}",
+  ":canary_islands:": "\u{1F1EE}\u200D\u{1F1E8}",
+  ":cancer:": "\u264B",
+  ":candle:": "\u{1F56F}",
+  ":candy:": "\u{1F36C}",
+  ":canned_food:": "\u{1F96B}",
+  ":canoe:": "\u{1F6F6}",
+  ":cape_verde:": "\u{1F1E8}\u200D\u{1F1FB}",
+  ":capital_abcd:": "\u{1F520}",
+  ":capricorn:": "\u2651",
+  ":car:": "\u{1F697}",
+  ":card_file_box:": "\u{1F5C3}",
+  ":card_index:": "\u{1F4C7}",
+  ":card_index_dividers:": "\u{1F5C2}",
+  ":caribbean_netherlands:": "\u{1F1E7}\u200D\u{1F1F6}",
+  ":carousel_horse:": "\u{1F3A0}",
+  ":carpentry_saw:": "\u{1FA9A}",
+  ":carrot:": "\u{1F955}",
+  ":cartwheeling:": "\u{1F938}",
+  ":cat:": "\u{1F431}",
+  ":cat2:": "\u{1F408}",
+  ":cayman_islands:": "\u{1F1F0}\u200D\u{1F1FE}",
+  ":cd:": "\u{1F4BF}",
+  ":central_african_republic:": "\u{1F1E8}\u200D\u{1F1EB}",
+  ":ceuta_melilla:": "\u{1F1EA}\u200D\u{1F1E6}",
+  ":chad:": "\u{1F1F9}\u200D\u{1F1E9}",
+  ":chains:": "\u26D3",
+  ":chair:": "\u{1FA91}",
+  ":champagne:": "\u{1F37E}",
+  ":chart:": "\u{1F4B9}",
+  ":chart_with_downwards_trend:": "\u{1F4C9}",
+  ":chart_with_upwards_trend:": "\u{1F4C8}",
+  ":checkered_flag:": "\u{1F3C1}",
+  ":cheese:": "\u{1F9C0}",
+  ":cherries:": "\u{1F352}",
+  ":cherry_blossom:": "\u{1F338}",
+  ":chess_pawn:": "\u265F",
+  ":chestnut:": "\u{1F330}",
+  ":chicken:": "\u{1F414}",
+  ":child:": "\u{1F9D2}",
+  ":children_crossing:": "\u{1F6B8}",
+  ":chile:": "\u{1F1E8}\u200D\u{1F1F1}",
+  ":chipmunk:": "\u{1F43F}",
+  ":chocolate_bar:": "\u{1F36B}",
+  ":chopsticks:": "\u{1F962}",
+  ":christmas_island:": "\u{1F1E8}\u200D\u{1F1FD}",
+  ":christmas_tree:": "\u{1F384}",
+  ":church:": "\u26EA",
+  ":cinema:": "\u{1F3A6}",
+  ":circus_tent:": "\u{1F3AA}",
+  ":city_sunrise:": "\u{1F307}",
+  ":city_sunset:": "\u{1F306}",
+  ":cityscape:": "\u{1F3D9}",
+  ":cl:": "\u{1F191}",
+  ":clamp:": "\u{1F5DC}",
+  ":clap:": "\u{1F44F}",
+  ":clapper:": "\u{1F3AC}",
+  ":classical_building:": "\u{1F3DB}",
+  ":climbing:": "\u{1F9D7}",
+  ":climbing_man:": "\u{1F9D7}\u200D\u2642",
+  ":climbing_woman:": "\u{1F9D7}\u200D\u2640",
+  ":clinking_glasses:": "\u{1F942}",
+  ":clipboard:": "\u{1F4CB}",
+  ":clipperton_island:": "\u{1F1E8}\u200D\u{1F1F5}",
+  ":clock1:": "\u{1F550}",
+  ":clock10:": "\u{1F559}",
+  ":clock1030:": "\u{1F565}",
+  ":clock11:": "\u{1F55A}",
+  ":clock1130:": "\u{1F566}",
+  ":clock12:": "\u{1F55B}",
+  ":clock1230:": "\u{1F567}",
+  ":clock130:": "\u{1F55C}",
+  ":clock2:": "\u{1F551}",
+  ":clock230:": "\u{1F55D}",
+  ":clock3:": "\u{1F552}",
+  ":clock330:": "\u{1F55E}",
+  ":clock4:": "\u{1F553}",
+  ":clock430:": "\u{1F55F}",
+  ":clock5:": "\u{1F554}",
+  ":clock530:": "\u{1F560}",
+  ":clock6:": "\u{1F555}",
+  ":clock630:": "\u{1F561}",
+  ":clock7:": "\u{1F556}",
+  ":clock730:": "\u{1F562}",
+  ":clock8:": "\u{1F557}",
+  ":clock830:": "\u{1F563}",
+  ":clock9:": "\u{1F558}",
+  ":clock930:": "\u{1F564}",
+  ":closed_book:": "\u{1F4D5}",
+  ":closed_lock_with_key:": "\u{1F510}",
+  ":closed_umbrella:": "\u{1F302}",
+  ":cloud:": "\u2601",
+  ":cloud_with_lightning:": "\u{1F329}",
+  ":cloud_with_lightning_and_rain:": "\u26C8",
+  ":cloud_with_rain:": "\u{1F327}",
+  ":cloud_with_snow:": "\u{1F328}",
+  ":clown_face:": "\u{1F921}",
+  ":clubs:": "\u2663",
+  ":cn:": "\u{1F1E8}\u200D\u{1F1F3}",
+  ":coat:": "\u{1F9E5}",
+  ":cockroach:": "\u{1FAB3}",
+  ":cocktail:": "\u{1F378}",
+  ":coconut:": "\u{1F965}",
+  ":cocos_islands:": "\u{1F1E8}\u200D\u{1F1E8}",
+  ":coffee:": "\u2615",
+  ":coffin:": "\u26B0",
+  ":coin:": "\u{1FA99}",
+  ":cold_face:": "\u{1F976}",
+  ":cold_sweat:": "\u{1F630}",
+  ":collision:": "\u{1F4A5}",
+  ":colombia:": "\u{1F1E8}\u200D\u{1F1F4}",
+  ":comet:": "\u2604",
+  ":comoros:": "\u{1F1F0}\u200D\u{1F1F2}",
+  ":compass:": "\u{1F9ED}",
+  ":computer:": "\u{1F4BB}",
+  ":computer_mouse:": "\u{1F5B1}",
+  ":confetti_ball:": "\u{1F38A}",
+  ":confounded:": "\u{1F616}",
+  ":confused:": "\u{1F615}",
+  ":congo_brazzaville:": "\u{1F1E8}\u200D\u{1F1EC}",
+  ":congo_kinshasa:": "\u{1F1E8}\u200D\u{1F1E9}",
+  ":congratulations:": "\u3297",
+  ":construction:": "\u{1F6A7}",
+  ":construction_worker:": "\u{1F477}",
+  ":construction_worker_man:": "\u{1F477}\u200D\u2642",
+  ":construction_worker_woman:": "\u{1F477}\u200D\u2640",
+  ":control_knobs:": "\u{1F39B}",
+  ":convenience_store:": "\u{1F3EA}",
+  ":cook:": "\u{1F9D1}\u200D\u{1F373}",
+  ":cook_islands:": "\u{1F1E8}\u200D\u{1F1F0}",
+  ":cookie:": "\u{1F36A}",
+  ":cool:": "\u{1F192}",
+  ":cop:": "\u{1F46E}",
+  ":copyright:": "\xA9",
+  ":corn:": "\u{1F33D}",
+  ":costa_rica:": "\u{1F1E8}\u200D\u{1F1F7}",
+  ":cote_divoire:": "\u{1F1E8}\u200D\u{1F1EE}",
+  ":couch_and_lamp:": "\u{1F6CB}",
+  ":couple:": "\u{1F46B}",
+  ":couple_with_heart:": "\u{1F491}",
+  ":couple_with_heart_man_man:": "\u{1F468}\u200D\u2764\u200D\u{1F468}",
+  ":couple_with_heart_woman_man:": "\u{1F469}\u200D\u2764\u200D\u{1F468}",
+  ":couple_with_heart_woman_woman:": "\u{1F469}\u200D\u2764\u200D\u{1F469}",
+  ":couplekiss:": "\u{1F48F}",
+  ":couplekiss_man_man:": "\u{1F468}\u200D\u2764\u200D\u{1F48B}\u200D\u{1F468}",
+  ":couplekiss_man_woman:": "\u{1F469}\u200D\u2764\u200D\u{1F48B}\u200D\u{1F468}",
+  ":couplekiss_woman_woman:": "\u{1F469}\u200D\u2764\u200D\u{1F48B}\u200D\u{1F469}",
+  ":cow:": "\u{1F42E}",
+  ":cow2:": "\u{1F404}",
+  ":cowboy_hat_face:": "\u{1F920}",
+  ":crab:": "\u{1F980}",
+  ":crayon:": "\u{1F58D}",
+  ":credit_card:": "\u{1F4B3}",
+  ":crescent_moon:": "\u{1F319}",
+  ":cricket:": "\u{1F997}",
+  ":cricket_game:": "\u{1F3CF}",
+  ":croatia:": "\u{1F1ED}\u200D\u{1F1F7}",
+  ":crocodile:": "\u{1F40A}",
+  ":croissant:": "\u{1F950}",
+  ":crossed_fingers:": "\u{1F91E}",
+  ":crossed_flags:": "\u{1F38C}",
+  ":crossed_swords:": "\u2694",
+  ":crown:": "\u{1F451}",
+  ":cry:": "\u{1F622}",
+  ":crying_cat_face:": "\u{1F63F}",
+  ":crystal_ball:": "\u{1F52E}",
+  ":cuba:": "\u{1F1E8}\u200D\u{1F1FA}",
+  ":cucumber:": "\u{1F952}",
+  ":cup_with_straw:": "\u{1F964}",
+  ":cupcake:": "\u{1F9C1}",
+  ":cupid:": "\u{1F498}",
+  ":curacao:": "\u{1F1E8}\u200D\u{1F1FC}",
+  ":curling_stone:": "\u{1F94C}",
+  ":curly_haired_man:": "\u{1F468}\u200D\u{1F9B1}",
+  ":curly_haired_woman:": "\u{1F469}\u200D\u{1F9B1}",
+  ":curly_loop:": "\u27B0",
+  ":currency_exchange:": "\u{1F4B1}",
+  ":curry:": "\u{1F35B}",
+  ":cursing_face:": "\u{1F92C}",
+  ":custard:": "\u{1F36E}",
+  ":customs:": "\u{1F6C3}",
+  ":cut_of_meat:": "\u{1F969}",
+  ":cyclone:": "\u{1F300}",
+  ":cyprus:": "\u{1F1E8}\u200D\u{1F1FE}",
+  ":czech_republic:": "\u{1F1E8}\u200D\u{1F1FF}",
+  ":dagger:": "\u{1F5E1}",
+  ":dancer:": "\u{1F483}",
+  ":dancers:": "\u{1F46F}",
+  ":dancing_men:": "\u{1F46F}\u200D\u2642",
+  ":dancing_women:": "\u{1F46F}\u200D\u2640",
+  ":dango:": "\u{1F361}",
+  ":dark_sunglasses:": "\u{1F576}",
+  ":dart:": "\u{1F3AF}",
+  ":dash:": "\u{1F4A8}",
+  ":date:": "\u{1F4C5}",
+  ":de:": "\u{1F1E9}\u200D\u{1F1EA}",
+  ":deaf_man:": "\u{1F9CF}\u200D\u2642",
+  ":deaf_person:": "\u{1F9CF}",
+  ":deaf_woman:": "\u{1F9CF}\u200D\u2640",
+  ":deciduous_tree:": "\u{1F333}",
+  ":deer:": "\u{1F98C}",
+  ":denmark:": "\u{1F1E9}\u200D\u{1F1F0}",
+  ":department_store:": "\u{1F3EC}",
+  ":derelict_house:": "\u{1F3DA}",
+  ":desert:": "\u{1F3DC}",
+  ":desert_island:": "\u{1F3DD}",
+  ":desktop_computer:": "\u{1F5A5}",
+  ":detective:": "\u{1F575}",
+  ":diamond_shape_with_a_dot_inside:": "\u{1F4A0}",
+  ":diamonds:": "\u2666",
+  ":diego_garcia:": "\u{1F1E9}\u200D\u{1F1EC}",
+  ":disappointed:": "\u{1F61E}",
+  ":disappointed_relieved:": "\u{1F625}",
+  ":disguised_face:": "\u{1F978}",
+  ":diving_mask:": "\u{1F93F}",
+  ":diya_lamp:": "\u{1FA94}",
+  ":dizzy:": "\u{1F4AB}",
+  ":dizzy_face:": "\u{1F635}",
+  ":djibouti:": "\u{1F1E9}\u200D\u{1F1EF}",
+  ":dna:": "\u{1F9EC}",
+  ":do_not_litter:": "\u{1F6AF}",
+  ":dodo:": "\u{1F9A4}",
+  ":dog:": "\u{1F436}",
+  ":dog2:": "\u{1F415}",
+  ":dollar:": "\u{1F4B5}",
+  ":dolls:": "\u{1F38E}",
+  ":dolphin:": "\u{1F42C}",
+  ":dominica:": "\u{1F1E9}\u200D\u{1F1F2}",
+  ":dominican_republic:": "\u{1F1E9}\u200D\u{1F1F4}",
+  ":door:": "\u{1F6AA}",
+  ":doughnut:": "\u{1F369}",
+  ":dove:": "\u{1F54A}",
+  ":dragon:": "\u{1F409}",
+  ":dragon_face:": "\u{1F432}",
+  ":dress:": "\u{1F457}",
+  ":dromedary_camel:": "\u{1F42A}",
+  ":drooling_face:": "\u{1F924}",
+  ":drop_of_blood:": "\u{1FA78}",
+  ":droplet:": "\u{1F4A7}",
+  ":drum:": "\u{1F941}",
+  ":duck:": "\u{1F986}",
+  ":dumpling:": "\u{1F95F}",
+  ":dvd:": "\u{1F4C0}",
+  ":e-mail:": "\u{1F4E7}",
+  ":eagle:": "\u{1F985}",
+  ":ear:": "\u{1F442}",
+  ":ear_of_rice:": "\u{1F33E}",
+  ":ear_with_hearing_aid:": "\u{1F9BB}",
+  ":earth_africa:": "\u{1F30D}",
+  ":earth_americas:": "\u{1F30E}",
+  ":earth_asia:": "\u{1F30F}",
+  ":ecuador:": "\u{1F1EA}\u200D\u{1F1E8}",
+  ":egg:": "\u{1F95A}",
+  ":eggplant:": "\u{1F346}",
+  ":egypt:": "\u{1F1EA}\u200D\u{1F1EC}",
+  ":eight:": "8\u200D\u20E3",
+  ":eight_pointed_black_star:": "\u2734",
+  ":eight_spoked_asterisk:": "\u2733",
+  ":eject_button:": "\u23CF",
+  ":el_salvador:": "\u{1F1F8}\u200D\u{1F1FB}",
+  ":electric_plug:": "\u{1F50C}",
+  ":elephant:": "\u{1F418}",
+  ":elevator:": "\u{1F6D7}",
+  ":elf:": "\u{1F9DD}",
+  ":elf_man:": "\u{1F9DD}\u200D\u2642",
+  ":elf_woman:": "\u{1F9DD}\u200D\u2640",
+  ":email:": "\u{1F4E7}",
+  ":end:": "\u{1F51A}",
+  ":england:": "\u{1F3F4}\u200D\u{E0067}\u200D\u{E0062}\u200D\u{E0065}\u200D\u{E006E}\u200D\u{E0067}\u200D\u{E007F}",
+  ":envelope:": "\u2709",
+  ":envelope_with_arrow:": "\u{1F4E9}",
+  ":equatorial_guinea:": "\u{1F1EC}\u200D\u{1F1F6}",
+  ":eritrea:": "\u{1F1EA}\u200D\u{1F1F7}",
+  ":es:": "\u{1F1EA}\u200D\u{1F1F8}",
+  ":estonia:": "\u{1F1EA}\u200D\u{1F1EA}",
+  ":ethiopia:": "\u{1F1EA}\u200D\u{1F1F9}",
+  ":eu:": "\u{1F1EA}\u200D\u{1F1FA}",
+  ":euro:": "\u{1F4B6}",
+  ":european_castle:": "\u{1F3F0}",
+  ":european_post_office:": "\u{1F3E4}",
+  ":european_union:": "\u{1F1EA}\u200D\u{1F1FA}",
+  ":evergreen_tree:": "\u{1F332}",
+  ":exclamation:": "\u2757",
+  ":exploding_head:": "\u{1F92F}",
+  ":expressionless:": "\u{1F611}",
+  ":eye:": "\u{1F441}",
+  ":eye_speech_bubble:": "\u{1F441}\u200D\u{1F5E8}",
+  ":eyeglasses:": "\u{1F453}",
+  ":eyes:": "\u{1F440}",
+  ":face_exhaling:": "\u{1F62E}\u200D\u{1F4A8}",
+  ":face_in_clouds:": "\u{1F636}\u200D\u{1F32B}",
+  ":face_with_head_bandage:": "\u{1F915}",
+  ":face_with_spiral_eyes:": "\u{1F635}\u200D\u{1F4AB}",
+  ":face_with_thermometer:": "\u{1F912}",
+  ":facepalm:": "\u{1F926}",
+  ":facepunch:": "\u{1F44A}",
+  ":factory:": "\u{1F3ED}",
+  ":factory_worker:": "\u{1F9D1}\u200D\u{1F3ED}",
+  ":fairy:": "\u{1F9DA}",
+  ":fairy_man:": "\u{1F9DA}\u200D\u2642",
+  ":fairy_woman:": "\u{1F9DA}\u200D\u2640",
+  ":falafel:": "\u{1F9C6}",
+  ":falkland_islands:": "\u{1F1EB}\u200D\u{1F1F0}",
+  ":fallen_leaf:": "\u{1F342}",
+  ":family:": "\u{1F46A}",
+  ":family_man_boy:": "\u{1F468}\u200D\u{1F466}",
+  ":family_man_boy_boy:": "\u{1F468}\u200D\u{1F466}\u200D\u{1F466}",
+  ":family_man_girl:": "\u{1F468}\u200D\u{1F467}",
+  ":family_man_girl_boy:": "\u{1F468}\u200D\u{1F467}\u200D\u{1F466}",
+  ":family_man_girl_girl:": "\u{1F468}\u200D\u{1F467}\u200D\u{1F467}",
+  ":family_man_man_boy:": "\u{1F468}\u200D\u{1F468}\u200D\u{1F466}",
+  ":family_man_man_boy_boy:": "\u{1F468}\u200D\u{1F468}\u200D\u{1F466}\u200D\u{1F466}",
+  ":family_man_man_girl:": "\u{1F468}\u200D\u{1F468}\u200D\u{1F467}",
+  ":family_man_man_girl_boy:": "\u{1F468}\u200D\u{1F468}\u200D\u{1F467}\u200D\u{1F466}",
+  ":family_man_man_girl_girl:": "\u{1F468}\u200D\u{1F468}\u200D\u{1F467}\u200D\u{1F467}",
+  ":family_man_woman_boy:": "\u{1F468}\u200D\u{1F469}\u200D\u{1F466}",
+  ":family_man_woman_boy_boy:": "\u{1F468}\u200D\u{1F469}\u200D\u{1F466}\u200D\u{1F466}",
+  ":family_man_woman_girl:": "\u{1F468}\u200D\u{1F469}\u200D\u{1F467}",
+  ":family_man_woman_girl_boy:": "\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}",
+  ":family_man_woman_girl_girl:": "\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F467}",
+  ":family_woman_boy:": "\u{1F469}\u200D\u{1F466}",
+  ":family_woman_boy_boy:": "\u{1F469}\u200D\u{1F466}\u200D\u{1F466}",
+  ":family_woman_girl:": "\u{1F469}\u200D\u{1F467}",
+  ":family_woman_girl_boy:": "\u{1F469}\u200D\u{1F467}\u200D\u{1F466}",
+  ":family_woman_girl_girl:": "\u{1F469}\u200D\u{1F467}\u200D\u{1F467}",
+  ":family_woman_woman_boy:": "\u{1F469}\u200D\u{1F469}\u200D\u{1F466}",
+  ":family_woman_woman_boy_boy:": "\u{1F469}\u200D\u{1F469}\u200D\u{1F466}\u200D\u{1F466}",
+  ":family_woman_woman_girl:": "\u{1F469}\u200D\u{1F469}\u200D\u{1F467}",
+  ":family_woman_woman_girl_boy:": "\u{1F469}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}",
+  ":family_woman_woman_girl_girl:": "\u{1F469}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F467}",
+  ":farmer:": "\u{1F9D1}\u200D\u{1F33E}",
+  ":faroe_islands:": "\u{1F1EB}\u200D\u{1F1F4}",
+  ":fast_forward:": "\u23E9",
+  ":fax:": "\u{1F4E0}",
+  ":fearful:": "\u{1F628}",
+  ":feather:": "\u{1FAB6}",
+  ":feet:": "\u{1F43E}",
+  ":female_detective:": "\u{1F575}\u200D\u2640",
+  ":female_sign:": "\u2640",
+  ":ferris_wheel:": "\u{1F3A1}",
+  ":ferry:": "\u26F4",
+  ":field_hockey:": "\u{1F3D1}",
+  ":fiji:": "\u{1F1EB}\u200D\u{1F1EF}",
+  ":file_cabinet:": "\u{1F5C4}",
+  ":file_folder:": "\u{1F4C1}",
+  ":film_projector:": "\u{1F4FD}",
+  ":film_strip:": "\u{1F39E}",
+  ":finland:": "\u{1F1EB}\u200D\u{1F1EE}",
+  ":fire:": "\u{1F525}",
+  ":fire_engine:": "\u{1F692}",
+  ":fire_extinguisher:": "\u{1F9EF}",
+  ":firecracker:": "\u{1F9E8}",
+  ":firefighter:": "\u{1F9D1}\u200D\u{1F692}",
+  ":fireworks:": "\u{1F386}",
+  ":first_quarter_moon:": "\u{1F313}",
+  ":first_quarter_moon_with_face:": "\u{1F31B}",
+  ":fish:": "\u{1F41F}",
+  ":fish_cake:": "\u{1F365}",
+  ":fishing_pole_and_fish:": "\u{1F3A3}",
+  ":fist:": "\u270A",
+  ":fist_left:": "\u{1F91B}",
+  ":fist_oncoming:": "\u{1F44A}",
+  ":fist_raised:": "\u270A",
+  ":fist_right:": "\u{1F91C}",
+  ":five:": "5\u200D\u20E3",
+  ":flags:": "\u{1F38F}",
+  ":flamingo:": "\u{1F9A9}",
+  ":flashlight:": "\u{1F526}",
+  ":flat_shoe:": "\u{1F97F}",
+  ":flatbread:": "\u{1FAD3}",
+  ":fleur_de_lis:": "\u269C",
+  ":flight_arrival:": "\u{1F6EC}",
+  ":flight_departure:": "\u{1F6EB}",
+  ":flipper:": "\u{1F42C}",
+  ":floppy_disk:": "\u{1F4BE}",
+  ":flower_playing_cards:": "\u{1F3B4}",
+  ":flushed:": "\u{1F633}",
+  ":fly:": "\u{1FAB0}",
+  ":flying_disc:": "\u{1F94F}",
+  ":flying_saucer:": "\u{1F6F8}",
+  ":fog:": "\u{1F32B}",
+  ":foggy:": "\u{1F301}",
+  ":fondue:": "\u{1FAD5}",
+  ":foot:": "\u{1F9B6}",
+  ":football:": "\u{1F3C8}",
+  ":footprints:": "\u{1F463}",
+  ":fork_and_knife:": "\u{1F374}",
+  ":fortune_cookie:": "\u{1F960}",
+  ":fountain:": "\u26F2",
+  ":fountain_pen:": "\u{1F58B}",
+  ":four:": "4\u200D\u20E3",
+  ":four_leaf_clover:": "\u{1F340}",
+  ":fox_face:": "\u{1F98A}",
+  ":fr:": "\u{1F1EB}\u200D\u{1F1F7}",
+  ":framed_picture:": "\u{1F5BC}",
+  ":free:": "\u{1F193}",
+  ":french_guiana:": "\u{1F1EC}\u200D\u{1F1EB}",
+  ":french_polynesia:": "\u{1F1F5}\u200D\u{1F1EB}",
+  ":french_southern_territories:": "\u{1F1F9}\u200D\u{1F1EB}",
+  ":fried_egg:": "\u{1F373}",
+  ":fried_shrimp:": "\u{1F364}",
+  ":fries:": "\u{1F35F}",
+  ":frog:": "\u{1F438}",
+  ":frowning:": "\u{1F626}",
+  ":frowning_face:": "\u2639",
+  ":frowning_man:": "\u{1F64D}\u200D\u2642",
+  ":frowning_person:": "\u{1F64D}",
+  ":frowning_woman:": "\u{1F64D}\u200D\u2640",
+  ":fu:": "\u{1F595}",
+  ":fuelpump:": "\u26FD",
+  ":full_moon:": "\u{1F315}",
+  ":full_moon_with_face:": "\u{1F31D}",
+  ":funeral_urn:": "\u26B1",
+  ":gabon:": "\u{1F1EC}\u200D\u{1F1E6}",
+  ":gambia:": "\u{1F1EC}\u200D\u{1F1F2}",
+  ":game_die:": "\u{1F3B2}",
+  ":garlic:": "\u{1F9C4}",
+  ":gb:": "\u{1F1EC}\u200D\u{1F1E7}",
+  ":gear:": "\u2699",
+  ":gem:": "\u{1F48E}",
+  ":gemini:": "\u264A",
+  ":genie:": "\u{1F9DE}",
+  ":genie_man:": "\u{1F9DE}\u200D\u2642",
+  ":genie_woman:": "\u{1F9DE}\u200D\u2640",
+  ":georgia:": "\u{1F1EC}\u200D\u{1F1EA}",
+  ":ghana:": "\u{1F1EC}\u200D\u{1F1ED}",
+  ":ghost:": "\u{1F47B}",
+  ":gibraltar:": "\u{1F1EC}\u200D\u{1F1EE}",
+  ":gift:": "\u{1F381}",
+  ":gift_heart:": "\u{1F49D}",
+  ":giraffe:": "\u{1F992}",
+  ":girl:": "\u{1F467}",
+  ":globe_with_meridians:": "\u{1F310}",
+  ":gloves:": "\u{1F9E4}",
+  ":goal_net:": "\u{1F945}",
+  ":goat:": "\u{1F410}",
+  ":goggles:": "\u{1F97D}",
+  ":golf:": "\u26F3",
+  ":golfing:": "\u{1F3CC}",
+  ":golfing_man:": "\u{1F3CC}\u200D\u2642",
+  ":golfing_woman:": "\u{1F3CC}\u200D\u2640",
+  ":gorilla:": "\u{1F98D}",
+  ":grapes:": "\u{1F347}",
+  ":greece:": "\u{1F1EC}\u200D\u{1F1F7}",
+  ":green_apple:": "\u{1F34F}",
+  ":green_book:": "\u{1F4D7}",
+  ":green_circle:": "\u{1F7E2}",
+  ":green_heart:": "\u{1F49A}",
+  ":green_salad:": "\u{1F957}",
+  ":green_square:": "\u{1F7E9}",
+  ":greenland:": "\u{1F1EC}\u200D\u{1F1F1}",
+  ":grenada:": "\u{1F1EC}\u200D\u{1F1E9}",
+  ":grey_exclamation:": "\u2755",
+  ":grey_question:": "\u2754",
+  ":grimacing:": "\u{1F62C}",
+  ":grin:": "\u{1F601}",
+  ":grinning:": "\u{1F600}",
+  ":guadeloupe:": "\u{1F1EC}\u200D\u{1F1F5}",
+  ":guam:": "\u{1F1EC}\u200D\u{1F1FA}",
+  ":guard:": "\u{1F482}",
+  ":guardsman:": "\u{1F482}\u200D\u2642",
+  ":guardswoman:": "\u{1F482}\u200D\u2640",
+  ":guatemala:": "\u{1F1EC}\u200D\u{1F1F9}",
+  ":guernsey:": "\u{1F1EC}\u200D\u{1F1EC}",
+  ":guide_dog:": "\u{1F9AE}",
+  ":guinea:": "\u{1F1EC}\u200D\u{1F1F3}",
+  ":guinea_bissau:": "\u{1F1EC}\u200D\u{1F1FC}",
+  ":guitar:": "\u{1F3B8}",
+  ":gun:": "\u{1F52B}",
+  ":guyana:": "\u{1F1EC}\u200D\u{1F1FE}",
+  ":haircut:": "\u{1F487}",
+  ":haircut_man:": "\u{1F487}\u200D\u2642",
+  ":haircut_woman:": "\u{1F487}\u200D\u2640",
+  ":haiti:": "\u{1F1ED}\u200D\u{1F1F9}",
+  ":hamburger:": "\u{1F354}",
+  ":hammer:": "\u{1F528}",
+  ":hammer_and_pick:": "\u2692",
+  ":hammer_and_wrench:": "\u{1F6E0}",
+  ":hamster:": "\u{1F439}",
+  ":hand:": "\u270B",
+  ":hand_over_mouth:": "\u{1F92D}",
+  ":handbag:": "\u{1F45C}",
+  ":handball_person:": "\u{1F93E}",
+  ":handshake:": "\u{1F91D}",
+  ":hankey:": "\u{1F4A9}",
+  ":hash:": "#\u200D\u20E3",
+  ":hatched_chick:": "\u{1F425}",
+  ":hatching_chick:": "\u{1F423}",
+  ":headphones:": "\u{1F3A7}",
+  ":headstone:": "\u{1FAA6}",
+  ":health_worker:": "\u{1F9D1}\u200D\u2695",
+  ":hear_no_evil:": "\u{1F649}",
+  ":heard_mcdonald_islands:": "\u{1F1ED}\u200D\u{1F1F2}",
+  ":heart:": "\u2764",
+  ":heart_decoration:": "\u{1F49F}",
+  ":heart_eyes:": "\u{1F60D}",
+  ":heart_eyes_cat:": "\u{1F63B}",
+  ":heart_on_fire:": "\u2764\u200D\u{1F525}",
+  ":heartbeat:": "\u{1F493}",
+  ":heartpulse:": "\u{1F497}",
+  ":hearts:": "\u2665",
+  ":heavy_check_mark:": "\u2714",
+  ":heavy_division_sign:": "\u2797",
+  ":heavy_dollar_sign:": "\u{1F4B2}",
+  ":heavy_exclamation_mark:": "\u2757",
+  ":heavy_heart_exclamation:": "\u2763",
+  ":heavy_minus_sign:": "\u2796",
+  ":heavy_multiplication_x:": "\u2716",
+  ":heavy_plus_sign:": "\u2795",
+  ":hedgehog:": "\u{1F994}",
+  ":helicopter:": "\u{1F681}",
+  ":herb:": "\u{1F33F}",
+  ":hibiscus:": "\u{1F33A}",
+  ":high_brightness:": "\u{1F506}",
+  ":high_heel:": "\u{1F460}",
+  ":hiking_boot:": "\u{1F97E}",
+  ":hindu_temple:": "\u{1F6D5}",
+  ":hippopotamus:": "\u{1F99B}",
+  ":hocho:": "\u{1F52A}",
+  ":hole:": "\u{1F573}",
+  ":honduras:": "\u{1F1ED}\u200D\u{1F1F3}",
+  ":honey_pot:": "\u{1F36F}",
+  ":honeybee:": "\u{1F41D}",
+  ":hong_kong:": "\u{1F1ED}\u200D\u{1F1F0}",
+  ":hook:": "\u{1FA9D}",
+  ":horse:": "\u{1F434}",
+  ":horse_racing:": "\u{1F3C7}",
+  ":hospital:": "\u{1F3E5}",
+  ":hot_face:": "\u{1F975}",
+  ":hot_pepper:": "\u{1F336}",
+  ":hotdog:": "\u{1F32D}",
+  ":hotel:": "\u{1F3E8}",
+  ":hotsprings:": "\u2668",
+  ":hourglass:": "\u231B",
+  ":hourglass_flowing_sand:": "\u23F3",
+  ":house:": "\u{1F3E0}",
+  ":house_with_garden:": "\u{1F3E1}",
+  ":houses:": "\u{1F3D8}",
+  ":hugs:": "\u{1F917}",
+  ":hungary:": "\u{1F1ED}\u200D\u{1F1FA}",
+  ":hushed:": "\u{1F62F}",
+  ":hut:": "\u{1F6D6}",
+  ":ice_cream:": "\u{1F368}",
+  ":ice_cube:": "\u{1F9CA}",
+  ":ice_hockey:": "\u{1F3D2}",
+  ":ice_skate:": "\u26F8",
+  ":icecream:": "\u{1F366}",
+  ":iceland:": "\u{1F1EE}\u200D\u{1F1F8}",
+  ":id:": "\u{1F194}",
+  ":ideograph_advantage:": "\u{1F250}",
+  ":imp:": "\u{1F47F}",
+  ":inbox_tray:": "\u{1F4E5}",
+  ":incoming_envelope:": "\u{1F4E8}",
+  ":india:": "\u{1F1EE}\u200D\u{1F1F3}",
+  ":indonesia:": "\u{1F1EE}\u200D\u{1F1E9}",
+  ":infinity:": "\u267E",
+  ":information_desk_person:": "\u{1F481}",
+  ":information_source:": "\u2139",
+  ":innocent:": "\u{1F607}",
+  ":interrobang:": "\u2049",
+  ":iphone:": "\u{1F4F1}",
+  ":iran:": "\u{1F1EE}\u200D\u{1F1F7}",
+  ":iraq:": "\u{1F1EE}\u200D\u{1F1F6}",
+  ":ireland:": "\u{1F1EE}\u200D\u{1F1EA}",
+  ":isle_of_man:": "\u{1F1EE}\u200D\u{1F1F2}",
+  ":israel:": "\u{1F1EE}\u200D\u{1F1F1}",
+  ":it:": "\u{1F1EE}\u200D\u{1F1F9}",
+  ":izakaya_lantern:": "\u{1F3EE}",
+  ":jack_o_lantern:": "\u{1F383}",
+  ":jamaica:": "\u{1F1EF}\u200D\u{1F1F2}",
+  ":japan:": "\u{1F5FE}",
+  ":japanese_castle:": "\u{1F3EF}",
+  ":japanese_goblin:": "\u{1F47A}",
+  ":japanese_ogre:": "\u{1F479}",
+  ":jeans:": "\u{1F456}",
+  ":jersey:": "\u{1F1EF}\u200D\u{1F1EA}",
+  ":jigsaw:": "\u{1F9E9}",
+  ":jordan:": "\u{1F1EF}\u200D\u{1F1F4}",
+  ":joy:": "\u{1F602}",
+  ":joy_cat:": "\u{1F639}",
+  ":joystick:": "\u{1F579}",
+  ":jp:": "\u{1F1EF}\u200D\u{1F1F5}",
+  ":judge:": "\u{1F9D1}\u200D\u2696",
+  ":juggling_person:": "\u{1F939}",
+  ":kaaba:": "\u{1F54B}",
+  ":kangaroo:": "\u{1F998}",
+  ":kazakhstan:": "\u{1F1F0}\u200D\u{1F1FF}",
+  ":kenya:": "\u{1F1F0}\u200D\u{1F1EA}",
+  ":key:": "\u{1F511}",
+  ":keyboard:": "\u2328",
+  ":keycap_ten:": "\u{1F51F}",
+  ":kick_scooter:": "\u{1F6F4}",
+  ":kimono:": "\u{1F458}",
+  ":kiribati:": "\u{1F1F0}\u200D\u{1F1EE}",
+  ":kiss:": "\u{1F48B}",
+  ":kissing:": "\u{1F617}",
+  ":kissing_cat:": "\u{1F63D}",
+  ":kissing_closed_eyes:": "\u{1F61A}",
+  ":kissing_heart:": "\u{1F618}",
+  ":kissing_smiling_eyes:": "\u{1F619}",
+  ":kite:": "\u{1FA81}",
+  ":kiwi_fruit:": "\u{1F95D}",
+  ":kneeling_man:": "\u{1F9CE}\u200D\u2642",
+  ":kneeling_person:": "\u{1F9CE}",
+  ":kneeling_woman:": "\u{1F9CE}\u200D\u2640",
+  ":knife:": "\u{1F52A}",
+  ":knot:": "\u{1FAA2}",
+  ":koala:": "\u{1F428}",
+  ":koko:": "\u{1F201}",
+  ":kosovo:": "\u{1F1FD}\u200D\u{1F1F0}",
+  ":kr:": "\u{1F1F0}\u200D\u{1F1F7}",
+  ":kuwait:": "\u{1F1F0}\u200D\u{1F1FC}",
+  ":kyrgyzstan:": "\u{1F1F0}\u200D\u{1F1EC}",
+  ":lab_coat:": "\u{1F97C}",
+  ":label:": "\u{1F3F7}",
+  ":lacrosse:": "\u{1F94D}",
+  ":ladder:": "\u{1FA9C}",
+  ":lady_beetle:": "\u{1F41E}",
+  ":lantern:": "\u{1F3EE}",
+  ":laos:": "\u{1F1F1}\u200D\u{1F1E6}",
+  ":large_blue_circle:": "\u{1F535}",
+  ":large_blue_diamond:": "\u{1F537}",
+  ":large_orange_diamond:": "\u{1F536}",
+  ":last_quarter_moon:": "\u{1F317}",
+  ":last_quarter_moon_with_face:": "\u{1F31C}",
+  ":latin_cross:": "\u271D",
+  ":latvia:": "\u{1F1F1}\u200D\u{1F1FB}",
+  ":laughing:": "\u{1F606}",
+  ":leafy_green:": "\u{1F96C}",
+  ":leaves:": "\u{1F343}",
+  ":lebanon:": "\u{1F1F1}\u200D\u{1F1E7}",
+  ":ledger:": "\u{1F4D2}",
+  ":left_luggage:": "\u{1F6C5}",
+  ":left_right_arrow:": "\u2194",
+  ":left_speech_bubble:": "\u{1F5E8}",
+  ":leftwards_arrow_with_hook:": "\u21A9",
+  ":leg:": "\u{1F9B5}",
+  ":lemon:": "\u{1F34B}",
+  ":leo:": "\u264C",
+  ":leopard:": "\u{1F406}",
+  ":lesotho:": "\u{1F1F1}\u200D\u{1F1F8}",
+  ":level_slider:": "\u{1F39A}",
+  ":liberia:": "\u{1F1F1}\u200D\u{1F1F7}",
+  ":libra:": "\u264E",
+  ":libya:": "\u{1F1F1}\u200D\u{1F1FE}",
+  ":liechtenstein:": "\u{1F1F1}\u200D\u{1F1EE}",
+  ":light_rail:": "\u{1F688}",
+  ":link:": "\u{1F517}",
+  ":lion:": "\u{1F981}",
+  ":lips:": "\u{1F444}",
+  ":lipstick:": "\u{1F484}",
+  ":lithuania:": "\u{1F1F1}\u200D\u{1F1F9}",
+  ":lizard:": "\u{1F98E}",
+  ":llama:": "\u{1F999}",
+  ":lobster:": "\u{1F99E}",
+  ":lock:": "\u{1F512}",
+  ":lock_with_ink_pen:": "\u{1F50F}",
+  ":lollipop:": "\u{1F36D}",
+  ":long_drum:": "\u{1FA98}",
+  ":loop:": "\u27BF",
+  ":lotion_bottle:": "\u{1F9F4}",
+  ":lotus_position:": "\u{1F9D8}",
+  ":lotus_position_man:": "\u{1F9D8}\u200D\u2642",
+  ":lotus_position_woman:": "\u{1F9D8}\u200D\u2640",
+  ":loud_sound:": "\u{1F50A}",
+  ":loudspeaker:": "\u{1F4E2}",
+  ":love_hotel:": "\u{1F3E9}",
+  ":love_letter:": "\u{1F48C}",
+  ":love_you_gesture:": "\u{1F91F}",
+  ":low_brightness:": "\u{1F505}",
+  ":luggage:": "\u{1F9F3}",
+  ":lungs:": "\u{1FAC1}",
+  ":luxembourg:": "\u{1F1F1}\u200D\u{1F1FA}",
+  ":lying_face:": "\u{1F925}",
+  ":m:": "\u24C2",
+  ":macau:": "\u{1F1F2}\u200D\u{1F1F4}",
+  ":macedonia:": "\u{1F1F2}\u200D\u{1F1F0}",
+  ":madagascar:": "\u{1F1F2}\u200D\u{1F1EC}",
+  ":mag:": "\u{1F50D}",
+  ":mag_right:": "\u{1F50E}",
+  ":mage:": "\u{1F9D9}",
+  ":mage_man:": "\u{1F9D9}\u200D\u2642",
+  ":mage_woman:": "\u{1F9D9}\u200D\u2640",
+  ":magic_wand:": "\u{1FA84}",
+  ":magnet:": "\u{1F9F2}",
+  ":mahjong:": "\u{1F004}",
+  ":mailbox:": "\u{1F4EB}",
+  ":mailbox_closed:": "\u{1F4EA}",
+  ":mailbox_with_mail:": "\u{1F4EC}",
+  ":mailbox_with_no_mail:": "\u{1F4ED}",
+  ":malawi:": "\u{1F1F2}\u200D\u{1F1FC}",
+  ":malaysia:": "\u{1F1F2}\u200D\u{1F1FE}",
+  ":maldives:": "\u{1F1F2}\u200D\u{1F1FB}",
+  ":male_detective:": "\u{1F575}\u200D\u2642",
+  ":male_sign:": "\u2642",
+  ":mali:": "\u{1F1F2}\u200D\u{1F1F1}",
+  ":malta:": "\u{1F1F2}\u200D\u{1F1F9}",
+  ":mammoth:": "\u{1F9A3}",
+  ":man:": "\u{1F468}",
+  ":man_artist:": "\u{1F468}\u200D\u{1F3A8}",
+  ":man_astronaut:": "\u{1F468}\u200D\u{1F680}",
+  ":man_beard:": "\u{1F9D4}\u200D\u2642",
+  ":man_cartwheeling:": "\u{1F938}\u200D\u2642",
+  ":man_cook:": "\u{1F468}\u200D\u{1F373}",
+  ":man_dancing:": "\u{1F57A}",
+  ":man_facepalming:": "\u{1F926}\u200D\u2642",
+  ":man_factory_worker:": "\u{1F468}\u200D\u{1F3ED}",
+  ":man_farmer:": "\u{1F468}\u200D\u{1F33E}",
+  ":man_feeding_baby:": "\u{1F468}\u200D\u{1F37C}",
+  ":man_firefighter:": "\u{1F468}\u200D\u{1F692}",
+  ":man_health_worker:": "\u{1F468}\u200D\u2695",
+  ":man_in_manual_wheelchair:": "\u{1F468}\u200D\u{1F9BD}",
+  ":man_in_motorized_wheelchair:": "\u{1F468}\u200D\u{1F9BC}",
+  ":man_in_tuxedo:": "\u{1F935}\u200D\u2642",
+  ":man_judge:": "\u{1F468}\u200D\u2696",
+  ":man_juggling:": "\u{1F939}\u200D\u2642",
+  ":man_mechanic:": "\u{1F468}\u200D\u{1F527}",
+  ":man_office_worker:": "\u{1F468}\u200D\u{1F4BC}",
+  ":man_pilot:": "\u{1F468}\u200D\u2708",
+  ":man_playing_handball:": "\u{1F93E}\u200D\u2642",
+  ":man_playing_water_polo:": "\u{1F93D}\u200D\u2642",
+  ":man_scientist:": "\u{1F468}\u200D\u{1F52C}",
+  ":man_shrugging:": "\u{1F937}\u200D\u2642",
+  ":man_singer:": "\u{1F468}\u200D\u{1F3A4}",
+  ":man_student:": "\u{1F468}\u200D\u{1F393}",
+  ":man_teacher:": "\u{1F468}\u200D\u{1F3EB}",
+  ":man_technologist:": "\u{1F468}\u200D\u{1F4BB}",
+  ":man_with_gua_pi_mao:": "\u{1F472}",
+  ":man_with_probing_cane:": "\u{1F468}\u200D\u{1F9AF}",
+  ":man_with_turban:": "\u{1F473}\u200D\u2642",
+  ":man_with_veil:": "\u{1F470}\u200D\u2642",
+  ":mandarin:": "\u{1F34A}",
+  ":mango:": "\u{1F96D}",
+  ":mans_shoe:": "\u{1F45E}",
+  ":mantelpiece_clock:": "\u{1F570}",
+  ":manual_wheelchair:": "\u{1F9BD}",
+  ":maple_leaf:": "\u{1F341}",
+  ":marshall_islands:": "\u{1F1F2}\u200D\u{1F1ED}",
+  ":martial_arts_uniform:": "\u{1F94B}",
+  ":martinique:": "\u{1F1F2}\u200D\u{1F1F6}",
+  ":mask:": "\u{1F637}",
+  ":massage:": "\u{1F486}",
+  ":massage_man:": "\u{1F486}\u200D\u2642",
+  ":massage_woman:": "\u{1F486}\u200D\u2640",
+  ":mate:": "\u{1F9C9}",
+  ":mauritania:": "\u{1F1F2}\u200D\u{1F1F7}",
+  ":mauritius:": "\u{1F1F2}\u200D\u{1F1FA}",
+  ":mayotte:": "\u{1F1FE}\u200D\u{1F1F9}",
+  ":meat_on_bone:": "\u{1F356}",
+  ":mechanic:": "\u{1F9D1}\u200D\u{1F527}",
+  ":mechanical_arm:": "\u{1F9BE}",
+  ":mechanical_leg:": "\u{1F9BF}",
+  ":medal_military:": "\u{1F396}",
+  ":medal_sports:": "\u{1F3C5}",
+  ":medical_symbol:": "\u2695",
+  ":mega:": "\u{1F4E3}",
+  ":melon:": "\u{1F348}",
+  ":memo:": "\u{1F4DD}",
+  ":men_wrestling:": "\u{1F93C}\u200D\u2642",
+  ":mending_heart:": "\u2764\u200D\u{1FA79}",
+  ":menorah:": "\u{1F54E}",
+  ":mens:": "\u{1F6B9}",
+  ":mermaid:": "\u{1F9DC}\u200D\u2640",
+  ":merman:": "\u{1F9DC}\u200D\u2642",
+  ":merperson:": "\u{1F9DC}",
+  ":metal:": "\u{1F918}",
+  ":metro:": "\u{1F687}",
+  ":mexico:": "\u{1F1F2}\u200D\u{1F1FD}",
+  ":microbe:": "\u{1F9A0}",
+  ":micronesia:": "\u{1F1EB}\u200D\u{1F1F2}",
+  ":microphone:": "\u{1F3A4}",
+  ":microscope:": "\u{1F52C}",
+  ":middle_finger:": "\u{1F595}",
+  ":military_helmet:": "\u{1FA96}",
+  ":milk_glass:": "\u{1F95B}",
+  ":milky_way:": "\u{1F30C}",
+  ":minibus:": "\u{1F690}",
+  ":minidisc:": "\u{1F4BD}",
+  ":mirror:": "\u{1FA9E}",
+  ":mobile_phone_off:": "\u{1F4F4}",
+  ":moldova:": "\u{1F1F2}\u200D\u{1F1E9}",
+  ":monaco:": "\u{1F1F2}\u200D\u{1F1E8}",
+  ":money_mouth_face:": "\u{1F911}",
+  ":money_with_wings:": "\u{1F4B8}",
+  ":moneybag:": "\u{1F4B0}",
+  ":mongolia:": "\u{1F1F2}\u200D\u{1F1F3}",
+  ":monkey:": "\u{1F412}",
+  ":monkey_face:": "\u{1F435}",
+  ":monocle_face:": "\u{1F9D0}",
+  ":monorail:": "\u{1F69D}",
+  ":montenegro:": "\u{1F1F2}\u200D\u{1F1EA}",
+  ":montserrat:": "\u{1F1F2}\u200D\u{1F1F8}",
+  ":moon:": "\u{1F314}",
+  ":moon_cake:": "\u{1F96E}",
+  ":morocco:": "\u{1F1F2}\u200D\u{1F1E6}",
+  ":mortar_board:": "\u{1F393}",
+  ":mosque:": "\u{1F54C}",
+  ":mosquito:": "\u{1F99F}",
+  ":motor_boat:": "\u{1F6E5}",
+  ":motor_scooter:": "\u{1F6F5}",
+  ":motorcycle:": "\u{1F3CD}",
+  ":motorized_wheelchair:": "\u{1F9BC}",
+  ":motorway:": "\u{1F6E3}",
+  ":mount_fuji:": "\u{1F5FB}",
+  ":mountain:": "\u26F0",
+  ":mountain_bicyclist:": "\u{1F6B5}",
+  ":mountain_biking_man:": "\u{1F6B5}\u200D\u2642",
+  ":mountain_biking_woman:": "\u{1F6B5}\u200D\u2640",
+  ":mountain_cableway:": "\u{1F6A0}",
+  ":mountain_railway:": "\u{1F69E}",
+  ":mountain_snow:": "\u{1F3D4}",
+  ":mouse:": "\u{1F42D}",
+  ":mouse2:": "\u{1F401}",
+  ":mouse_trap:": "\u{1FAA4}",
+  ":movie_camera:": "\u{1F3A5}",
+  ":moyai:": "\u{1F5FF}",
+  ":mozambique:": "\u{1F1F2}\u200D\u{1F1FF}",
+  ":mrs_claus:": "\u{1F936}",
+  ":muscle:": "\u{1F4AA}",
+  ":mushroom:": "\u{1F344}",
+  ":musical_keyboard:": "\u{1F3B9}",
+  ":musical_note:": "\u{1F3B5}",
+  ":musical_score:": "\u{1F3BC}",
+  ":mute:": "\u{1F507}",
+  ":mx_claus:": "\u{1F9D1}\u200D\u{1F384}",
+  ":myanmar:": "\u{1F1F2}\u200D\u{1F1F2}",
+  ":nail_care:": "\u{1F485}",
+  ":name_badge:": "\u{1F4DB}",
+  ":namibia:": "\u{1F1F3}\u200D\u{1F1E6}",
+  ":national_park:": "\u{1F3DE}",
+  ":nauru:": "\u{1F1F3}\u200D\u{1F1F7}",
+  ":nauseated_face:": "\u{1F922}",
+  ":nazar_amulet:": "\u{1F9FF}",
+  ":necktie:": "\u{1F454}",
+  ":negative_squared_cross_mark:": "\u274E",
+  ":nepal:": "\u{1F1F3}\u200D\u{1F1F5}",
+  ":nerd_face:": "\u{1F913}",
+  ":nesting_dolls:": "\u{1FA86}",
+  ":netherlands:": "\u{1F1F3}\u200D\u{1F1F1}",
+  ":neutral_face:": "\u{1F610}",
+  ":new:": "\u{1F195}",
+  ":new_caledonia:": "\u{1F1F3}\u200D\u{1F1E8}",
+  ":new_moon:": "\u{1F311}",
+  ":new_moon_with_face:": "\u{1F31A}",
+  ":new_zealand:": "\u{1F1F3}\u200D\u{1F1FF}",
+  ":newspaper:": "\u{1F4F0}",
+  ":newspaper_roll:": "\u{1F5DE}",
+  ":next_track_button:": "\u23ED",
+  ":ng:": "\u{1F196}",
+  ":ng_man:": "\u{1F645}\u200D\u2642",
+  ":ng_woman:": "\u{1F645}\u200D\u2640",
+  ":nicaragua:": "\u{1F1F3}\u200D\u{1F1EE}",
+  ":niger:": "\u{1F1F3}\u200D\u{1F1EA}",
+  ":nigeria:": "\u{1F1F3}\u200D\u{1F1EC}",
+  ":night_with_stars:": "\u{1F303}",
+  ":nine:": "9\u200D\u20E3",
+  ":ninja:": "\u{1F977}",
+  ":niue:": "\u{1F1F3}\u200D\u{1F1FA}",
+  ":no_bell:": "\u{1F515}",
+  ":no_bicycles:": "\u{1F6B3}",
+  ":no_entry:": "\u26D4",
+  ":no_entry_sign:": "\u{1F6AB}",
+  ":no_good:": "\u{1F645}",
+  ":no_good_man:": "\u{1F645}\u200D\u2642",
+  ":no_good_woman:": "\u{1F645}\u200D\u2640",
+  ":no_mobile_phones:": "\u{1F4F5}",
+  ":no_mouth:": "\u{1F636}",
+  ":no_pedestrians:": "\u{1F6B7}",
+  ":no_smoking:": "\u{1F6AD}",
+  ":non-potable_water:": "\u{1F6B1}",
+  ":norfolk_island:": "\u{1F1F3}\u200D\u{1F1EB}",
+  ":north_korea:": "\u{1F1F0}\u200D\u{1F1F5}",
+  ":northern_mariana_islands:": "\u{1F1F2}\u200D\u{1F1F5}",
+  ":norway:": "\u{1F1F3}\u200D\u{1F1F4}",
+  ":nose:": "\u{1F443}",
+  ":notebook:": "\u{1F4D3}",
+  ":notebook_with_decorative_cover:": "\u{1F4D4}",
+  ":notes:": "\u{1F3B6}",
+  ":nut_and_bolt:": "\u{1F529}",
+  ":o:": "\u2B55",
+  ":o2:": "\u{1F17E}",
+  ":ocean:": "\u{1F30A}",
+  ":octopus:": "\u{1F419}",
+  ":oden:": "\u{1F362}",
+  ":office:": "\u{1F3E2}",
+  ":office_worker:": "\u{1F9D1}\u200D\u{1F4BC}",
+  ":oil_drum:": "\u{1F6E2}",
+  ":ok:": "\u{1F197}",
+  ":ok_hand:": "\u{1F44C}",
+  ":ok_man:": "\u{1F646}\u200D\u2642",
+  ":ok_person:": "\u{1F646}",
+  ":ok_woman:": "\u{1F646}\u200D\u2640",
+  ":old_key:": "\u{1F5DD}",
+  ":older_adult:": "\u{1F9D3}",
+  ":older_man:": "\u{1F474}",
+  ":older_woman:": "\u{1F475}",
+  ":olive:": "\u{1FAD2}",
+  ":om:": "\u{1F549}",
+  ":oman:": "\u{1F1F4}\u200D\u{1F1F2}",
+  ":on:": "\u{1F51B}",
+  ":oncoming_automobile:": "\u{1F698}",
+  ":oncoming_bus:": "\u{1F68D}",
+  ":oncoming_police_car:": "\u{1F694}",
+  ":oncoming_taxi:": "\u{1F696}",
+  ":one:": "1\u200D\u20E3",
+  ":one_piece_swimsuit:": "\u{1FA71}",
+  ":onion:": "\u{1F9C5}",
+  ":open_book:": "\u{1F4D6}",
+  ":open_file_folder:": "\u{1F4C2}",
+  ":open_hands:": "\u{1F450}",
+  ":open_mouth:": "\u{1F62E}",
+  ":open_umbrella:": "\u2602",
+  ":ophiuchus:": "\u26CE",
+  ":orange:": "\u{1F34A}",
+  ":orange_book:": "\u{1F4D9}",
+  ":orange_circle:": "\u{1F7E0}",
+  ":orange_heart:": "\u{1F9E1}",
+  ":orange_square:": "\u{1F7E7}",
+  ":orangutan:": "\u{1F9A7}",
+  ":orthodox_cross:": "\u2626",
+  ":otter:": "\u{1F9A6}",
+  ":outbox_tray:": "\u{1F4E4}",
+  ":owl:": "\u{1F989}",
+  ":ox:": "\u{1F402}",
+  ":oyster:": "\u{1F9AA}",
+  ":package:": "\u{1F4E6}",
+  ":page_facing_up:": "\u{1F4C4}",
+  ":page_with_curl:": "\u{1F4C3}",
+  ":pager:": "\u{1F4DF}",
+  ":paintbrush:": "\u{1F58C}",
+  ":pakistan:": "\u{1F1F5}\u200D\u{1F1F0}",
+  ":palau:": "\u{1F1F5}\u200D\u{1F1FC}",
+  ":palestinian_territories:": "\u{1F1F5}\u200D\u{1F1F8}",
+  ":palm_tree:": "\u{1F334}",
+  ":palms_up_together:": "\u{1F932}",
+  ":panama:": "\u{1F1F5}\u200D\u{1F1E6}",
+  ":pancakes:": "\u{1F95E}",
+  ":panda_face:": "\u{1F43C}",
+  ":paperclip:": "\u{1F4CE}",
+  ":paperclips:": "\u{1F587}",
+  ":papua_new_guinea:": "\u{1F1F5}\u200D\u{1F1EC}",
+  ":parachute:": "\u{1FA82}",
+  ":paraguay:": "\u{1F1F5}\u200D\u{1F1FE}",
+  ":parasol_on_ground:": "\u26F1",
+  ":parking:": "\u{1F17F}",
+  ":parrot:": "\u{1F99C}",
+  ":part_alternation_mark:": "\u303D",
+  ":partly_sunny:": "\u26C5",
+  ":partying_face:": "\u{1F973}",
+  ":passenger_ship:": "\u{1F6F3}",
+  ":passport_control:": "\u{1F6C2}",
+  ":pause_button:": "\u23F8",
+  ":paw_prints:": "\u{1F43E}",
+  ":peace_symbol:": "\u262E",
+  ":peach:": "\u{1F351}",
+  ":peacock:": "\u{1F99A}",
+  ":peanuts:": "\u{1F95C}",
+  ":pear:": "\u{1F350}",
+  ":pen:": "\u{1F58A}",
+  ":pencil:": "\u{1F4DD}",
+  ":pencil2:": "\u270F",
+  ":penguin:": "\u{1F427}",
+  ":pensive:": "\u{1F614}",
+  ":people_holding_hands:": "\u{1F9D1}\u200D\u{1F91D}\u200D\u{1F9D1}",
+  ":people_hugging:": "\u{1FAC2}",
+  ":performing_arts:": "\u{1F3AD}",
+  ":persevere:": "\u{1F623}",
+  ":person_bald:": "\u{1F9D1}\u200D\u{1F9B2}",
+  ":person_curly_hair:": "\u{1F9D1}\u200D\u{1F9B1}",
+  ":person_feeding_baby:": "\u{1F9D1}\u200D\u{1F37C}",
+  ":person_fencing:": "\u{1F93A}",
+  ":person_in_manual_wheelchair:": "\u{1F9D1}\u200D\u{1F9BD}",
+  ":person_in_motorized_wheelchair:": "\u{1F9D1}\u200D\u{1F9BC}",
+  ":person_in_tuxedo:": "\u{1F935}",
+  ":person_red_hair:": "\u{1F9D1}\u200D\u{1F9B0}",
+  ":person_white_hair:": "\u{1F9D1}\u200D\u{1F9B3}",
+  ":person_with_probing_cane:": "\u{1F9D1}\u200D\u{1F9AF}",
+  ":person_with_turban:": "\u{1F473}",
+  ":person_with_veil:": "\u{1F470}",
+  ":peru:": "\u{1F1F5}\u200D\u{1F1EA}",
+  ":petri_dish:": "\u{1F9EB}",
+  ":philippines:": "\u{1F1F5}\u200D\u{1F1ED}",
+  ":phone:": "\u260E",
+  ":pick:": "\u26CF",
+  ":pickup_truck:": "\u{1F6FB}",
+  ":pie:": "\u{1F967}",
+  ":pig:": "\u{1F437}",
+  ":pig2:": "\u{1F416}",
+  ":pig_nose:": "\u{1F43D}",
+  ":pill:": "\u{1F48A}",
+  ":pilot:": "\u{1F9D1}\u200D\u2708",
+  ":pinata:": "\u{1FA85}",
+  ":pinched_fingers:": "\u{1F90C}",
+  ":pinching_hand:": "\u{1F90F}",
+  ":pineapple:": "\u{1F34D}",
+  ":ping_pong:": "\u{1F3D3}",
+  ":pirate_flag:": "\u{1F3F4}\u200D\u2620",
+  ":pisces:": "\u2653",
+  ":pitcairn_islands:": "\u{1F1F5}\u200D\u{1F1F3}",
+  ":pizza:": "\u{1F355}",
+  ":placard:": "\u{1FAA7}",
+  ":place_of_worship:": "\u{1F6D0}",
+  ":plate_with_cutlery:": "\u{1F37D}",
+  ":play_or_pause_button:": "\u23EF",
+  ":pleading_face:": "\u{1F97A}",
+  ":plunger:": "\u{1FAA0}",
+  ":point_down:": "\u{1F447}",
+  ":point_left:": "\u{1F448}",
+  ":point_right:": "\u{1F449}",
+  ":point_up:": "\u261D",
+  ":point_up_2:": "\u{1F446}",
+  ":poland:": "\u{1F1F5}\u200D\u{1F1F1}",
+  ":polar_bear:": "\u{1F43B}\u200D\u2744",
+  ":police_car:": "\u{1F693}",
+  ":police_officer:": "\u{1F46E}",
+  ":policeman:": "\u{1F46E}\u200D\u2642",
+  ":policewoman:": "\u{1F46E}\u200D\u2640",
+  ":poodle:": "\u{1F429}",
+  ":poop:": "\u{1F4A9}",
+  ":popcorn:": "\u{1F37F}",
+  ":portugal:": "\u{1F1F5}\u200D\u{1F1F9}",
+  ":post_office:": "\u{1F3E3}",
+  ":postal_horn:": "\u{1F4EF}",
+  ":postbox:": "\u{1F4EE}",
+  ":potable_water:": "\u{1F6B0}",
+  ":potato:": "\u{1F954}",
+  ":potted_plant:": "\u{1FAB4}",
+  ":pouch:": "\u{1F45D}",
+  ":poultry_leg:": "\u{1F357}",
+  ":pound:": "\u{1F4B7}",
+  ":pout:": "\u{1F621}",
+  ":pouting_cat:": "\u{1F63E}",
+  ":pouting_face:": "\u{1F64E}",
+  ":pouting_man:": "\u{1F64E}\u200D\u2642",
+  ":pouting_woman:": "\u{1F64E}\u200D\u2640",
+  ":pray:": "\u{1F64F}",
+  ":prayer_beads:": "\u{1F4FF}",
+  ":pregnant_woman:": "\u{1F930}",
+  ":pretzel:": "\u{1F968}",
+  ":previous_track_button:": "\u23EE",
+  ":prince:": "\u{1F934}",
+  ":princess:": "\u{1F478}",
+  ":printer:": "\u{1F5A8}",
+  ":probing_cane:": "\u{1F9AF}",
+  ":puerto_rico:": "\u{1F1F5}\u200D\u{1F1F7}",
+  ":punch:": "\u{1F44A}",
+  ":purple_circle:": "\u{1F7E3}",
+  ":purple_heart:": "\u{1F49C}",
+  ":purple_square:": "\u{1F7EA}",
+  ":purse:": "\u{1F45B}",
+  ":pushpin:": "\u{1F4CC}",
+  ":put_litter_in_its_place:": "\u{1F6AE}",
+  ":qatar:": "\u{1F1F6}\u200D\u{1F1E6}",
+  ":question:": "\u2753",
+  ":rabbit:": "\u{1F430}",
+  ":rabbit2:": "\u{1F407}",
+  ":raccoon:": "\u{1F99D}",
+  ":racehorse:": "\u{1F40E}",
+  ":racing_car:": "\u{1F3CE}",
+  ":radio:": "\u{1F4FB}",
+  ":radio_button:": "\u{1F518}",
+  ":radioactive:": "\u2622",
+  ":rage:": "\u{1F621}",
+  ":railway_car:": "\u{1F683}",
+  ":railway_track:": "\u{1F6E4}",
+  ":rainbow:": "\u{1F308}",
+  ":rainbow_flag:": "\u{1F3F3}\u200D\u{1F308}",
+  ":raised_back_of_hand:": "\u{1F91A}",
+  ":raised_eyebrow:": "\u{1F928}",
+  ":raised_hand:": "\u270B",
+  ":raised_hand_with_fingers_splayed:": "\u{1F590}",
+  ":raised_hands:": "\u{1F64C}",
+  ":raising_hand:": "\u{1F64B}",
+  ":raising_hand_man:": "\u{1F64B}\u200D\u2642",
+  ":raising_hand_woman:": "\u{1F64B}\u200D\u2640",
+  ":ram:": "\u{1F40F}",
+  ":ramen:": "\u{1F35C}",
+  ":rat:": "\u{1F400}",
+  ":razor:": "\u{1FA92}",
+  ":receipt:": "\u{1F9FE}",
+  ":record_button:": "\u23FA",
+  ":recycle:": "\u267B",
+  ":red_car:": "\u{1F697}",
+  ":red_circle:": "\u{1F534}",
+  ":red_envelope:": "\u{1F9E7}",
+  ":red_haired_man:": "\u{1F468}\u200D\u{1F9B0}",
+  ":red_haired_woman:": "\u{1F469}\u200D\u{1F9B0}",
+  ":red_square:": "\u{1F7E5}",
+  ":registered:": "\xAE",
+  ":relaxed:": "\u263A",
+  ":relieved:": "\u{1F60C}",
+  ":reminder_ribbon:": "\u{1F397}",
+  ":repeat:": "\u{1F501}",
+  ":repeat_one:": "\u{1F502}",
+  ":rescue_worker_helmet:": "\u26D1",
+  ":restroom:": "\u{1F6BB}",
+  ":reunion:": "\u{1F1F7}\u200D\u{1F1EA}",
+  ":revolving_hearts:": "\u{1F49E}",
+  ":rewind:": "\u23EA",
+  ":rhinoceros:": "\u{1F98F}",
+  ":ribbon:": "\u{1F380}",
+  ":rice:": "\u{1F35A}",
+  ":rice_ball:": "\u{1F359}",
+  ":rice_cracker:": "\u{1F358}",
+  ":rice_scene:": "\u{1F391}",
+  ":right_anger_bubble:": "\u{1F5EF}",
+  ":ring:": "\u{1F48D}",
+  ":ringed_planet:": "\u{1FA90}",
+  ":robot:": "\u{1F916}",
+  ":rock:": "\u{1FAA8}",
+  ":rocket:": "\u{1F680}",
+  ":rofl:": "\u{1F923}",
+  ":roll_eyes:": "\u{1F644}",
+  ":roll_of_paper:": "\u{1F9FB}",
+  ":roller_coaster:": "\u{1F3A2}",
+  ":roller_skate:": "\u{1F6FC}",
+  ":romania:": "\u{1F1F7}\u200D\u{1F1F4}",
+  ":rooster:": "\u{1F413}",
+  ":rose:": "\u{1F339}",
+  ":rosette:": "\u{1F3F5}",
+  ":rotating_light:": "\u{1F6A8}",
+  ":round_pushpin:": "\u{1F4CD}",
+  ":rowboat:": "\u{1F6A3}",
+  ":rowing_man:": "\u{1F6A3}\u200D\u2642",
+  ":rowing_woman:": "\u{1F6A3}\u200D\u2640",
+  ":ru:": "\u{1F1F7}\u200D\u{1F1FA}",
+  ":rugby_football:": "\u{1F3C9}",
+  ":runner:": "\u{1F3C3}",
+  ":running:": "\u{1F3C3}",
+  ":running_man:": "\u{1F3C3}\u200D\u2642",
+  ":running_shirt_with_sash:": "\u{1F3BD}",
+  ":running_woman:": "\u{1F3C3}\u200D\u2640",
+  ":rwanda:": "\u{1F1F7}\u200D\u{1F1FC}",
+  ":sa:": "\u{1F202}",
+  ":safety_pin:": "\u{1F9F7}",
+  ":safety_vest:": "\u{1F9BA}",
+  ":sagittarius:": "\u2650",
+  ":sailboat:": "\u26F5",
+  ":sake:": "\u{1F376}",
+  ":salt:": "\u{1F9C2}",
+  ":samoa:": "\u{1F1FC}\u200D\u{1F1F8}",
+  ":san_marino:": "\u{1F1F8}\u200D\u{1F1F2}",
+  ":sandal:": "\u{1F461}",
+  ":sandwich:": "\u{1F96A}",
+  ":santa:": "\u{1F385}",
+  ":sao_tome_principe:": "\u{1F1F8}\u200D\u{1F1F9}",
+  ":sari:": "\u{1F97B}",
+  ":sassy_man:": "\u{1F481}\u200D\u2642",
+  ":sassy_woman:": "\u{1F481}\u200D\u2640",
+  ":satellite:": "\u{1F4E1}",
+  ":satisfied:": "\u{1F606}",
+  ":saudi_arabia:": "\u{1F1F8}\u200D\u{1F1E6}",
+  ":sauna_man:": "\u{1F9D6}\u200D\u2642",
+  ":sauna_person:": "\u{1F9D6}",
+  ":sauna_woman:": "\u{1F9D6}\u200D\u2640",
+  ":sauropod:": "\u{1F995}",
+  ":saxophone:": "\u{1F3B7}",
+  ":scarf:": "\u{1F9E3}",
+  ":school:": "\u{1F3EB}",
+  ":school_satchel:": "\u{1F392}",
+  ":scientist:": "\u{1F9D1}\u200D\u{1F52C}",
+  ":scissors:": "\u2702",
+  ":scorpion:": "\u{1F982}",
+  ":scorpius:": "\u264F",
+  ":scotland:": "\u{1F3F4}\u200D\u{E0067}\u200D\u{E0062}\u200D\u{E0073}\u200D\u{E0063}\u200D\u{E0074}\u200D\u{E007F}",
+  ":scream:": "\u{1F631}",
+  ":scream_cat:": "\u{1F640}",
+  ":screwdriver:": "\u{1FA9B}",
+  ":scroll:": "\u{1F4DC}",
+  ":seal:": "\u{1F9AD}",
+  ":seat:": "\u{1F4BA}",
+  ":secret:": "\u3299",
+  ":see_no_evil:": "\u{1F648}",
+  ":seedling:": "\u{1F331}",
+  ":selfie:": "\u{1F933}",
+  ":senegal:": "\u{1F1F8}\u200D\u{1F1F3}",
+  ":serbia:": "\u{1F1F7}\u200D\u{1F1F8}",
+  ":service_dog:": "\u{1F415}\u200D\u{1F9BA}",
+  ":seven:": "7\u200D\u20E3",
+  ":sewing_needle:": "\u{1FAA1}",
+  ":seychelles:": "\u{1F1F8}\u200D\u{1F1E8}",
+  ":shallow_pan_of_food:": "\u{1F958}",
+  ":shamrock:": "\u2618",
+  ":shark:": "\u{1F988}",
+  ":shaved_ice:": "\u{1F367}",
+  ":sheep:": "\u{1F411}",
+  ":shell:": "\u{1F41A}",
+  ":shield:": "\u{1F6E1}",
+  ":shinto_shrine:": "\u26E9",
+  ":ship:": "\u{1F6A2}",
+  ":shirt:": "\u{1F455}",
+  ":shit:": "\u{1F4A9}",
+  ":shoe:": "\u{1F45E}",
+  ":shopping:": "\u{1F6CD}",
+  ":shopping_cart:": "\u{1F6D2}",
+  ":shorts:": "\u{1FA73}",
+  ":shower:": "\u{1F6BF}",
+  ":shrimp:": "\u{1F990}",
+  ":shrug:": "\u{1F937}",
+  ":shushing_face:": "\u{1F92B}",
+  ":sierra_leone:": "\u{1F1F8}\u200D\u{1F1F1}",
+  ":signal_strength:": "\u{1F4F6}",
+  ":singapore:": "\u{1F1F8}\u200D\u{1F1EC}",
+  ":singer:": "\u{1F9D1}\u200D\u{1F3A4}",
+  ":sint_maarten:": "\u{1F1F8}\u200D\u{1F1FD}",
+  ":six:": "6\u200D\u20E3",
+  ":six_pointed_star:": "\u{1F52F}",
+  ":skateboard:": "\u{1F6F9}",
+  ":ski:": "\u{1F3BF}",
+  ":skier:": "\u26F7",
+  ":skull:": "\u{1F480}",
+  ":skull_and_crossbones:": "\u2620",
+  ":skunk:": "\u{1F9A8}",
+  ":sled:": "\u{1F6F7}",
+  ":sleeping:": "\u{1F634}",
+  ":sleeping_bed:": "\u{1F6CC}",
+  ":sleepy:": "\u{1F62A}",
+  ":slightly_frowning_face:": "\u{1F641}",
+  ":slightly_smiling_face:": "\u{1F642}",
+  ":slot_machine:": "\u{1F3B0}",
+  ":sloth:": "\u{1F9A5}",
+  ":slovakia:": "\u{1F1F8}\u200D\u{1F1F0}",
+  ":slovenia:": "\u{1F1F8}\u200D\u{1F1EE}",
+  ":small_airplane:": "\u{1F6E9}",
+  ":small_blue_diamond:": "\u{1F539}",
+  ":small_orange_diamond:": "\u{1F538}",
+  ":small_red_triangle:": "\u{1F53A}",
+  ":small_red_triangle_down:": "\u{1F53B}",
+  ":smile:": "\u{1F604}",
+  ":smile_cat:": "\u{1F638}",
+  ":smiley:": "\u{1F603}",
+  ":smiley_cat:": "\u{1F63A}",
+  ":smiling_face_with_tear:": "\u{1F972}",
+  ":smiling_face_with_three_hearts:": "\u{1F970}",
+  ":smiling_imp:": "\u{1F608}",
+  ":smirk:": "\u{1F60F}",
+  ":smirk_cat:": "\u{1F63C}",
+  ":smoking:": "\u{1F6AC}",
+  ":snail:": "\u{1F40C}",
+  ":snake:": "\u{1F40D}",
+  ":sneezing_face:": "\u{1F927}",
+  ":snowboarder:": "\u{1F3C2}",
+  ":snowflake:": "\u2744",
+  ":snowman:": "\u26C4",
+  ":snowman_with_snow:": "\u2603",
+  ":soap:": "\u{1F9FC}",
+  ":sob:": "\u{1F62D}",
+  ":soccer:": "\u26BD",
+  ":socks:": "\u{1F9E6}",
+  ":softball:": "\u{1F94E}",
+  ":solomon_islands:": "\u{1F1F8}\u200D\u{1F1E7}",
+  ":somalia:": "\u{1F1F8}\u200D\u{1F1F4}",
+  ":soon:": "\u{1F51C}",
+  ":sos:": "\u{1F198}",
+  ":sound:": "\u{1F509}",
+  ":south_africa:": "\u{1F1FF}\u200D\u{1F1E6}",
+  ":south_georgia_south_sandwich_islands:": "\u{1F1EC}\u200D\u{1F1F8}",
+  ":south_sudan:": "\u{1F1F8}\u200D\u{1F1F8}",
+  ":space_invader:": "\u{1F47E}",
+  ":spades:": "\u2660",
+  ":spaghetti:": "\u{1F35D}",
+  ":sparkle:": "\u2747",
+  ":sparkler:": "\u{1F387}",
+  ":sparkles:": "\u2728",
+  ":sparkling_heart:": "\u{1F496}",
+  ":speak_no_evil:": "\u{1F64A}",
+  ":speaker:": "\u{1F508}",
+  ":speaking_head:": "\u{1F5E3}",
+  ":speech_balloon:": "\u{1F4AC}",
+  ":speedboat:": "\u{1F6A4}",
+  ":spider:": "\u{1F577}",
+  ":spider_web:": "\u{1F578}",
+  ":spiral_calendar:": "\u{1F5D3}",
+  ":spiral_notepad:": "\u{1F5D2}",
+  ":sponge:": "\u{1F9FD}",
+  ":spoon:": "\u{1F944}",
+  ":squid:": "\u{1F991}",
+  ":sri_lanka:": "\u{1F1F1}\u200D\u{1F1F0}",
+  ":st_barthelemy:": "\u{1F1E7}\u200D\u{1F1F1}",
+  ":st_helena:": "\u{1F1F8}\u200D\u{1F1ED}",
+  ":st_kitts_nevis:": "\u{1F1F0}\u200D\u{1F1F3}",
+  ":st_lucia:": "\u{1F1F1}\u200D\u{1F1E8}",
+  ":st_martin:": "\u{1F1F2}\u200D\u{1F1EB}",
+  ":st_pierre_miquelon:": "\u{1F1F5}\u200D\u{1F1F2}",
+  ":st_vincent_grenadines:": "\u{1F1FB}\u200D\u{1F1E8}",
+  ":stadium:": "\u{1F3DF}",
+  ":standing_man:": "\u{1F9CD}\u200D\u2642",
+  ":standing_person:": "\u{1F9CD}",
+  ":standing_woman:": "\u{1F9CD}\u200D\u2640",
+  ":star:": "\u2B50",
+  ":star2:": "\u{1F31F}",
+  ":star_and_crescent:": "\u262A",
+  ":star_of_david:": "\u2721",
+  ":star_struck:": "\u{1F929}",
+  ":stars:": "\u{1F320}",
+  ":station:": "\u{1F689}",
+  ":statue_of_liberty:": "\u{1F5FD}",
+  ":steam_locomotive:": "\u{1F682}",
+  ":stethoscope:": "\u{1FA7A}",
+  ":stew:": "\u{1F372}",
+  ":stop_button:": "\u23F9",
+  ":stop_sign:": "\u{1F6D1}",
+  ":stopwatch:": "\u23F1",
+  ":straight_ruler:": "\u{1F4CF}",
+  ":strawberry:": "\u{1F353}",
+  ":stuck_out_tongue:": "\u{1F61B}",
+  ":stuck_out_tongue_closed_eyes:": "\u{1F61D}",
+  ":stuck_out_tongue_winking_eye:": "\u{1F61C}",
+  ":student:": "\u{1F9D1}\u200D\u{1F393}",
+  ":studio_microphone:": "\u{1F399}",
+  ":stuffed_flatbread:": "\u{1F959}",
+  ":sudan:": "\u{1F1F8}\u200D\u{1F1E9}",
+  ":sun_behind_large_cloud:": "\u{1F325}",
+  ":sun_behind_rain_cloud:": "\u{1F326}",
+  ":sun_behind_small_cloud:": "\u{1F324}",
+  ":sun_with_face:": "\u{1F31E}",
+  ":sunflower:": "\u{1F33B}",
+  ":sunglasses:": "\u{1F60E}",
+  ":sunny:": "\u2600",
+  ":sunrise:": "\u{1F305}",
+  ":sunrise_over_mountains:": "\u{1F304}",
+  ":superhero:": "\u{1F9B8}",
+  ":superhero_man:": "\u{1F9B8}\u200D\u2642",
+  ":superhero_woman:": "\u{1F9B8}\u200D\u2640",
+  ":supervillain:": "\u{1F9B9}",
+  ":supervillain_man:": "\u{1F9B9}\u200D\u2642",
+  ":supervillain_woman:": "\u{1F9B9}\u200D\u2640",
+  ":surfer:": "\u{1F3C4}",
+  ":surfing_man:": "\u{1F3C4}\u200D\u2642",
+  ":surfing_woman:": "\u{1F3C4}\u200D\u2640",
+  ":suriname:": "\u{1F1F8}\u200D\u{1F1F7}",
+  ":sushi:": "\u{1F363}",
+  ":suspension_railway:": "\u{1F69F}",
+  ":svalbard_jan_mayen:": "\u{1F1F8}\u200D\u{1F1EF}",
+  ":swan:": "\u{1F9A2}",
+  ":swaziland:": "\u{1F1F8}\u200D\u{1F1FF}",
+  ":sweat:": "\u{1F613}",
+  ":sweat_drops:": "\u{1F4A6}",
+  ":sweat_smile:": "\u{1F605}",
+  ":sweden:": "\u{1F1F8}\u200D\u{1F1EA}",
+  ":sweet_potato:": "\u{1F360}",
+  ":swim_brief:": "\u{1FA72}",
+  ":swimmer:": "\u{1F3CA}",
+  ":swimming_man:": "\u{1F3CA}\u200D\u2642",
+  ":swimming_woman:": "\u{1F3CA}\u200D\u2640",
+  ":switzerland:": "\u{1F1E8}\u200D\u{1F1ED}",
+  ":symbols:": "\u{1F523}",
+  ":synagogue:": "\u{1F54D}",
+  ":syria:": "\u{1F1F8}\u200D\u{1F1FE}",
+  ":syringe:": "\u{1F489}",
+  ":t-rex:": "\u{1F996}",
+  ":taco:": "\u{1F32E}",
+  ":tada:": "\u{1F389}",
+  ":taiwan:": "\u{1F1F9}\u200D\u{1F1FC}",
+  ":tajikistan:": "\u{1F1F9}\u200D\u{1F1EF}",
+  ":takeout_box:": "\u{1F961}",
+  ":tamale:": "\u{1FAD4}",
+  ":tanabata_tree:": "\u{1F38B}",
+  ":tangerine:": "\u{1F34A}",
+  ":tanzania:": "\u{1F1F9}\u200D\u{1F1FF}",
+  ":taurus:": "\u2649",
+  ":taxi:": "\u{1F695}",
+  ":tea:": "\u{1F375}",
+  ":teacher:": "\u{1F9D1}\u200D\u{1F3EB}",
+  ":teapot:": "\u{1FAD6}",
+  ":technologist:": "\u{1F9D1}\u200D\u{1F4BB}",
+  ":teddy_bear:": "\u{1F9F8}",
+  ":telephone:": "\u260E",
+  ":telephone_receiver:": "\u{1F4DE}",
+  ":telescope:": "\u{1F52D}",
+  ":tennis:": "\u{1F3BE}",
+  ":tent:": "\u26FA",
+  ":test_tube:": "\u{1F9EA}",
+  ":thailand:": "\u{1F1F9}\u200D\u{1F1ED}",
+  ":thermometer:": "\u{1F321}",
+  ":thinking:": "\u{1F914}",
+  ":thong_sandal:": "\u{1FA74}",
+  ":thought_balloon:": "\u{1F4AD}",
+  ":thread:": "\u{1F9F5}",
+  ":three:": "3\u200D\u20E3",
+  ":thumbsdown:": "\u{1F44E}",
+  ":thumbsup:": "\u{1F44D}",
+  ":ticket:": "\u{1F3AB}",
+  ":tickets:": "\u{1F39F}",
+  ":tiger:": "\u{1F42F}",
+  ":tiger2:": "\u{1F405}",
+  ":timer_clock:": "\u23F2",
+  ":timor_leste:": "\u{1F1F9}\u200D\u{1F1F1}",
+  ":tipping_hand_man:": "\u{1F481}\u200D\u2642",
+  ":tipping_hand_person:": "\u{1F481}",
+  ":tipping_hand_woman:": "\u{1F481}\u200D\u2640",
+  ":tired_face:": "\u{1F62B}",
+  ":tm:": "\u2122",
+  ":togo:": "\u{1F1F9}\u200D\u{1F1EC}",
+  ":toilet:": "\u{1F6BD}",
+  ":tokelau:": "\u{1F1F9}\u200D\u{1F1F0}",
+  ":tokyo_tower:": "\u{1F5FC}",
+  ":tomato:": "\u{1F345}",
+  ":tonga:": "\u{1F1F9}\u200D\u{1F1F4}",
+  ":tongue:": "\u{1F445}",
+  ":toolbox:": "\u{1F9F0}",
+  ":tooth:": "\u{1F9B7}",
+  ":toothbrush:": "\u{1FAA5}",
+  ":top:": "\u{1F51D}",
+  ":tophat:": "\u{1F3A9}",
+  ":tornado:": "\u{1F32A}",
+  ":tr:": "\u{1F1F9}\u200D\u{1F1F7}",
+  ":trackball:": "\u{1F5B2}",
+  ":tractor:": "\u{1F69C}",
+  ":traffic_light:": "\u{1F6A5}",
+  ":train:": "\u{1F68B}",
+  ":train2:": "\u{1F686}",
+  ":tram:": "\u{1F68A}",
+  ":transgender_flag:": "\u{1F3F3}\u200D\u26A7",
+  ":transgender_symbol:": "\u26A7",
+  ":triangular_flag_on_post:": "\u{1F6A9}",
+  ":triangular_ruler:": "\u{1F4D0}",
+  ":trident:": "\u{1F531}",
+  ":trinidad_tobago:": "\u{1F1F9}\u200D\u{1F1F9}",
+  ":tristan_da_cunha:": "\u{1F1F9}\u200D\u{1F1E6}",
+  ":triumph:": "\u{1F624}",
+  ":trolleybus:": "\u{1F68E}",
+  ":trophy:": "\u{1F3C6}",
+  ":tropical_drink:": "\u{1F379}",
+  ":tropical_fish:": "\u{1F420}",
+  ":truck:": "\u{1F69A}",
+  ":trumpet:": "\u{1F3BA}",
+  ":tshirt:": "\u{1F455}",
+  ":tulip:": "\u{1F337}",
+  ":tumbler_glass:": "\u{1F943}",
+  ":tunisia:": "\u{1F1F9}\u200D\u{1F1F3}",
+  ":turkey:": "\u{1F983}",
+  ":turkmenistan:": "\u{1F1F9}\u200D\u{1F1F2}",
+  ":turks_caicos_islands:": "\u{1F1F9}\u200D\u{1F1E8}",
+  ":turtle:": "\u{1F422}",
+  ":tuvalu:": "\u{1F1F9}\u200D\u{1F1FB}",
+  ":tv:": "\u{1F4FA}",
+  ":twisted_rightwards_arrows:": "\u{1F500}",
+  ":two:": "2\u200D\u20E3",
+  ":two_hearts:": "\u{1F495}",
+  ":two_men_holding_hands:": "\u{1F46C}",
+  ":two_women_holding_hands:": "\u{1F46D}",
+  ":u5272:": "\u{1F239}",
+  ":u5408:": "\u{1F234}",
+  ":u55b6:": "\u{1F23A}",
+  ":u6307:": "\u{1F22F}",
+  ":u6708:": "\u{1F237}",
+  ":u6709:": "\u{1F236}",
+  ":u6e80:": "\u{1F235}",
+  ":u7121:": "\u{1F21A}",
+  ":u7533:": "\u{1F238}",
+  ":u7981:": "\u{1F232}",
+  ":u7a7a:": "\u{1F233}",
+  ":uganda:": "\u{1F1FA}\u200D\u{1F1EC}",
+  ":uk:": "\u{1F1EC}\u200D\u{1F1E7}",
+  ":ukraine:": "\u{1F1FA}\u200D\u{1F1E6}",
+  ":umbrella:": "\u2614",
+  ":unamused:": "\u{1F612}",
+  ":underage:": "\u{1F51E}",
+  ":unicorn:": "\u{1F984}",
+  ":united_arab_emirates:": "\u{1F1E6}\u200D\u{1F1EA}",
+  ":united_nations:": "\u{1F1FA}\u200D\u{1F1F3}",
+  ":unlock:": "\u{1F513}",
+  ":up:": "\u{1F199}",
+  ":upside_down_face:": "\u{1F643}",
+  ":uruguay:": "\u{1F1FA}\u200D\u{1F1FE}",
+  ":us:": "\u{1F1FA}\u200D\u{1F1F8}",
+  ":us_outlying_islands:": "\u{1F1FA}\u200D\u{1F1F2}",
+  ":us_virgin_islands:": "\u{1F1FB}\u200D\u{1F1EE}",
+  ":uzbekistan:": "\u{1F1FA}\u200D\u{1F1FF}",
+  ":v:": "\u270C",
+  ":vampire:": "\u{1F9DB}",
+  ":vampire_man:": "\u{1F9DB}\u200D\u2642",
+  ":vampire_woman:": "\u{1F9DB}\u200D\u2640",
+  ":vanuatu:": "\u{1F1FB}\u200D\u{1F1FA}",
+  ":vatican_city:": "\u{1F1FB}\u200D\u{1F1E6}",
+  ":venezuela:": "\u{1F1FB}\u200D\u{1F1EA}",
+  ":vertical_traffic_light:": "\u{1F6A6}",
+  ":vhs:": "\u{1F4FC}",
+  ":vibration_mode:": "\u{1F4F3}",
+  ":video_camera:": "\u{1F4F9}",
+  ":video_game:": "\u{1F3AE}",
+  ":vietnam:": "\u{1F1FB}\u200D\u{1F1F3}",
+  ":violin:": "\u{1F3BB}",
+  ":virgo:": "\u264D",
+  ":volcano:": "\u{1F30B}",
+  ":volleyball:": "\u{1F3D0}",
+  ":vomiting_face:": "\u{1F92E}",
+  ":vs:": "\u{1F19A}",
+  ":vulcan_salute:": "\u{1F596}",
+  ":waffle:": "\u{1F9C7}",
+  ":wales:": "\u{1F3F4}\u200D\u{E0067}\u200D\u{E0062}\u200D\u{E0077}\u200D\u{E006C}\u200D\u{E0073}\u200D\u{E007F}",
+  ":walking:": "\u{1F6B6}",
+  ":walking_man:": "\u{1F6B6}\u200D\u2642",
+  ":walking_woman:": "\u{1F6B6}\u200D\u2640",
+  ":wallis_futuna:": "\u{1F1FC}\u200D\u{1F1EB}",
+  ":waning_crescent_moon:": "\u{1F318}",
+  ":waning_gibbous_moon:": "\u{1F316}",
+  ":warning:": "\u26A0",
+  ":wastebasket:": "\u{1F5D1}",
+  ":watch:": "\u231A",
+  ":water_buffalo:": "\u{1F403}",
+  ":water_polo:": "\u{1F93D}",
+  ":watermelon:": "\u{1F349}",
+  ":wave:": "\u{1F44B}",
+  ":wavy_dash:": "\u3030",
+  ":waxing_crescent_moon:": "\u{1F312}",
+  ":waxing_gibbous_moon:": "\u{1F314}",
+  ":wc:": "\u{1F6BE}",
+  ":weary:": "\u{1F629}",
+  ":wedding:": "\u{1F492}",
+  ":weight_lifting:": "\u{1F3CB}",
+  ":weight_lifting_man:": "\u{1F3CB}\u200D\u2642",
+  ":weight_lifting_woman:": "\u{1F3CB}\u200D\u2640",
+  ":western_sahara:": "\u{1F1EA}\u200D\u{1F1ED}",
+  ":whale:": "\u{1F433}",
+  ":whale2:": "\u{1F40B}",
+  ":wheel_of_dharma:": "\u2638",
+  ":wheelchair:": "\u267F",
+  ":white_check_mark:": "\u2705",
+  ":white_circle:": "\u26AA",
+  ":white_flag:": "\u{1F3F3}",
+  ":white_flower:": "\u{1F4AE}",
+  ":white_haired_man:": "\u{1F468}\u200D\u{1F9B3}",
+  ":white_haired_woman:": "\u{1F469}\u200D\u{1F9B3}",
+  ":white_heart:": "\u{1F90D}",
+  ":white_large_square:": "\u2B1C",
+  ":white_medium_small_square:": "\u25FD",
+  ":white_medium_square:": "\u25FB",
+  ":white_small_square:": "\u25AB",
+  ":white_square_button:": "\u{1F533}",
+  ":wilted_flower:": "\u{1F940}",
+  ":wind_chime:": "\u{1F390}",
+  ":wind_face:": "\u{1F32C}",
+  ":window:": "\u{1FA9F}",
+  ":wine_glass:": "\u{1F377}",
+  ":wink:": "\u{1F609}",
+  ":wolf:": "\u{1F43A}",
+  ":woman:": "\u{1F469}",
+  ":woman_artist:": "\u{1F469}\u200D\u{1F3A8}",
+  ":woman_astronaut:": "\u{1F469}\u200D\u{1F680}",
+  ":woman_beard:": "\u{1F9D4}\u200D\u2640",
+  ":woman_cartwheeling:": "\u{1F938}\u200D\u2640",
+  ":woman_cook:": "\u{1F469}\u200D\u{1F373}",
+  ":woman_dancing:": "\u{1F483}",
+  ":woman_facepalming:": "\u{1F926}\u200D\u2640",
+  ":woman_factory_worker:": "\u{1F469}\u200D\u{1F3ED}",
+  ":woman_farmer:": "\u{1F469}\u200D\u{1F33E}",
+  ":woman_feeding_baby:": "\u{1F469}\u200D\u{1F37C}",
+  ":woman_firefighter:": "\u{1F469}\u200D\u{1F692}",
+  ":woman_health_worker:": "\u{1F469}\u200D\u2695",
+  ":woman_in_manual_wheelchair:": "\u{1F469}\u200D\u{1F9BD}",
+  ":woman_in_motorized_wheelchair:": "\u{1F469}\u200D\u{1F9BC}",
+  ":woman_in_tuxedo:": "\u{1F935}\u200D\u2640",
+  ":woman_judge:": "\u{1F469}\u200D\u2696",
+  ":woman_juggling:": "\u{1F939}\u200D\u2640",
+  ":woman_mechanic:": "\u{1F469}\u200D\u{1F527}",
+  ":woman_office_worker:": "\u{1F469}\u200D\u{1F4BC}",
+  ":woman_pilot:": "\u{1F469}\u200D\u2708",
+  ":woman_playing_handball:": "\u{1F93E}\u200D\u2640",
+  ":woman_playing_water_polo:": "\u{1F93D}\u200D\u2640",
+  ":woman_scientist:": "\u{1F469}\u200D\u{1F52C}",
+  ":woman_shrugging:": "\u{1F937}\u200D\u2640",
+  ":woman_singer:": "\u{1F469}\u200D\u{1F3A4}",
+  ":woman_student:": "\u{1F469}\u200D\u{1F393}",
+  ":woman_teacher:": "\u{1F469}\u200D\u{1F3EB}",
+  ":woman_technologist:": "\u{1F469}\u200D\u{1F4BB}",
+  ":woman_with_headscarf:": "\u{1F9D5}",
+  ":woman_with_probing_cane:": "\u{1F469}\u200D\u{1F9AF}",
+  ":woman_with_turban:": "\u{1F473}\u200D\u2640",
+  ":woman_with_veil:": "\u{1F470}\u200D\u2640",
+  ":womans_clothes:": "\u{1F45A}",
+  ":womans_hat:": "\u{1F452}",
+  ":women_wrestling:": "\u{1F93C}\u200D\u2640",
+  ":womens:": "\u{1F6BA}",
+  ":wood:": "\u{1FAB5}",
+  ":woozy_face:": "\u{1F974}",
+  ":world_map:": "\u{1F5FA}",
+  ":worm:": "\u{1FAB1}",
+  ":worried:": "\u{1F61F}",
+  ":wrench:": "\u{1F527}",
+  ":wrestling:": "\u{1F93C}",
+  ":writing_hand:": "\u270D",
+  ":x:": "\u274C",
+  ":yarn:": "\u{1F9F6}",
+  ":yawning_face:": "\u{1F971}",
+  ":yellow_circle:": "\u{1F7E1}",
+  ":yellow_heart:": "\u{1F49B}",
+  ":yellow_square:": "\u{1F7E8}",
+  ":yemen:": "\u{1F1FE}\u200D\u{1F1EA}",
+  ":yen:": "\u{1F4B4}",
+  ":yin_yang:": "\u262F",
+  ":yo_yo:": "\u{1FA80}",
+  ":yum:": "\u{1F60B}",
+  ":zambia:": "\u{1F1FF}\u200D\u{1F1F2}",
+  ":zany_face:": "\u{1F92A}",
+  ":zap:": "\u26A1",
+  ":zebra:": "\u{1F993}",
+  ":zero:": "0\u200D\u20E3",
+  ":zimbabwe:": "\u{1F1FF}\u200D\u{1F1FC}",
+  ":zipper_mouth_face:": "\u{1F910}",
+  ":zombie:": "\u{1F9DF}",
+  ":zombie_man:": "\u{1F9DF}\u200D\u2642",
+  ":zombie_woman:": "\u{1F9DF}\u200D\u2640",
+  ":zzz:": "\u{1F4A4}"
+};
+var EmojiProcessor = class {
+  process(markdown) {
+    return this.transformEmoji(markdown);
+  }
+  transformEmoji(markdown) {
+    return markdown.replace(/(:(\w|\+|-)+:)(?=|[!.?]|$)/gim, (m) => emoji[m] ?? m);
+  }
+};
+
 // src/processors/iconsProcessor.ts
 var IconsProcessor = class {
   constructor() {
-    this.regex = /:(fas|far|fal|fad|fab)_([\w]+):/g;
+    this.regex = /:(fas|far|fal|fad|fab)_([\w-]+):/g;
   }
   process(markdown) {
     return this.transformIconShortcode(markdown);
@@ -72651,6 +74484,420 @@ var IconsProcessor = class {
     return markdown;
   }
 };
+
+// src/processors/debugViewProcessor.ts
+var DebugViewProcessor = class {
+  process(markdown, options) {
+    let output = markdown;
+    if (options.showGrid) {
+      markdown.split(new RegExp(options.separator, "gmi")).map((slidegroup, index) => {
+        return slidegroup.split(new RegExp(options.verticalSeparator, "gmi")).map((slide, index2) => {
+          const newSlide = this.addDebugCode(slide);
+          output = output.replace(slide, newSlide);
+          return newSlide;
+        }).join(options.verticalSeparator);
+      }).join(options.separator);
+    }
+    return output;
+  }
+  addDebugCode(markdown) {
+    let gridBlock = "";
+    gridBlock += '<grid drag="100 10" drop="0 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 10" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 20" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 30" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 40" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 50" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 60" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 70" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 80" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="100 10" drop="0 90" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="0 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="10 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="20 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="30 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="40 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="50 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="60 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="70 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="80 0" border="thin dotted blue"/>\n';
+    gridBlock += '<grid drag="10 100" drop="90 0" border="thin dotted blue"/>\n';
+    return markdown + "\n" + gridBlock;
+  }
+};
+
+// src/processors/calloutProcessor.ts
+var CalloutProcessor = class {
+  constructor() {
+    this.regex = />\s\[!([^\]]+)\]-* *(.*)/;
+  }
+  process(markdown) {
+    const lineArray = markdown.split("\n");
+    const outArray = [];
+    let startIdx = -1;
+    let add = true;
+    for (let i = 0; i < lineArray.length; i++) {
+      const line = lineArray[i];
+      if (line.trim().startsWith(">") && startIdx == -1) {
+        startIdx = i;
+        add = false;
+      } else if (!line.trim().startsWith(">") && startIdx > -1) {
+        const content = this.transformBlock(lineArray, startIdx, i - 1);
+        for (let index = 0; index < content.length; index++) {
+          const contentLine = content[index];
+          outArray.push(contentLine);
+        }
+        startIdx = -1;
+        add = true;
+      }
+      if (add) {
+        outArray.push(lineArray[i]);
+      }
+    }
+    return outArray.join("\n");
+  }
+  transformBlock(lines, start2, end2) {
+    const result = [];
+    if (this.regex.test(lines[start2])) {
+      const [, type, titleLine] = this.regex.exec(lines[start2]);
+      const icon = this.iconFrom(type);
+      const title2 = this.titleFrom(type, titleLine);
+      const color = this.colorFrom(type);
+      result.push(`<div class="callout ${color}">`);
+      result.push('<div class="callout-title">');
+      result.push('<div class="callout-icon">');
+      result.push("");
+      result.push(icon);
+      result.push("");
+      result.push("</div>");
+      result.push('<div class="callout-title-inner">');
+      result.push("");
+      result.push(title2);
+      result.push("");
+      result.push("</div>");
+      result.push("</div>");
+      result.push('<div class="callout-content">');
+      for (let i = start2 + 1; i <= end2; i++) {
+        result.push("");
+        const line = lines[i].trim().substring(1).trim();
+        result.push(line);
+      }
+      result.push("");
+      result.push("</div>");
+      result.push("</div>");
+    } else {
+      for (let i = start2; i <= end2; i++) {
+        const line = lines[i];
+        result.push(line);
+      }
+    }
+    return result;
+  }
+  colorFrom(type) {
+    const input = type.toLowerCase();
+    switch (input) {
+      case "abstract":
+      case "summary":
+      case "tldr":
+      case "info":
+        return "callout-color1";
+      case "todo":
+      case "tip":
+      case "hint":
+      case "important":
+        return "callout-color2";
+      case "success":
+      case "check":
+      case "done":
+        return "callout-color3";
+      case "question":
+      case "help":
+      case "faq":
+        return "callout-color4";
+      case "warning":
+      case "caution":
+      case "attention":
+        return "callout-color5";
+      case "failure":
+      case "fail":
+      case "missing":
+        return "callout-color6";
+      case "danger":
+      case "error":
+      case "bug":
+        return "callout-color7";
+      case "example":
+        return "callout-color8";
+      case "quote":
+      case "cite":
+        return "callout-color9";
+      default:
+        return "callout-color-default";
+    }
+  }
+  titleFrom(icon, titleLine) {
+    if (titleLine) {
+      return titleLine;
+    } else {
+      return icon[0].toUpperCase() + icon.substring(1).toLowerCase();
+    }
+  }
+  iconFrom(type) {
+    const input = type.toLowerCase();
+    switch (input) {
+      case "abstract":
+      case "summary":
+      case "tldr":
+        return ":fas_clipboard-list:";
+      case "info":
+        return ":fas_info-circle:";
+      case "todo":
+        return ":fas_check-circle:";
+      case "tip":
+      case "hint":
+      case "important":
+        return ":fas_fire-alt:";
+      case "success":
+      case "check":
+      case "done":
+        return ":fas_check:";
+      case "question":
+      case "help":
+      case "faq":
+        return ":fas_question-circle:";
+      case "warning":
+      case "caution":
+      case "attention":
+        return ":fas_exclamation-triangle:";
+      case "failure":
+      case "fail":
+      case "missing":
+        return ":fas_times:";
+      case "danger":
+      case "error":
+        return ":fas_bolt:";
+      case "bug":
+        return ":fas_bug:";
+      case "example":
+        return ":fas_list:";
+      case "quote":
+      case "cite":
+        return ":fas_quote-left:";
+      default:
+        return ":fas_pencil-alt:";
+    }
+  }
+};
+
+// src/processors/templateProcessor.ts
+var TemplateProcessor = class {
+  constructor(utils) {
+    this.emptySlideCommentRegex = /<!--\s*(?:\.)?slide(?::)?\s*-->/g;
+    this.templateCommentRegex = /<!--\s*(?:\.)?slide.*(template="\[\[([^\]]+)\]\]"\s*).*-->/;
+    this.propertyRegex = /:::\s([^\n]+)\s*(.*?:::[^\n]*)/sg;
+    this.optionalRegex = /<%\?.*%>/g;
+    this.parser = new CommentParser();
+    this.utils = utils;
+    this.multipleFileProcessor = new MultipleFileProcessor(utils);
+  }
+  process(markdown, options) {
+    let output = markdown;
+    markdown.split(new RegExp(options.separator, "gmi")).map((slidegroup) => {
+      return slidegroup.split(new RegExp(options.verticalSeparator, "gmi")).map((slide) => {
+        let newSlide = slide;
+        if (this.templateCommentRegex.test(slide)) {
+          try {
+            while (this.templateCommentRegex.test(newSlide)) {
+              newSlide = this.transformSlide(newSlide);
+            }
+            newSlide = newSlide.replaceAll(this.emptySlideCommentRegex, "");
+            newSlide = this.computeVariables(newSlide);
+            output = output.split(slide).join(newSlide);
+            return newSlide;
+          } catch (error) {
+            console.log("Cannot process template: " + error);
+            return slide;
+          }
+        }
+        return slide;
+      }).join(options.verticalSeparator);
+    }).join(options.separator);
+    return output;
+  }
+  transformSlide(slide) {
+    if (this.templateCommentRegex.test(slide)) {
+      const [, templateProperty, file] = this.templateCommentRegex.exec(slide);
+      let fileWithExtension = file;
+      if (!fileWithExtension.endsWith(".md")) {
+        fileWithExtension = fileWithExtension + ".md";
+      }
+      const templateFile = this.utils.findFile(fileWithExtension);
+      const absoluteTemplateFile = this.utils.absolute(templateFile);
+      let templateContent = this.utils.parseFile(absoluteTemplateFile, null);
+      templateContent = this.multipleFileProcessor.process(templateContent);
+      templateContent = templateContent.replaceAll("<% content %>", slide.replaceAll(templateProperty, ""));
+      return templateContent;
+    } else {
+      return slide;
+    }
+  }
+  computeVariables(slide) {
+    let result = slide;
+    this.propertyRegex.lastIndex = 0;
+    let m;
+    while ((m = this.propertyRegex.exec(slide)) !== null) {
+      if (m.index === this.propertyRegex.lastIndex) {
+        this.propertyRegex.lastIndex++;
+      }
+      let [match, name, content] = m;
+      if (name == "block")
+        continue;
+      content = "::: block\n" + content;
+      const optionalName = "<%? " + name.trim() + " %>";
+      name = "<% " + name.trim() + " %>";
+      result = result.replaceAll(optionalName, content);
+      result = result.replaceAll(name, content);
+      result = result.replaceAll(match, "");
+    }
+    while ((m = this.optionalRegex.exec(result)) !== null) {
+      if (m.index === this.optionalRegex.lastIndex) {
+        this.optionalRegex.lastIndex++;
+      }
+      result = result.replaceAll(m[0], "");
+    }
+    return result;
+  }
+};
+
+// src/processors/chartProcessor.ts
+var ChartProcessor = class {
+  constructor() {
+    this.typeRegex = /type:\s(\w*)/;
+    this.labelRegex = /labels:\s(.*)/;
+    this.datasetRegex = /title:\s(.*)\s*data:\s(.*)/g;
+    this.spanGapsRegex = /(spanGaps):\s(.*)/;
+    this.tensionRegex = /(tension):\s(.*)/;
+    this.beginAtZeroRegex = /(beginAtZero):\s(.*)/;
+    this.legendRegex = /(legend):\s(.*)/;
+    this.legendPositionRegex = /(legendPosition):\s(.*)/;
+    this.stackedRegex = /(stacked):\s(.*)/;
+    this.colorMap = ["#4285f4", "#ea4335", "#fbbc05", "#34a853", "#673ab7", "#cccccc", "#777777"];
+  }
+  process(markdown, options) {
+    return this.transformChart(markdown, options);
+  }
+  transformChart(markdown, options) {
+    const startIdx = markdown.indexOf("```chart");
+    if (startIdx < 0) {
+      return markdown;
+    } else {
+      const endIdx = markdown.indexOf("```", startIdx + 11);
+      if (endIdx < 0) {
+        return markdown;
+      }
+      const before = markdown.substring(0, startIdx);
+      const after = markdown.substring(endIdx + 3);
+      const chartMarkup = markdown.substring(startIdx + 8, endIdx);
+      if (this.typeRegex.test(chartMarkup)) {
+        const [, type] = this.typeRegex.exec(chartMarkup);
+        const chart = {
+          data: {
+            datasets: [],
+            labels: []
+          },
+          options: { elements: {} }
+        };
+        if (this.labelRegex.test(chartMarkup)) {
+          const [, labels] = this.labelRegex.exec(chartMarkup);
+          chart.data.labels = parseLabels(labels);
+          this.datasetRegex.lastIndex = 0;
+          let i = 0;
+          let m;
+          while ((m = this.datasetRegex.exec(chartMarkup)) !== null) {
+            if (m.index === this.datasetRegex.lastIndex) {
+              this.datasetRegex.lastIndex++;
+            }
+            const [, title2, data] = m;
+            chart.data.datasets.push({ data: JSON.parse(data), label: title2, backgroundColor: this.colorMap[i] });
+            i++;
+          }
+          chart.options.elements[type] = {};
+          if (this.spanGapsRegex.test(chartMarkup)) {
+            const [, key, value] = this.spanGapsRegex.exec(chartMarkup);
+            chart.options.elements[type][key] = JSON.parse(value);
+          }
+          if (this.tensionRegex.test(chartMarkup)) {
+            const [, key, value] = this.tensionRegex.exec(chartMarkup);
+            chart.options.elements[type][key] = JSON.parse(value);
+          }
+          if (this.beginAtZeroRegex.test(chartMarkup)) {
+            const [, key, value] = this.beginAtZeroRegex.exec(chartMarkup);
+            if (!chart.options.scales) {
+              chart.options.scales = {};
+            }
+            if (!chart.options.scales.y) {
+              chart.options.scales.y = {};
+            }
+            chart.options.scales.y[key] = JSON.parse(value);
+          }
+          if (this.legendRegex.test(chartMarkup)) {
+            const [, , value] = this.legendRegex.exec(chartMarkup);
+            if (!chart.options.plugins) {
+              chart.options.plugins = {};
+            }
+            if (!chart.options.plugins.legend) {
+              chart.options.plugins.legend = {};
+            }
+            chart.options.plugins.legend.display = JSON.parse(value);
+          }
+          if (this.legendPositionRegex.test(chartMarkup)) {
+            const [, , value] = this.legendPositionRegex.exec(chartMarkup);
+            if (!chart.options.plugins) {
+              chart.options.plugins = {};
+            }
+            if (!chart.options.plugins.legend) {
+              chart.options.plugins.legend = {};
+            }
+            chart.options.plugins.legend.position = value;
+          }
+          if (this.stackedRegex.test(chartMarkup)) {
+            const [, key, value] = this.stackedRegex.exec(chartMarkup);
+            if (!chart.options.scales) {
+              chart.options.scales = {};
+            }
+            if (!chart.options.scales.y) {
+              chart.options.scales.y = {};
+            }
+            if (!chart.options.scales.x) {
+              chart.options.scales.x = {};
+            }
+            chart.options.scales.x[key] = JSON.parse(value);
+            chart.options.scales.y[key] = JSON.parse(value);
+          }
+          const canvas = `<canvas style="max-height:${options.height}px" data-chart="${type}" >
+<!--
+${JSON.stringify(chart)}-->
+</canvas>`;
+          const result = before.trimEnd() + "\n" + canvas + "\n" + after.trimStart();
+          return this.transformChart(result, options);
+        }
+      }
+      return markdown;
+    }
+  }
+};
+function parseLabels(labels) {
+  return labels.substring(1, labels.length - 1).split(",").map((label) => {
+    let value = label.trim();
+    if (value.startsWith("'") || value.startsWith('"')) {
+      value = value.substring(1);
+    }
+    if (value.endsWith("'") || value.endsWith('"')) {
+      value = value.substring(0, value.length - 1);
+    }
+    return `${value.trim()}`;
+  });
+}
 
 // src/obsidianMarkdownPreprocessor.ts
 var ObsidianMarkdownPreprocessor = class {
@@ -72669,13 +74916,35 @@ var ObsidianMarkdownPreprocessor = class {
     this.commentProcessor = new CommentProcessor();
     this.dropProcessor = new DropProcessor();
     this.autoClosingProcessor = new AutoClosingProcessor();
+    this.emojiProcessor = new EmojiProcessor();
     this.iconsProcessor = new IconsProcessor();
+    this.debugViewProcessor = new DebugViewProcessor();
+    this.calloutProcessor = new CalloutProcessor();
+    this.templateProcessor = new TemplateProcessor(utils);
+    this.chartProcessor = new ChartProcessor();
   }
   process(markdown, options) {
     YamlStore.getInstance().options = options;
-    const afterMultipleFileProcessor = this.multipleFileProcessor.process(markdown);
-    const afterAutoClosingProcessor = this.autoClosingProcessor.process(afterMultipleFileProcessor);
-    const afterIconsProcessor = this.iconsProcessor.process(afterAutoClosingProcessor);
+    let before = markdown;
+    let after;
+    let circuitCounter = 0;
+    while (before != after) {
+      circuitCounter++;
+      if (after) {
+        before = after;
+      }
+      const afterMultipleFileProcessor = this.multipleFileProcessor.process(before);
+      after = this.templateProcessor.process(afterMultipleFileProcessor, options);
+      if (circuitCounter > 9) {
+        console.log("WARNING: Circuit in template hierarchy detected!");
+        break;
+      }
+    }
+    const afterDebugViewProcessor = this.debugViewProcessor.process(after, options);
+    const afterAutoClosingProcessor = this.autoClosingProcessor.process(afterDebugViewProcessor);
+    const afterCalloutProcessor = this.calloutProcessor.process(afterAutoClosingProcessor);
+    const afterEmojiProcessor = this.emojiProcessor.process(afterCalloutProcessor);
+    const afterIconsProcessor = this.iconsProcessor.process(afterEmojiProcessor);
     const afterDropProcessor = this.dropProcessor.process(afterIconsProcessor, options);
     const afterMermaidProcessor = this.mermaidProcessor.process(afterDropProcessor);
     const afterBlockProcessor = this.blockProcessor.process(afterMermaidProcessor);
@@ -72688,7 +74957,8 @@ var ObsidianMarkdownPreprocessor = class {
     const afterFragmentProcessor = this.fragmentProcessor.process(afterFormatProcessor, options);
     const afterGridProcessor = this.gridProcessor.process(afterFragmentProcessor, options);
     const afterCommentProcessor = this.commentProcessor.process(afterGridProcessor);
-    return afterCommentProcessor;
+    const afterChartProcessor = this.chartProcessor.process(afterCommentProcessor, options);
+    return afterChartProcessor;
   }
 };
 
@@ -72733,6 +75003,7 @@ var RevealRenderer = class {
   async renderFile(filePath, params) {
     let renderForExport = false;
     let renderForPrint = false;
+    let renderForEmbed = false;
     if (!import_lodash2.default.isEmpty(params)) {
       if (import_lodash2.default.has(params, "export")) {
         renderForExport = params?.export;
@@ -72740,20 +75011,23 @@ var RevealRenderer = class {
       if (import_lodash2.default.has(params, "print-pdf")) {
         renderForPrint = true;
       }
+      if (import_lodash2.default.has(params, "embed")) {
+        renderForEmbed = params?.embed;
+      }
     }
     if (renderForExport) {
       ImageCollector.getInstance().reset();
       ImageCollector.getInstance().enable();
     }
     const content = (await (0, import_fs_extra2.readFile)(filePath.toString())).toString();
-    const rendered = await this.render(content, renderForPrint);
+    const rendered = await this.render(content, renderForPrint, renderForEmbed);
     if (renderForExport) {
       ImageCollector.getInstance().disable();
       await this.exporter.export(filePath, rendered, ImageCollector.getInstance().getAll());
     }
     return rendered;
   }
-  async render(input, renderForPrint) {
+  async render(input, renderForPrint, renderEmbedded) {
     const { yamlOptions, markdown } = this.yaml.parseYamlFrontMatter(input);
     const options = this.yaml.getSlideOptions(yamlOptions, renderForPrint);
     const revealOptions = this.yaml.getRevealOptions(options);
@@ -72784,7 +75058,7 @@ var RevealRenderer = class {
       enableMenu,
       revealOptionsStr: JSON.stringify(revealOptions)
     });
-    const template2 = await this.getTemplate();
+    const template2 = await this.getTemplate(renderEmbedded);
     const result = mustache_default.render(template2, context);
     return result;
   }
@@ -72800,7 +75074,9 @@ var RevealRenderer = class {
     if (this.isValidUrl(theme2)) {
       return theme2;
     }
-    const highlightThemes = import_glob.glob.sync("plugin/highlight/*.css", { cwd: this.pluginDirectory });
+    const highlightThemes = import_glob.glob.sync("plugin/highlight/*.css", {
+      cwd: this.pluginDirectory
+    });
     const highlightTheme2 = highlightThemes.find((themePath) => (0, import_path2.basename)(themePath).replace((0, import_path2.extname)(themePath), "") === theme2);
     return highlightTheme2 ? highlightTheme2 : theme2;
   }
@@ -72808,12 +75084,19 @@ var RevealRenderer = class {
     if (this.isValidUrl(theme2)) {
       return theme2;
     }
-    const revealThemes = import_glob.glob.sync("dist/theme/*.css", { cwd: this.pluginDirectory });
+    const revealThemes = import_glob.glob.sync("dist/theme/*.css", {
+      cwd: this.pluginDirectory
+    });
     const revealTheme = revealThemes.find((themePath) => (0, import_path2.basename)(themePath).replace((0, import_path2.extname)(themePath), "") === theme2);
     return revealTheme ? revealTheme : theme2;
   }
-  async getTemplate() {
-    const templateFile = (0, import_path2.join)(this.pluginDirectory, defaults_default.template);
+  async getTemplate(embed = false) {
+    let templateFile;
+    if (embed) {
+      templateFile = (0, import_path2.join)(this.pluginDirectory, "template/embed.html");
+    } else {
+      templateFile = (0, import_path2.join)(this.pluginDirectory, defaults_default.template);
+    }
     const content = (await (0, import_fs_extra2.readFile)(templateFile.toString())).toString();
     return content;
   }
@@ -72860,6 +75143,12 @@ var RevealServer = class {
     ["plugin", "dist", "css"].forEach((dir) => {
       this._app.use("/" + dir, this._staticDir(import_path3.default.join(this._pluginDirectory, dir)));
     });
+    this._app.get("/embed/*", async (req, res) => {
+      const file = req.originalUrl.replace("/embed", "");
+      const filePath = import_path3.default.join(this._baseDirectory, decodeURI(file.split("?")[0]));
+      const markup = await this._revealRenderer.renderFile(filePath, req.query);
+      res.send(markup);
+    });
     this._app.get(/(\w+\.md)/, async (req, res) => {
       this.filePath = import_path3.default.join(this._baseDirectory, decodeURI(req.url.split("?")[0]));
       const markup = await this._revealRenderer.renderFile(this.filePath, req.query);
@@ -72890,7 +75179,7 @@ var RevealServer = class {
 };
 
 // package.json
-var version = "1.6.0";
+var version = "1.12.0";
 
 // src/main.ts
 var import_path7 = __toModule(require("path"));
@@ -72937,13 +75226,30 @@ var ObsidianUtils = class {
       return null;
     }
   }
+  absolute(relativePath) {
+    if (relativePath)
+      return this.fileSystem.getFullPath(relativePath);
+    else {
+      return null;
+    }
+  }
   findFile(imagePath) {
-    const expDir = this.settings.exportDirectory.startsWith("/") ? this.settings.exportDirectory.substring(1) : this.settings.exportDirectory;
-    const imgFile = this.app.vault.getFiles().filter((item) => item.path.contains(imagePath) && !item.path.contains(expDir)).first();
     let base = "";
     if (!ImageCollector.getInstance().shouldCollect()) {
       base = "/";
     }
+    const activeFile = this.app.workspace.getActiveFile()?.path;
+    if (activeFile) {
+      const allLinks = this.app.metadataCache.resolvedLinks;
+      const fileLinks = allLinks[activeFile];
+      for (const key in fileLinks) {
+        if (key.contains(imagePath)) {
+          return base + key;
+        }
+      }
+    }
+    const expDir = this.settings.exportDirectory.startsWith("/") ? this.settings.exportDirectory.substring(1) : this.settings.exportDirectory;
+    const imgFile = this.app.vault.getFiles().filter((item) => item.path.contains(imagePath) && !item.path.contains(expDir)).first();
     if (imgFile) {
       return base + imgFile.path;
     } else {
@@ -72951,13 +75257,13 @@ var ObsidianUtils = class {
     }
   }
   findImageEx(filePath) {
-    const expDir = this.settings.exportDirectory.startsWith("/") ? this.settings.exportDirectory.substring(1) : this.settings.exportDirectory;
-    let imagePath = filePath + ".svg";
-    let imgFile = this.app.vault.getFiles().filter((item) => item.path.contains(imagePath) && !item.path.contains(expDir)).first();
     let base = "";
     if (!ImageCollector.getInstance().shouldCollect()) {
       base = "/";
     }
+    const expDir = this.settings.exportDirectory.startsWith("/") ? this.settings.exportDirectory.substring(1) : this.settings.exportDirectory;
+    let imagePath = filePath + ".svg";
+    let imgFile = this.app.vault.getFiles().filter((item) => item.path.contains(imagePath) && !item.path.contains(expDir)).first();
     if (imgFile) {
       return base + imagePath;
     }
@@ -73251,6 +75557,9 @@ function getContainingBlock(element) {
     }
   }
   var currentNode = getParentNode(element);
+  if (isShadowRoot(currentNode)) {
+    currentNode = currentNode.host;
+  }
   while (isHTMLElement(currentNode) && ["html", "body"].indexOf(getNodeName(currentNode)) < 0) {
     var css2 = getComputedStyle(currentNode);
     if (css2.transform !== "none" || css2.perspective !== "none" || css2.contain === "paint" || ["transform", "perspective"].indexOf(css2.willChange) !== -1 || isFirefox && css2.willChange === "filter" || isFirefox && css2.filter && css2.filter !== "none") {
@@ -73404,7 +75713,16 @@ function roundOffsetsByDPR(_ref) {
 function mapToStyles(_ref2) {
   var _Object$assign2;
   var popper2 = _ref2.popper, popperRect = _ref2.popperRect, placement = _ref2.placement, variation = _ref2.variation, offsets = _ref2.offsets, position = _ref2.position, gpuAcceleration = _ref2.gpuAcceleration, adaptive = _ref2.adaptive, roundOffsets = _ref2.roundOffsets, isFixed = _ref2.isFixed;
-  var _ref3 = roundOffsets === true ? roundOffsetsByDPR(offsets) : typeof roundOffsets === "function" ? roundOffsets(offsets) : offsets, _ref3$x = _ref3.x, x = _ref3$x === void 0 ? 0 : _ref3$x, _ref3$y = _ref3.y, y = _ref3$y === void 0 ? 0 : _ref3$y;
+  var _offsets$x = offsets.x, x = _offsets$x === void 0 ? 0 : _offsets$x, _offsets$y = offsets.y, y = _offsets$y === void 0 ? 0 : _offsets$y;
+  var _ref3 = typeof roundOffsets === "function" ? roundOffsets({
+    x,
+    y
+  }) : {
+    x,
+    y
+  };
+  x = _ref3.x;
+  y = _ref3.y;
   var hasX = offsets.hasOwnProperty("x");
   var hasY = offsets.hasOwnProperty("y");
   var sideX = left;
@@ -73424,13 +75742,13 @@ function mapToStyles(_ref2) {
     offsetParent = offsetParent;
     if (placement === top || (placement === left || placement === right) && variation === end) {
       sideY = bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : offsetParent[heightProp];
+      var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : offsetParent[heightProp];
       y -= offsetY - popperRect.height;
       y *= gpuAcceleration ? 1 : -1;
     }
     if (placement === left || (placement === top || placement === bottom) && variation === end) {
       sideX = right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : offsetParent[widthProp];
+      var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : offsetParent[widthProp];
       x -= offsetX - popperRect.width;
       x *= gpuAcceleration ? 1 : -1;
     }
@@ -73438,14 +75756,23 @@ function mapToStyles(_ref2) {
   var commonStyles = Object.assign({
     position
   }, adaptive && unsetSides);
+  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
+    x,
+    y
+  }) : {
+    x,
+    y
+  };
+  x = _ref4.x;
+  y = _ref4.y;
   if (gpuAcceleration) {
     var _Object$assign;
     return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? "0" : "", _Object$assign[sideX] = hasX ? "0" : "", _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
   }
   return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : "", _Object$assign2[sideX] = hasX ? x + "px" : "", _Object$assign2.transform = "", _Object$assign2));
 }
-function computeStyles(_ref4) {
-  var state = _ref4.state, options = _ref4.options;
+function computeStyles(_ref5) {
+  var state = _ref5.state, options = _ref5.options;
   var _options$gpuAccelerat = options.gpuAcceleration, gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat, _options$adaptive = options.adaptive, adaptive = _options$adaptive === void 0 ? true : _options$adaptive, _options$roundOffsets = options.roundOffsets, roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
   if (true) {
     var transitionProperty = getComputedStyle(state.elements.popper).transitionProperty || "";
@@ -73680,7 +76007,7 @@ function getClippingParents(element) {
     return [];
   }
   return clippingParents2.filter(function(clippingParent) {
-    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== "body" && (canEscapeClipping ? getComputedStyle(clippingParent).position !== "static" : true);
+    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== "body";
   });
 }
 function getClippingRect(element, boundary, rootBoundary) {
@@ -74782,7 +77109,1831 @@ var HighlightThemeSuggest = class extends TextInputSuggest {
   }
 };
 
+// src/suggesters/AutoCompleteSuggester.ts
+var import_obsidian6 = __toModule(require("obsidian"));
+
+// src/suggesters/dict/AdvancedSlidesDictionary.ts
+var suggestionData = [
+  {
+    value: "<grid >\n\n</grid>",
+    description: "<grid>",
+    offset: 6
+  },
+  {
+    value: "<split >\n\n</split>",
+    description: "<split>",
+    offset: 7
+  },
+  {
+    value: "<style>\n\n\n\n</style>",
+    description: "<style>",
+    offset: 9
+  },
+  {
+    value: "<!-- slide  -->",
+    description: "@slide",
+    offset: 11
+  },
+  {
+    name: "element",
+    value: "<!-- element  -->",
+    description: "@element",
+    strategy: "startsWith",
+    offset: 13
+  },
+  {
+    value: "::: \n\n:::",
+    description: "::: <name>",
+    offset: 4
+  },
+  {
+    value: "::: block\n\n\n\n:::",
+    description: "::: block",
+    offset: 11
+  },
+  {
+    name: "small",
+    value: '<span style="font-size:small"></span>',
+    description: "small",
+    strategy: "startsWith",
+    offset: 30
+  },
+  {
+    name: "embed",
+    value: "```slide\n{\n	slide: [[]],\n	page: 0\n}\n```",
+    description: "@embed",
+    strategy: "startsWith",
+    offset: 21
+  }
+];
+var gridData = [
+  {
+    value: 'drag=""',
+    description: 'drag="<width> <height>"',
+    offset: 6
+  },
+  {
+    value: 'drop=""',
+    description: 'drop="<x> <y>"',
+    offset: 6
+  },
+  {
+    value: 'flow=""',
+    description: 'flow="<col | row>"',
+    offset: 6
+  },
+  {
+    value: 'style=""',
+    offset: 7
+  },
+  {
+    value: 'class=""',
+    offset: 7
+  },
+  {
+    value: 'bg=""',
+    description: 'bg="<color name | #425232 | rgb(255, 99, 71) | hsl(0, 100%, 50%)>"',
+    offset: 4
+  },
+  {
+    value: 'pad=""',
+    description: 'pad="<all sides | vertical horizontal | top right bottom left>"',
+    offset: 5
+  },
+  {
+    value: 'align=""',
+    description: 'align="<left | right | center | justify | block | top | bottom | topleft | topright | bottomleft | bottomright | stretch>"',
+    offset: 7
+  },
+  {
+    value: 'border=""',
+    description: 'border="<width> <style> <color>"',
+    offset: 8
+  },
+  {
+    value: 'animate=""',
+    description: 'animate="<type> <speed>"',
+    offset: 9
+  },
+  {
+    value: 'opacity=""',
+    description: 'opacity="<0.0...1.0>"',
+    offset: 9
+  },
+  {
+    value: 'rotate=""',
+    description: 'rotate="<0...360>"',
+    offset: 8
+  },
+  {
+    value: 'filter=""',
+    description: 'filter="<blur | bright | contrast | grayscale | hue | invert | saturate | sepia>"',
+    offset: 8
+  },
+  {
+    value: 'frag=""',
+    description: 'frag="<index>"',
+    offset: 6
+  }
+];
+var dragData = [
+  {
+    value: "<width> <height>"
+  }
+];
+var dropData = [
+  {
+    value: "<x> <y>"
+  },
+  {
+    value: "topleft"
+  },
+  {
+    value: "top"
+  },
+  {
+    value: "topright"
+  },
+  {
+    value: "left"
+  },
+  {
+    value: "center"
+  },
+  {
+    value: "right"
+  },
+  {
+    value: "bottomleft"
+  },
+  {
+    value: "bottom"
+  },
+  {
+    value: "bottomright"
+  }
+];
+var flowData = [
+  {
+    value: "row"
+  },
+  {
+    value: "col"
+  }
+];
+var bgData = [
+  {
+    "value": "#425232",
+    "description": "<#425232>"
+  },
+  {
+    "value": "rgb(255, 99, 71)",
+    "description": "<rgb(255, 99, 71)>"
+  },
+  {
+    "value": "hsl(0, 100%, 50%)",
+    "description": "<hsl(0, 100%, 50%)>"
+  },
+  {
+    "value": "black"
+  },
+  {
+    "value": "silver"
+  },
+  {
+    "value": "gray"
+  },
+  {
+    "value": "white"
+  },
+  {
+    "value": "maroon"
+  },
+  {
+    "value": "red"
+  },
+  {
+    "value": "purple"
+  },
+  {
+    "value": "fuchsia"
+  },
+  {
+    "value": "green"
+  },
+  {
+    "value": "lime"
+  },
+  {
+    "value": "olive"
+  },
+  {
+    "value": "yellow"
+  },
+  {
+    "value": "navy"
+  },
+  {
+    "value": "blue"
+  },
+  {
+    "value": "teal"
+  },
+  {
+    "value": "aqua"
+  },
+  {
+    "value": "orange"
+  },
+  {
+    "value": "aliceblue"
+  },
+  {
+    "value": "antiquewhite"
+  },
+  {
+    "value": "aquamarine"
+  },
+  {
+    "value": "azure"
+  },
+  {
+    "value": "beige"
+  },
+  {
+    "value": "bisque"
+  },
+  {
+    "value": "blanchedalmond"
+  },
+  {
+    "value": "blueviolet"
+  },
+  {
+    "value": "brown"
+  },
+  {
+    "value": "burlywood"
+  },
+  {
+    "value": "cadetblue"
+  },
+  {
+    "value": "chartreuse"
+  },
+  {
+    "value": "chocolate"
+  },
+  {
+    "value": "coral"
+  },
+  {
+    "value": "cornflowerblue"
+  },
+  {
+    "value": "cornsilk"
+  },
+  {
+    "value": "crimson"
+  },
+  {
+    "value": "cyan"
+  },
+  {
+    "value": "aqua"
+  },
+  {
+    "value": "darkblue"
+  },
+  {
+    "value": "darkcyan"
+  },
+  {
+    "value": "darkgoldenrod"
+  },
+  {
+    "value": "darkgray"
+  },
+  {
+    "value": "darkgreen"
+  },
+  {
+    "value": "darkgrey"
+  },
+  {
+    "value": "darkkhaki"
+  },
+  {
+    "value": "darkmagenta"
+  },
+  {
+    "value": "darkolivegreen"
+  },
+  {
+    "value": "darkorange"
+  },
+  {
+    "value": "darkorchid"
+  },
+  {
+    "value": "darkred"
+  },
+  {
+    "value": "darksalmon"
+  },
+  {
+    "value": "darkseagreen"
+  },
+  {
+    "value": "darkslateblue"
+  },
+  {
+    "value": "darkslategray"
+  },
+  {
+    "value": "darkslategrey"
+  },
+  {
+    "value": "darkturquoise"
+  },
+  {
+    "value": "darkviolet"
+  },
+  {
+    "value": "deeppink"
+  },
+  {
+    "value": "deepskyblue"
+  },
+  {
+    "value": "dimgray"
+  },
+  {
+    "value": "dimgrey"
+  },
+  {
+    "value": "dodgerblue"
+  },
+  {
+    "value": "firebrick"
+  },
+  {
+    "value": "floralwhite"
+  },
+  {
+    "value": "forestgreen"
+  },
+  {
+    "value": "gainsboro"
+  },
+  {
+    "value": "ghostwhite"
+  },
+  {
+    "value": "gold"
+  },
+  {
+    "value": "goldenrod"
+  },
+  {
+    "value": "greenyellow"
+  },
+  {
+    "value": "grey"
+  },
+  {
+    "value": "honeydew"
+  },
+  {
+    "value": "hotpink"
+  },
+  {
+    "value": "indianred"
+  },
+  {
+    "value": "indigo"
+  },
+  {
+    "value": "ivory"
+  },
+  {
+    "value": "khaki"
+  },
+  {
+    "value": "lavender"
+  },
+  {
+    "value": "lavenderblush"
+  },
+  {
+    "value": "lawngreen"
+  },
+  {
+    "value": "lemonchiffon"
+  },
+  {
+    "value": "lightblue"
+  },
+  {
+    "value": "lightcoral"
+  },
+  {
+    "value": "lightcyan"
+  },
+  {
+    "value": "lightgoldenrodyellow"
+  },
+  {
+    "value": "lightgray"
+  },
+  {
+    "value": "lightgreen"
+  },
+  {
+    "value": "lightgrey"
+  },
+  {
+    "value": "lightpink"
+  },
+  {
+    "value": "lightsalmon"
+  },
+  {
+    "value": "lightseagreen"
+  },
+  {
+    "value": "lightskyblue"
+  },
+  {
+    "value": "lightslategray"
+  },
+  {
+    "value": "lightslategrey"
+  },
+  {
+    "value": "lightsteelblue"
+  },
+  {
+    "value": "lightyellow"
+  },
+  {
+    "value": "limegreen"
+  },
+  {
+    "value": "linen"
+  },
+  {
+    "value": "magenta"
+  },
+  {
+    "value": "fuchsia"
+  },
+  {
+    "value": "mediumaquamarine"
+  },
+  {
+    "value": "mediumblue"
+  },
+  {
+    "value": "mediumorchid"
+  },
+  {
+    "value": "mediumpurple"
+  },
+  {
+    "value": "mediumseagreen"
+  },
+  {
+    "value": "mediumslateblue"
+  },
+  {
+    "value": "mediumspringgreen"
+  },
+  {
+    "value": "mediumturquoise"
+  },
+  {
+    "value": "mediumvioletred"
+  },
+  {
+    "value": "midnightblue"
+  },
+  {
+    "value": "mintcream"
+  },
+  {
+    "value": "mistyrose"
+  },
+  {
+    "value": "moccasin"
+  },
+  {
+    "value": "navajowhite"
+  },
+  {
+    "value": "oldlace"
+  },
+  {
+    "value": "olivedrab"
+  },
+  {
+    "value": "orangered"
+  },
+  {
+    "value": "orchid"
+  },
+  {
+    "value": "palegoldenrod"
+  },
+  {
+    "value": "palegreen"
+  },
+  {
+    "value": "paleturquoise"
+  },
+  {
+    "value": "palevioletred"
+  },
+  {
+    "value": "papayawhip"
+  },
+  {
+    "value": "peachpuff"
+  },
+  {
+    "value": "peru"
+  },
+  {
+    "value": "pink"
+  },
+  {
+    "value": "plum"
+  },
+  {
+    "value": "powderblue"
+  },
+  {
+    "value": "rosybrown"
+  },
+  {
+    "value": "royalblue"
+  },
+  {
+    "value": "saddlebrown"
+  },
+  {
+    "value": "salmon"
+  },
+  {
+    "value": "sandybrown"
+  },
+  {
+    "value": "seagreen"
+  },
+  {
+    "value": "seashell"
+  },
+  {
+    "value": "sienna"
+  },
+  {
+    "value": "skyblue"
+  },
+  {
+    "value": "slateblue"
+  },
+  {
+    "value": "slategray"
+  },
+  {
+    "value": "slategrey"
+  },
+  {
+    "value": "snow"
+  },
+  {
+    "value": "springgreen"
+  },
+  {
+    "value": "steelblue"
+  },
+  {
+    "value": "tan"
+  },
+  {
+    "value": "thistle"
+  },
+  {
+    "value": "tomato"
+  },
+  {
+    "value": "turquoise"
+  },
+  {
+    "value": "violet"
+  },
+  {
+    "value": "wheat"
+  },
+  {
+    "value": "whitesmoke"
+  },
+  {
+    "value": "yellowgreen"
+  },
+  {
+    "value": "rebeccapurple"
+  }
+];
+var padData = [
+  {
+    value: "<top> <right> <bottom> <left>"
+  },
+  {
+    value: "<top> <right & left> <bottom>"
+  },
+  {
+    value: "<top & bottom> <right & left>"
+  },
+  {
+    value: "<all sides>"
+  }
+];
+var alignData = [
+  {
+    "value": "left"
+  },
+  {
+    "value": "right"
+  },
+  {
+    "value": "center"
+  },
+  {
+    "value": "justify"
+  },
+  {
+    "value": "block"
+  },
+  {
+    "value": "top"
+  },
+  {
+    "value": "bottom"
+  },
+  {
+    "value": "topleft"
+  },
+  {
+    "value": "topright"
+  },
+  {
+    "value": "bottomleft"
+  },
+  {
+    "value": "bottomright"
+  },
+  {
+    "value": "stretch"
+  }
+];
+var borderData = [
+  {
+    value: "<width> <style> <color>"
+  }
+];
+var animateData = [
+  {
+    value: "<type> (<slower | faster>)"
+  },
+  {
+    "value": "fadeIn"
+  },
+  {
+    "value": "fadeOut"
+  },
+  {
+    "value": "slideRightIn"
+  },
+  {
+    "value": "slideLeftIn"
+  },
+  {
+    "value": "slideUpIn"
+  },
+  {
+    "value": "slideDownIn"
+  },
+  {
+    "value": "slideRightOut"
+  },
+  {
+    "value": "slideLeftOut"
+  },
+  {
+    "value": "slideUpOut"
+  },
+  {
+    "value": "slideDownOut"
+  },
+  {
+    "value": "scaleUp"
+  },
+  {
+    "value": "scaleUpOut"
+  },
+  {
+    "value": "scaleDown"
+  },
+  {
+    "value": "scaleDownOut"
+  }
+];
+var opacityData = [
+  {
+    value: "<0.0...1.0>"
+  }
+];
+var rotateData = [
+  {
+    value: "<0...360>"
+  }
+];
+var filterData = [
+  {
+    "value": "blur(10px)",
+    "description": "blur"
+  },
+  {
+    "value": "brightness(50%)",
+    "description": "brightness"
+  },
+  {
+    "value": "contrast(50%)",
+    "description": "contrast"
+  },
+  {
+    "value": "grayscale(100%)",
+    "description": "grayscale"
+  },
+  {
+    "value": "hue-rotate(90deg)",
+    "description": "hue"
+  },
+  {
+    "value": "invert(100%)",
+    "description": "invert"
+  },
+  {
+    "value": "saturate(50%)",
+    "description": "saturate"
+  },
+  {
+    "value": "sepia(50%)",
+    "description": "sepia"
+  }
+];
+var fragData = [
+  {
+    value: "<index>"
+  }
+];
+var splitData = [
+  {
+    value: "even ",
+    description: "even",
+    offset: 5
+  },
+  {
+    value: 'gap=""',
+    description: 'gap="<size>"',
+    offset: 5
+  },
+  {
+    value: 'left=""',
+    description: 'left="<size>"',
+    offset: 6
+  },
+  {
+    value: 'right=""',
+    description: 'right="<size>"',
+    offset: 7
+  },
+  {
+    value: 'wrap=""',
+    description: 'wrap="<amount>"',
+    offset: 6
+  },
+  {
+    value: "no-margin ",
+    description: "no-margin",
+    offset: 10
+  },
+  {
+    value: 'style=""',
+    offset: 7
+  },
+  {
+    value: 'class=""',
+    offset: 7
+  }
+];
+var gapData = [
+  {
+    value: "<size>"
+  }
+];
+var leftData = [
+  {
+    value: "<size>"
+  }
+];
+var rightData = [
+  {
+    value: "<size>"
+  }
+];
+var wrapData = [
+  {
+    value: "<amount>"
+  }
+];
+var slideData = [
+  {
+    value: 'style=""',
+    offset: 7
+  },
+  {
+    value: 'class=""',
+    offset: 7
+  },
+  {
+    value: 'template="[[]]"',
+    offset: 12
+  },
+  {
+    value: 'bg=""',
+    description: 'bg="<color name | #425232 | rgb(255, 99, 71) | hsl(0, 100%, 50%)>"',
+    offset: 4
+  },
+  {
+    value: 'bg=""',
+    description: 'bg="<url | [[reference]]>"',
+    offset: 4
+  },
+  {
+    value: 'data-background-opacity=""',
+    description: 'data-background-opacity="<0.0...1.0>"',
+    offset: 25
+  },
+  {
+    value: "data-auto-animate ",
+    offset: 18
+  }
+];
+var slideBgData = [
+  {
+    "value": "#425232",
+    "description": "<#425232>"
+  },
+  {
+    "value": "rgb(255, 99, 71)",
+    "description": "<rgb(255, 99, 71)>"
+  },
+  {
+    "value": "hsl(0, 100%, 50%)",
+    "description": "<hsl(0, 100%, 50%)>"
+  },
+  {
+    "value": "http://",
+    "description": "<url>"
+  },
+  {
+    "value": "[[]]",
+    "description": "<[[reference]]>"
+  },
+  {
+    "value": "black"
+  },
+  {
+    "value": "silver"
+  },
+  {
+    "value": "gray"
+  },
+  {
+    "value": "white"
+  },
+  {
+    "value": "maroon"
+  },
+  {
+    "value": "red"
+  },
+  {
+    "value": "purple"
+  },
+  {
+    "value": "fuchsia"
+  },
+  {
+    "value": "green"
+  },
+  {
+    "value": "lime"
+  },
+  {
+    "value": "olive"
+  },
+  {
+    "value": "yellow"
+  },
+  {
+    "value": "navy"
+  },
+  {
+    "value": "blue"
+  },
+  {
+    "value": "teal"
+  },
+  {
+    "value": "aqua"
+  },
+  {
+    "value": "orange"
+  },
+  {
+    "value": "aliceblue"
+  },
+  {
+    "value": "antiquewhite"
+  },
+  {
+    "value": "aquamarine"
+  },
+  {
+    "value": "azure"
+  },
+  {
+    "value": "beige"
+  },
+  {
+    "value": "bisque"
+  },
+  {
+    "value": "blanchedalmond"
+  },
+  {
+    "value": "blueviolet"
+  },
+  {
+    "value": "brown"
+  },
+  {
+    "value": "burlywood"
+  },
+  {
+    "value": "cadetblue"
+  },
+  {
+    "value": "chartreuse"
+  },
+  {
+    "value": "chocolate"
+  },
+  {
+    "value": "coral"
+  },
+  {
+    "value": "cornflowerblue"
+  },
+  {
+    "value": "cornsilk"
+  },
+  {
+    "value": "crimson"
+  },
+  {
+    "value": "cyan"
+  },
+  {
+    "value": "aqua"
+  },
+  {
+    "value": "darkblue"
+  },
+  {
+    "value": "darkcyan"
+  },
+  {
+    "value": "darkgoldenrod"
+  },
+  {
+    "value": "darkgray"
+  },
+  {
+    "value": "darkgreen"
+  },
+  {
+    "value": "darkgrey"
+  },
+  {
+    "value": "darkkhaki"
+  },
+  {
+    "value": "darkmagenta"
+  },
+  {
+    "value": "darkolivegreen"
+  },
+  {
+    "value": "darkorange"
+  },
+  {
+    "value": "darkorchid"
+  },
+  {
+    "value": "darkred"
+  },
+  {
+    "value": "darksalmon"
+  },
+  {
+    "value": "darkseagreen"
+  },
+  {
+    "value": "darkslateblue"
+  },
+  {
+    "value": "darkslategray"
+  },
+  {
+    "value": "darkslategrey"
+  },
+  {
+    "value": "darkturquoise"
+  },
+  {
+    "value": "darkviolet"
+  },
+  {
+    "value": "deeppink"
+  },
+  {
+    "value": "deepskyblue"
+  },
+  {
+    "value": "dimgray"
+  },
+  {
+    "value": "dimgrey"
+  },
+  {
+    "value": "dodgerblue"
+  },
+  {
+    "value": "firebrick"
+  },
+  {
+    "value": "floralwhite"
+  },
+  {
+    "value": "forestgreen"
+  },
+  {
+    "value": "gainsboro"
+  },
+  {
+    "value": "ghostwhite"
+  },
+  {
+    "value": "gold"
+  },
+  {
+    "value": "goldenrod"
+  },
+  {
+    "value": "greenyellow"
+  },
+  {
+    "value": "grey"
+  },
+  {
+    "value": "honeydew"
+  },
+  {
+    "value": "hotpink"
+  },
+  {
+    "value": "indianred"
+  },
+  {
+    "value": "indigo"
+  },
+  {
+    "value": "ivory"
+  },
+  {
+    "value": "khaki"
+  },
+  {
+    "value": "lavender"
+  },
+  {
+    "value": "lavenderblush"
+  },
+  {
+    "value": "lawngreen"
+  },
+  {
+    "value": "lemonchiffon"
+  },
+  {
+    "value": "lightblue"
+  },
+  {
+    "value": "lightcoral"
+  },
+  {
+    "value": "lightcyan"
+  },
+  {
+    "value": "lightgoldenrodyellow"
+  },
+  {
+    "value": "lightgray"
+  },
+  {
+    "value": "lightgreen"
+  },
+  {
+    "value": "lightgrey"
+  },
+  {
+    "value": "lightpink"
+  },
+  {
+    "value": "lightsalmon"
+  },
+  {
+    "value": "lightseagreen"
+  },
+  {
+    "value": "lightskyblue"
+  },
+  {
+    "value": "lightslategray"
+  },
+  {
+    "value": "lightslategrey"
+  },
+  {
+    "value": "lightsteelblue"
+  },
+  {
+    "value": "lightyellow"
+  },
+  {
+    "value": "limegreen"
+  },
+  {
+    "value": "linen"
+  },
+  {
+    "value": "magenta"
+  },
+  {
+    "value": "fuchsia"
+  },
+  {
+    "value": "mediumaquamarine"
+  },
+  {
+    "value": "mediumblue"
+  },
+  {
+    "value": "mediumorchid"
+  },
+  {
+    "value": "mediumpurple"
+  },
+  {
+    "value": "mediumseagreen"
+  },
+  {
+    "value": "mediumslateblue"
+  },
+  {
+    "value": "mediumspringgreen"
+  },
+  {
+    "value": "mediumturquoise"
+  },
+  {
+    "value": "mediumvioletred"
+  },
+  {
+    "value": "midnightblue"
+  },
+  {
+    "value": "mintcream"
+  },
+  {
+    "value": "mistyrose"
+  },
+  {
+    "value": "moccasin"
+  },
+  {
+    "value": "navajowhite"
+  },
+  {
+    "value": "oldlace"
+  },
+  {
+    "value": "olivedrab"
+  },
+  {
+    "value": "orangered"
+  },
+  {
+    "value": "orchid"
+  },
+  {
+    "value": "palegoldenrod"
+  },
+  {
+    "value": "palegreen"
+  },
+  {
+    "value": "paleturquoise"
+  },
+  {
+    "value": "palevioletred"
+  },
+  {
+    "value": "papayawhip"
+  },
+  {
+    "value": "peachpuff"
+  },
+  {
+    "value": "peru"
+  },
+  {
+    "value": "pink"
+  },
+  {
+    "value": "plum"
+  },
+  {
+    "value": "powderblue"
+  },
+  {
+    "value": "rosybrown"
+  },
+  {
+    "value": "royalblue"
+  },
+  {
+    "value": "saddlebrown"
+  },
+  {
+    "value": "salmon"
+  },
+  {
+    "value": "sandybrown"
+  },
+  {
+    "value": "seagreen"
+  },
+  {
+    "value": "seashell"
+  },
+  {
+    "value": "sienna"
+  },
+  {
+    "value": "skyblue"
+  },
+  {
+    "value": "slateblue"
+  },
+  {
+    "value": "slategray"
+  },
+  {
+    "value": "slategrey"
+  },
+  {
+    "value": "snow"
+  },
+  {
+    "value": "springgreen"
+  },
+  {
+    "value": "steelblue"
+  },
+  {
+    "value": "tan"
+  },
+  {
+    "value": "thistle"
+  },
+  {
+    "value": "tomato"
+  },
+  {
+    "value": "turquoise"
+  },
+  {
+    "value": "violet"
+  },
+  {
+    "value": "wheat"
+  },
+  {
+    "value": "whitesmoke"
+  },
+  {
+    "value": "yellowgreen"
+  },
+  {
+    "value": "rebeccapurple"
+  }
+];
+var elementData = [
+  {
+    value: 'style=""',
+    offset: 7
+  },
+  {
+    value: 'class=""',
+    offset: 7
+  },
+  {
+    value: 'drag=""',
+    description: 'drag="<width> <height>"',
+    offset: 6
+  },
+  {
+    value: 'drop=""',
+    description: 'drop="<x> <y>"',
+    offset: 6
+  },
+  {
+    value: 'align=""',
+    description: 'align="<left | right | center | justify | block | top | bottom | topleft | topright | bottomleft | bottomright | stretch>"',
+    offset: 7
+  },
+  {
+    value: 'bg=""',
+    description: 'bg="<color name | #425232 | rgb(255, 99, 71) | hsl(0, 100%, 50%)>"',
+    offset: 4
+  },
+  {
+    value: 'bg=""',
+    description: 'bg="<url | [[reference]]>"',
+    offset: 4
+  },
+  {
+    value: 'pad=""',
+    description: 'pad="<all sides | vertical horizontal | top right bottom left>"',
+    offset: 5
+  },
+  {
+    value: 'align=""',
+    description: 'align="<left | right | center | justify | block | top | bottom | topleft | topright | bottomleft | bottomright | stretch>"',
+    offset: 7
+  },
+  {
+    value: 'border=""',
+    description: 'border="<width> <style> <color>"',
+    offset: 8
+  },
+  {
+    value: 'animate=""',
+    description: 'animate="<type> <speed>"',
+    offset: 9
+  },
+  {
+    value: 'opacity=""',
+    description: 'opacity="<0.0...1.0>"',
+    offset: 9
+  },
+  {
+    value: 'rotate=""',
+    description: 'rotate="<0...360>"',
+    offset: 8
+  },
+  {
+    value: 'filter=""',
+    description: 'filter="<blur | bright | contrast | grayscale | hue | invert | saturate | sepia>"',
+    offset: 8
+  },
+  {
+    value: 'frag=""',
+    description: 'frag="<index>"',
+    offset: 6
+  }
+];
+var gridMap = {
+  parent: gridData,
+  children: [
+    {
+      property: "drag",
+      dictionary: dragData
+    },
+    {
+      property: "drop",
+      dictionary: dropData,
+      filter: true
+    },
+    {
+      property: "flow",
+      dictionary: flowData,
+      filter: true
+    },
+    {
+      property: "bg",
+      dictionary: bgData,
+      filter: true
+    },
+    {
+      property: "pad",
+      dictionary: padData
+    },
+    {
+      property: "align",
+      dictionary: alignData,
+      filter: true
+    },
+    {
+      property: "border",
+      dictionary: borderData
+    },
+    {
+      property: "animate",
+      dictionary: animateData,
+      filter: true
+    },
+    {
+      property: "opacity",
+      dictionary: opacityData
+    },
+    {
+      property: "rotate",
+      dictionary: rotateData
+    },
+    {
+      property: "filter",
+      dictionary: filterData,
+      filter: true
+    },
+    {
+      property: "frag",
+      dictionary: fragData
+    }
+  ]
+};
+var splitMap = {
+  parent: splitData,
+  children: [
+    {
+      property: "gap",
+      dictionary: gapData
+    },
+    {
+      property: "left",
+      dictionary: leftData
+    },
+    {
+      property: "right",
+      dictionary: rightData
+    },
+    {
+      property: "wrap",
+      dictionary: wrapData
+    }
+  ]
+};
+var slideMap = {
+  parent: slideData,
+  children: [
+    {
+      property: "bg",
+      dictionary: slideBgData,
+      filter: true
+    },
+    {
+      property: "data-background-opacity",
+      dictionary: opacityData
+    }
+  ]
+};
+var elementMap = {
+  parent: elementData,
+  children: [
+    {
+      property: "bg",
+      dictionary: bgData,
+      filter: true
+    },
+    {
+      property: "pad",
+      dictionary: padData
+    },
+    {
+      property: "align",
+      dictionary: alignData,
+      filter: true
+    },
+    {
+      property: "border",
+      dictionary: borderData
+    },
+    {
+      property: "animate",
+      dictionary: animateData,
+      filter: true
+    },
+    {
+      property: "opacity",
+      dictionary: opacityData
+    },
+    {
+      property: "rotate",
+      dictionary: rotateData
+    },
+    {
+      property: "filter",
+      dictionary: filterData,
+      filter: true
+    },
+    {
+      property: "frag",
+      dictionary: fragData
+    }
+  ]
+};
+var dict = {
+  parent: suggestionData,
+  children: [
+    {
+      property: "grid",
+      dictionary: gridMap
+    },
+    {
+      property: "split",
+      dictionary: splitMap
+    },
+    {
+      property: "slide",
+      dictionary: slideMap
+    },
+    {
+      property: "element",
+      dictionary: elementMap
+    }
+  ]
+};
+
+// src/suggesters/dict/Dictionary.ts
+function byInput(input) {
+  return (x) => {
+    if (x.strategy == "startsWith") {
+      if (x.name) {
+        return x.name.toLowerCase().startsWith(input.toLowerCase());
+      } else {
+        return x.value.toLowerCase().startsWith(input.toLowerCase());
+      }
+    } else {
+      if (x.name) {
+        return x.name.toLowerCase().contains(input.toLowerCase());
+      } else {
+        return x.value.toLowerCase().contains(input.toLowerCase());
+      }
+    }
+  };
+}
+
+// src/suggesters/AutoCompleteSuggester.ts
+var AutoCompleteSuggest = class extends import_obsidian6.EditorSuggest {
+  constructor() {
+    super(...arguments);
+    this.isActive = false;
+  }
+  activate() {
+    this.isActive = true;
+  }
+  deactivate() {
+    this.isActive = false;
+  }
+  getSuggestions(ctx) {
+    if (!this.isActive) {
+      return [];
+    }
+    if (ctx.query.length <= 0) {
+      return [];
+    }
+    let json;
+    try {
+      json = JSON.parse(ctx.query);
+    } catch (error) {
+    }
+    if (json) {
+      const tag = dict.children.filter((x) => x.property == json.tag.value);
+      if (tag && tag.length > 0) {
+        const map = tag.first().dictionary;
+        if (json.value.value != null && json.value.value.length == 0) {
+          const result = map.children.filter((x) => x.property == json.property.value);
+          if (result && result.length > 0) {
+            return result.first().dictionary;
+          }
+        } else if (json.value.value) {
+          const result = map.children.filter((x) => x.property == json.property.value);
+          if (result && result.length > 0) {
+            const dict2 = result.first();
+            if (dict2.filter) {
+              return dict2.dictionary.filter(byInput(json.value.value));
+            } else {
+              return result.first().dictionary;
+            }
+          }
+        } else {
+          if (json.property.value) {
+            return map.parent.filter(byInput(json.property.value));
+          } else {
+            return map.parent;
+          }
+        }
+      }
+    }
+    if (ctx.query.trim().startsWith("</")) {
+      return [];
+    } else {
+      return dict.parent.filter(byInput(ctx.query));
+    }
+  }
+  renderSuggestion(element, el) {
+    let text;
+    if (element.description) {
+      text = element.description;
+    } else {
+      text = element.value;
+    }
+    el.createSpan({ text });
+  }
+  selectSuggestion(element, evt) {
+    if (!this.context)
+      return;
+    const cursor = this.context.editor.getCursor();
+    let json;
+    try {
+      json = JSON.parse(this.context.query);
+    } catch (error) {
+    }
+    if (json) {
+      if (json.value.value != null) {
+        const line = this.context.editor.getLine(cursor.line);
+        let offset2 = 0;
+        if (line[json.value.start] == '"' || line[json.value.start] == "'") {
+          offset2 = 1;
+        }
+        const before = line.substring(0, json.value.start + offset2);
+        const after = line.substring(json.value.end + offset2, json.value.end + 1 + offset2) + " " + line.substring(json.value.end + 1 + offset2);
+        this.context.editor.setLine(cursor.line, `${before}${element.value}${after}`);
+        this.context.editor.setCursor(cursor.line, this.context.editor.getLine(cursor.line).indexOf(after) + 2);
+      } else if (json.property.end) {
+        const line = this.context.editor.getLine(cursor.line);
+        const before = line.substring(0, json.property.start);
+        const after = line.substring(json.property.end);
+        this.context.editor.setLine(cursor.line, `${before}${element.value}${after}`);
+        if (element.offset) {
+          this.context.editor.setCursor(cursor.line, this.context.start.ch + element.offset - (json.property.end - json.property.start));
+        }
+      } else {
+        this.context.editor.replaceRange(`${element.value}`, this.context.start, this.context.end, "advancedSlides");
+        if (element.offset) {
+          this.context.editor.setCursor(cursor.line, this.context.start.ch + element.offset);
+        }
+      }
+    } else {
+      this.context.editor.replaceRange(`${element.value}`, this.context.start, this.context.end, "advancedSlides");
+      if (element.offset) {
+        this.context.editor.setCursor(cursor.line, this.context.start.ch + element.offset);
+      }
+    }
+    this.close();
+  }
+  onTrigger(cursor, editor, file) {
+    const selectedLine = editor.getLine(cursor.line);
+    const cursorPosition = cursor.ch;
+    const tag = this.getTag(selectedLine, cursorPosition);
+    if (tag) {
+      return {
+        start: { line: cursor.line, ch: cursor.ch },
+        end: { line: cursor.line, ch: cursor.ch },
+        query: JSON.stringify(tag)
+      };
+    }
+    const startPosition = selectedLine.substring(0, cursorPosition).lastIndexOf(" ") + 1;
+    const endPosition = selectedLine.substring(cursorPosition).indexOf(" ") + cursorPosition + 1;
+    const range = editor.getRange({ line: cursor.line, ch: startPosition }, { line: cursor.line, ch: endPosition });
+    const matchData = {
+      start: { line: cursor.line, ch: startPosition },
+      end: { line: cursor.line, ch: endPosition },
+      query: range
+    };
+    return matchData;
+  }
+  readTag(selectedLine) {
+    const line = selectedLine.substring(selectedLine.lastIndexOf("<"));
+    const regex = /<!?-?-?\s?\.?(\w*)\s/;
+    if (regex.test(line)) {
+      const result = regex.exec(line);
+      if (result) {
+        return {
+          start: result.index,
+          end: result.index + result[1].length,
+          value: result[1]
+        };
+      }
+    }
+  }
+  getTag(selectedLine, cursorPosition) {
+    const tag = this.readTag(selectedLine);
+    let property;
+    let propStart;
+    let propEnd;
+    let propValue;
+    let valStart;
+    let valEnd;
+    if (tag) {
+      const regex = /\s(\w+[\w-]*)=?((?:"|')([^(?:"|')]*)(?:"|'))?/g;
+      regex.lastIndex = 0;
+      let m;
+      while ((m = regex.exec(selectedLine.substring(0, firstFromPosition(selectedLine, cursorPosition, ["'", '"'])))) !== null) {
+        if (m.index === regex.lastIndex) {
+          regex.lastIndex++;
+        }
+        property = m[1];
+        propStart = m.index + 1;
+        propEnd = propStart + property.length;
+        propValue = void 0;
+        valStart = void 0;
+        valEnd = void 0;
+        if (m[2] && m[3]) {
+          propValue = m[3];
+          valStart = m.index + selectedLine.substring(m.index).indexOf(propValue);
+          valEnd = valStart + propValue.length;
+        } else if (m[2]) {
+          propValue = "";
+          valStart = m.index + selectedLine.substring(m.index).indexOf('"');
+          if (valStart < 0) {
+            valStart = m.index + selectedLine.substring(m.index).indexOf("'");
+          }
+          valEnd = valStart;
+        }
+      }
+      if (valEnd && cursorPosition > valEnd + 1 || property == "slide" || property == "element") {
+        property = void 0;
+        propStart = void 0;
+        propEnd = void 0;
+        propValue = void 0;
+        valStart = void 0;
+        valEnd = void 0;
+      }
+      return {
+        tag,
+        property: {
+          start: propStart,
+          end: propEnd,
+          value: property
+        },
+        value: {
+          start: valStart,
+          end: valEnd,
+          value: propValue
+        }
+      };
+    }
+  }
+};
+function firstFromPosition(target, position, tokens) {
+  let result = target.length;
+  for (const token of tokens) {
+    const pos = target.indexOf(token, position);
+    if (pos != -1) {
+      result = result < pos ? result : pos;
+    }
+  }
+  return result + 1;
+}
+
 // src/main.ts
+var import_js_yaml = __toModule(require_js_yaml2());
 var DEFAULT_SETTINGS = {
   port: "3000",
   autoReload: true,
@@ -74796,14 +78947,23 @@ var DEFAULT_SETTINGS = {
   transitionSpeed: "default",
   controls: true,
   progress: true,
-  slideNumber: false
+  slideNumber: false,
+  showGrid: false,
+  autoComplete: "inPreview"
 };
-var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
+var AdvancedSlidesPlugin = class extends import_obsidian7.Plugin {
   async onload() {
     await this.loadSettings();
     this.obsidianUtils = new ObsidianUtils(this.app, this.settings);
     const pluginDirectory = this.obsidianUtils.getPluginDirectory();
     const distDirectory = this.obsidianUtils.getDistDirectory();
+    if (this.autoCompleteSuggester) {
+      if (this.settings.autoComplete == "always") {
+        this.autoCompleteSuggester.activate();
+      } else {
+        this.autoCompleteSuggester.deactivate();
+      }
+    }
     if (!(0, import_fs_extra4.existsSync)(distDirectory) || this.isOldVersion(pluginDirectory)) {
       const downloadUrl = `https://github.com/MSzturc/obsidian-advanced-slides/releases/download/${version}/obsidian-advanced-slides.zip`;
       const bufs = [];
@@ -74835,17 +78995,24 @@ var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
       this.registerView(REVEAL_PREVIEW_VIEW, (leaf) => new RevealPreviewView(leaf, this.revealServer.getUrl(), this.settings));
       this.registerEvent(this.app.vault.on("modify", this.onChange.bind(this)));
       this.registerEditorSuggest(new LineSelectionListener(this.app, this));
-      (0, import_obsidian6.addIcon)("slides", ICON_DATA);
-      (0, import_obsidian6.addIcon)("refresh", REFRESH_ICON);
+      this.registerMarkdownPostProcessor((element, context) => {
+        const paragraphs = element.querySelectorAll("p");
+        for (let index = 0; index < paragraphs.length; index++) {
+          const paragraph = paragraphs.item(index);
+          if (paragraph.innerText.startsWith(":::")) {
+            paragraph.remove();
+          }
+        }
+      });
+      (0, import_obsidian7.addIcon)("slides", ICON_DATA);
+      (0, import_obsidian7.addIcon)("refresh", REFRESH_ICON);
       this.addRibbonIcon("slides", "Show Slide Preview", async () => {
         await this.showView();
       });
       this.addCommand({
         id: "open-advanced-slides-preview",
         name: "Show Slide Preview",
-        hotkeys: [
-          { modifiers: ["Mod", "Shift"], key: "E" }
-        ],
+        hotkeys: [{ modifiers: ["Mod", "Shift"], key: "E" }],
         callback: async () => {
           await this.toggleView();
         }
@@ -74853,9 +79020,7 @@ var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
       this.addCommand({
         id: "reload-advanced-slides-preview",
         name: "Reload Slide Preview",
-        hotkeys: [
-          { modifiers: ["Mod", "Shift"], key: "R" }
-        ],
+        hotkeys: [{ modifiers: ["Mod", "Shift"], key: "R" }],
         callback: () => {
           const instance = this.getViewInstance();
           if (!instance) {
@@ -74865,8 +79030,41 @@ var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
         }
       });
       this.addSettingTab(new AdvancedSlidesSettingTab(this.app, this));
+      this.app.workspace.onLayoutReady(() => {
+        this.autoCompleteSuggester = new AutoCompleteSuggest(this.app);
+        if (this.settings.autoComplete == "always") {
+          this.autoCompleteSuggester.activate();
+        } else {
+          this.autoCompleteSuggester.deactivate();
+        }
+        this.registerEditorSuggest(this.autoCompleteSuggester);
+      });
+      this.registerMarkdownCodeBlockProcessor("slide", async (src, el) => {
+        try {
+          const parameters = this.readParameters(src);
+          const page = parameters.page ? `${parameters.page}` : "0";
+          const url = new URL(`http://localhost:${this.settings.port}/embed/${parameters.slide}#/${page}`);
+          url.searchParams.append("embed", "true");
+          const viewContent = el.createDiv();
+          viewContent.empty();
+          viewContent.addClass("reveal-preview-view");
+          viewContent.createEl("iframe", {
+            attr: {
+              src: url.toString(),
+              sandbox: "allow-scripts allow-same-origin"
+            }
+          });
+        } catch (e) {
+          el.createEl("h2", { text: "Parameters invalid: " + e.message });
+        }
+      });
     } catch (err) {
     }
+  }
+  readParameters(src) {
+    const params = (0, import_js_yaml.load)(src);
+    params.slide = this.obsidianUtils.findFile(params.slide);
+    return params;
   }
   getViewInstance() {
     for (const leaf of this.app.workspace.getLeavesOfType(REVEAL_PREVIEW_VIEW)) {
@@ -74895,7 +79093,7 @@ var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
     if (!instance) {
       return;
     }
-    if (file.path.startsWith(this.target)) {
+    if (file == this.target) {
       instance.onChange();
     }
   }
@@ -74904,19 +79102,28 @@ var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
     if (instance) {
       this.app.workspace.detachLeavesOfType(REVEAL_PREVIEW_VIEW);
       instance.onClose();
+      if (this.settings.autoComplete == "inPreview") {
+        this.autoCompleteSuggester.deactivate();
+      }
     } else {
+      if (this.settings.autoComplete != "never") {
+        this.autoCompleteSuggester.activate();
+      }
       this.showView();
     }
   }
   async showView() {
-    const targetDocument = this.app.workspace.getActiveFile().path;
-    if (targetDocument.startsWith(this.target) && this.app.workspace.getLeavesOfType(REVEAL_PREVIEW_VIEW).length > 0) {
+    const targetDocument = this.app.workspace.getActiveFile();
+    if (!targetDocument) {
+      return;
+    }
+    if (targetDocument == this.target && this.app.workspace.getLeavesOfType(REVEAL_PREVIEW_VIEW).length > 0) {
       return;
     }
     this.target = targetDocument;
     await this.activateView();
     const url = this.revealServer.getUrl();
-    url.pathname = targetDocument;
+    url.pathname = this.target.path;
     this.openUrl(url);
   }
   async openUrl(url) {
@@ -74948,7 +79155,7 @@ var AdvancedSlidesPlugin = class extends import_obsidian6.Plugin {
     this.onload();
   }
 };
-var LineSelectionListener = class extends import_obsidian6.EditorSuggest {
+var LineSelectionListener = class extends import_obsidian7.EditorSuggest {
   constructor(app, plugin) {
     super(app);
     this.plugin = plugin;
@@ -74973,7 +79180,7 @@ var LineSelectionListener = class extends import_obsidian6.EditorSuggest {
     throw new Error("Method not implemented.");
   }
 };
-var AdvancedSlidesSettingTab = class extends import_obsidian6.PluginSettingTab {
+var AdvancedSlidesSettingTab = class extends import_obsidian7.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
@@ -74982,15 +79189,21 @@ var AdvancedSlidesSettingTab = class extends import_obsidian6.PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
     containerEl.createEl("h2", { text: "General Settings" });
-    new import_obsidian6.Setting(containerEl).setName("Port").setDesc("On which port should Advanced Slides run? (default: 3000)").addText((text) => text.setPlaceholder("3000").setValue(this.plugin.settings.port).onChange(import_lodash3.default.debounce(async (value) => {
+    new import_obsidian7.Setting(containerEl).setName("Port").setDesc("On which port should Advanced Slides run? (default: 3000)").addText((text) => text.setPlaceholder("3000").setValue(this.plugin.settings.port).onChange(import_lodash3.default.debounce(async (value) => {
       this.plugin.settings.port = value;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Auto Reload").setDesc("Should the slide preview window be updated when a change in source file is detected?").addToggle((value) => value.setValue(this.plugin.settings.autoReload).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Auto Reload").setDesc("Should the slide preview window be updated when a change in source file is detected?").addToggle((value) => value.setValue(this.plugin.settings.autoReload).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.autoReload = value2;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Export Directory").setDesc("Where should Advanced Slides export presentations?").addSearch((cb) => {
+    new import_obsidian7.Setting(containerEl).setName("Auto Complete").setDesc("Do you want to auto-complete inputs?").addDropdown((cb) => {
+      cb.addOption("always", "Always").addOption("inPreview", "only in Slide Preview").addOption("never", "Never").setValue(this.plugin.settings.autoComplete).onChange(import_lodash3.default.debounce(async (value) => {
+        this.plugin.settings.autoComplete = value;
+        await this.plugin.saveSettings();
+      }, 750));
+    });
+    new import_obsidian7.Setting(containerEl).setName("Export Directory").setDesc("Where should Advanced Slides export presentations?").addSearch((cb) => {
       new FolderSuggest(this.app, cb.inputEl);
       cb.setPlaceholder("Folder").setValue(this.plugin.settings.exportDirectory).onChange(import_lodash3.default.debounce(async (value) => {
         this.plugin.settings.exportDirectory = value;
@@ -74998,54 +79211,54 @@ var AdvancedSlidesSettingTab = class extends import_obsidian6.PluginSettingTab {
       }, 750));
     });
     containerEl.createEl("h2", { text: "Slide Settings" });
-    new import_obsidian6.Setting(containerEl).setName("Theme").setDesc("Which theme should be used for your slides?").addSearch((cb) => {
+    new import_obsidian7.Setting(containerEl).setName("Theme").setDesc("Which theme should be used for your slides?").addSearch((cb) => {
       new ThemeSuggest(this.app, cb.inputEl);
       cb.setPlaceholder("black").setValue(this.plugin.settings.theme).onChange(import_lodash3.default.debounce(async (value) => {
         this.plugin.settings.theme = value;
         await this.plugin.saveSettings();
       }, 750));
     });
-    new import_obsidian6.Setting(containerEl).setName("Highlight Theme").setDesc("Which highlight theme should be used for your slides?").addSearch((cb) => {
+    new import_obsidian7.Setting(containerEl).setName("Highlight Theme").setDesc("Which highlight theme should be used for your slides?").addSearch((cb) => {
       new HighlightThemeSuggest(this.app, cb.inputEl);
       cb.setPlaceholder("zenburn").setValue(this.plugin.settings.highlightTheme).onChange(import_lodash3.default.debounce(async (value) => {
         this.plugin.settings.highlightTheme = value;
         await this.plugin.saveSettings();
       }, 750));
     });
-    new import_obsidian6.Setting(containerEl).setName("Transition Style").setDesc("How should the transition between slides look like?").addDropdown((cb) => {
+    new import_obsidian7.Setting(containerEl).setName("Transition Style").setDesc("How should the transition between slides look like?").addDropdown((cb) => {
       cb.addOption("none", "none").addOption("fade", "fade").addOption("slide", "slide").addOption("convex", "convex").addOption("concave", "concave").addOption("zoom", "zoom").setValue(this.plugin.settings.transition).onChange(import_lodash3.default.debounce(async (value) => {
         this.plugin.settings.transition = value;
         await this.plugin.saveSettings();
       }, 750));
     });
-    new import_obsidian6.Setting(containerEl).setName("Transition Speed").setDesc("How fast should the transition between two slides be?").addDropdown((cb) => {
+    new import_obsidian7.Setting(containerEl).setName("Transition Speed").setDesc("How fast should the transition between two slides be?").addDropdown((cb) => {
       cb.addOption("slow", "slow").addOption("normal", "default").addOption("fast", "fast").setValue(this.plugin.settings.transitionSpeed).onChange(import_lodash3.default.debounce(async (value) => {
         this.plugin.settings.transitionSpeed = value;
         await this.plugin.saveSettings();
       }, 750));
     });
     containerEl.createEl("h2", { text: "Plugins" });
-    new import_obsidian6.Setting(containerEl).setName("Controls").setDesc("Display presentation control arrows?").addToggle((value) => value.setValue(this.plugin.settings.controls).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Controls").setDesc("Display presentation control arrows?").addToggle((value) => value.setValue(this.plugin.settings.controls).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.controls = value2;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Progress Bar").setDesc("Display presentation progress bar?").addToggle((value) => value.setValue(this.plugin.settings.progress).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Progress Bar").setDesc("Display presentation progress bar?").addToggle((value) => value.setValue(this.plugin.settings.progress).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.progress = value2;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Slide Numbers").setDesc("Display the page number of the current slide?").addToggle((value) => value.setValue(this.plugin.settings.slideNumber).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Slide Numbers").setDesc("Display the page number of the current slide?").addToggle((value) => value.setValue(this.plugin.settings.slideNumber).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.slideNumber = value2;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Menu").setDesc("Display presentation menu button?").addToggle((value) => value.setValue(this.plugin.settings.enableMenu).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Menu").setDesc("Display presentation menu button?").addToggle((value) => value.setValue(this.plugin.settings.enableMenu).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.enableMenu = value2;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Overview").setDesc("Display presentation  overview button?").addToggle((value) => value.setValue(this.plugin.settings.enableOverview).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Overview").setDesc("Display presentation  overview button?").addToggle((value) => value.setValue(this.plugin.settings.enableOverview).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.enableOverview = value2;
       await this.plugin.saveSettings();
     }, 750)));
-    new import_obsidian6.Setting(containerEl).setName("Chalkboard").setDesc("Should the slides contain a chalkboard ?").addToggle((value) => value.setValue(this.plugin.settings.enableChalkboard).onChange(import_lodash3.default.debounce(async (value2) => {
+    new import_obsidian7.Setting(containerEl).setName("Chalkboard").setDesc("Should the slides contain a chalkboard ?").addToggle((value) => value.setValue(this.plugin.settings.enableChalkboard).onChange(import_lodash3.default.debounce(async (value2) => {
       this.plugin.settings.enableChalkboard = value2;
       await this.plugin.saveSettings();
     }, 750)));
@@ -75323,7 +79536,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  * Copyright(c) 2014-2017 Douglas Christopher Wilson
  * MIT Licensed
  */
-/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 /**
  * @license
  * Lodash <https://lodash.com/>

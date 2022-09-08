@@ -4,13 +4,13 @@
     "type": "split",
     "children": [
       {
-        "id": "c2c88adcbbca6179",
+        "id": "9c38cc9b8d1c1d83",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202201150112.md",
+            "file": "_private/dejuni-digital.md",
             "mode": "source",
             "source": false
           },
@@ -18,13 +18,13 @@
         }
       },
       {
-        "id": "c72e59ae8626e87e",
+        "id": "b9ab907cdf94d7d4",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202112231909.md",
+            "file": "_private/202208311116.md",
             "mode": "source",
             "source": false
           },
@@ -32,43 +32,17 @@
         }
       },
       {
-        "id": "c64721eef47cbaa0",
+        "id": "cf4853142f268626",
         "type": "leaf",
         "pinned": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_private/202201201754.md",
+            "file": "_private/202206281249.md",
             "mode": "source",
             "source": false
           },
           "pinned": true
-        }
-      },
-      {
-        "id": "3bd5ef9217436915",
-        "type": "leaf",
-        "pinned": true,
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "_private/202201202014.md",
-            "mode": "source",
-            "source": false
-          },
-          "pinned": true
-        }
-      },
-      {
-        "id": "eccc1fa31db623c8",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "_private/constellations-drawings.md",
-            "mode": "source",
-            "source": false
-          }
         }
       }
     ],
@@ -96,20 +70,21 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "\"para que\" \"porque\"",
                 "matchingCase": false,
-                "explainSearch": false,
-                "collapseAll": false,
+                "explainSearch": true,
+                "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 217,
     "collapsed": true
   },
   "right": {
@@ -117,7 +92,7 @@
     "type": "split",
     "children": [
       {
-        "id": "7c0a2b05fe70cd70",
+        "id": "e602bdb6007609d3",
         "type": "tabs",
         "children": [
           {
@@ -126,7 +101,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_private/constellations-drawings.md",
+                "file": "_private/202206281249.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -144,17 +119,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "eccc1fa31db623c8",
+  "active": "cf4853142f268626",
   "lastOpenFiles": [
-    "_private/constellations-drawings.md",
-    "_private/202201202014.md",
-    "_private/202201150112.md",
-    "_private/202201210114.md",
-    "_private/kjetil-golid.md",
-    "_private/202201201754.md",
-    "_private/202104011641.md",
-    "_private/references.md",
-    "_private/pablo-picasso.md",
-    "_private/202201210032.md"
+    "_private/202209080033.md",
+    "_private/202203011224.md",
+    "_private/modulars.md",
+    "_private/202206261816.md",
+    "_private/202209080034.md",
+    "_private/202204121027.md",
+    "_private/202204112046.md",
+    "_private/circuits.md",
+    "_private/202206261833.md",
+    "_private/202206221453.md"
   ]
 }
