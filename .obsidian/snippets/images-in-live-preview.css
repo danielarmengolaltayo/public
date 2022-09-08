@@ -1,7 +1,0 @@
-body:not(.zoom-off) .view-content .is-live-preview img {
-    max-width: 100px;
-}
-
-body:not(.zoom-off) .view-content .is-live-preview .image-embed:active img {
-    max-width: 100%;
-}
