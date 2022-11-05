@@ -8,7 +8,10 @@
 
   <div class="wrapper">
     <div id="left">
-      <main>{{ content }}</main>
+      <main>
+        {% assign content_without_comments = content | split: "%%" %}
+        {{ content_without_comments[0] }}
+      </main>
     </div>
     <div id="right">
 
@@ -19,7 +22,8 @@
         <div class="links-box" id="{{ b.url }}" style="display:none;">
 
           <div class="primary">
-            {{ b.content | markdownify }}
+            {% assign content_without_comments = b.content | split: "%%" %}
+            {{ content_without_comments[0] | markdownify }}
           </div>
 
           <div class="secondary">

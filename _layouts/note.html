@@ -13,7 +13,8 @@ layout: default
 <!-- <div id="notes-entry-container"> -->
 <content>
   <div class="primary">
-    {{ content }}
+    {% assign content_without_comments = content | split: "%%" %}
+    {{ content_without_comments[0] }}
     {% if page.type == "reference" %}<p><a href="{{ page.ref_url }}">{{ page.title }}</a> {% if page.img_url %}(<a
         href="{{ page.img_url }}" target="_blank">image source</a>){% endif %}</p>{% endif %}
   </div>

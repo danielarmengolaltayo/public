@@ -4,6 +4,7 @@ layout: default
 
 <content>
   <div class="primary">
-    {{ content }}
+    {% assign content_without_comments = content | split: "%%" %}
+    {{ content_without_comments[0] }}
   </div>
 </content>
