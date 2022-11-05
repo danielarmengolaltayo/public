@@ -7,6 +7,7 @@ exclude:             ['_private/files']
 # Specifically, when using GitHub Pages, the baseurl should point to where GitHub
 # Pages deploys your repository (which is usually the repository name).
 baseurl:             ''
+url: 'https://armengol-altayo.com'
 
 # If you are using a host that cannot resolve URLs that do
 # not end with .html (such as Neocities), set this to 'true'.
