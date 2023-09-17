@@ -1,1 +1,1 @@
-file:///Users/danielarmengolaltayo/Desktop/obsidian/private/files/{{title}}
+file:///Users/danielarmengolaltayo/Desktop/obsidian/private/files/{{title}} 
