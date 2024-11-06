@@ -36,13 +36,15 @@
               {% endfor %}
             </div>
             {% endif %}
-            <footer>
+            <!-- fer funcionar git-updated en comptes del file_mod_date -->
+            <!-- <footer>
               <time class="font-size-small"
                 datetime="{{ b.path | file_mod_date | date_to_xmlschema }}">{% if b.type != 'pages' %}
-                Last updated on {{ b.path | file_mod_date | date: "%B %-d, %Y" }}
+                {{ b.git-updated | date: "%B %-d, %Y" }} Last updated on
+                {{ b.path | file_mod_date | date: "%B %-d, %Y" }}
                 {% endif %}
               </time>
-            </footer>
+            </footer> -->
           </div>
 
         </div>

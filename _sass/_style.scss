@@ -244,6 +244,14 @@ a {
   }
 }
 
+a.disable-link-style {
+  border-bottom: inherit;
+  color: inherit;
+  &.disable-link-style:after {
+    color: inherit;
+  }
+}
+
 a.internal-link {
   &:link, &:visited, &:hover, &:active {
     color: $color-primary;

@@ -32,9 +32,9 @@ layout: default
     </div>
     {% endif %}
     <footer>
-      <time class="font-size-small"
-        datetime="{{ page.path | file_mod_date | date_to_xmlschema }}">{% if page.type != 'pages' %}
-        Last updated on {{ page.path | file_mod_date | date: "%B %-d, %Y" }}
+      <time class="font-size-small" datetime="{{ page.git-updated | date_to_xmlschema }}">{% if page.type != 'pages' %}
+        <a href="https://github.com/danielarmengolaltayo/public/commits/master/_notes{{ page.id }}.md"
+          target="_blank" class="disable-link-style">Last updated on {{ page.git-updated | date: "%B %-d, %Y" }}</a>
         {% endif %}
       </time>
     </footer>
