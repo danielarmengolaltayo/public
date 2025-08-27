@@ -6,9 +6,13 @@ permalink: /instagram
 hello world
 
 <div class="gallery2">
-{% for sf in site.static_files %}
-{% if sf.extname == ".jpg" %}
-<a href="/{{ sf.basename }}"><img src="..{{ sf.path }}"></a>
-{% endif %}
-{% endfor %}
+    {% for sf in site.static_files %}
+        {% if sf.extname == ".jpg" %}
+
+                <a href="/{{ sf.basename }}" class="img-link" target="_blank">
+                    <img src="..{{ sf.path }}">
+                </a>
+
+        {% endif %}
+    {% endfor %}
 </div>

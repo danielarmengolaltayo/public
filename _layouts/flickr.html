@@ -7,19 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/_css/instagram.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/_css/flickr.css">
     <title> {{ page.title }} </title>
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="main">
-            {{ content }}
-        </div>
+    <div id="flickr-wrap">
+        {{ content }}
     </div>
 
+    <!-- <script language="javascript" type="text/javascript" src="_scripts/open-img-in-new-tab.js"></script> -->
+    <script language="javascript" type="text/javascript" src="_scripts/flickr.js"></script>
     <script src="_scripts/lazysizes.min.js" async=""></script>
-    <script src="_scripts/instagram.js" async=""></script>
 </body>
 
 </html>

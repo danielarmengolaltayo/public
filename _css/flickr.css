@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+#flickr-wrap{
+    display: flex;
+    /* flex-wrap dona problemes si el poso aqui, per aixo s'inclou mes tard amb el js */
+    /* flex-wrap: wrap; */ 
+    align-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#header-left, #header-center, #header-right{
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 2rem;
+}
+
+#header-center{
+    text-align: center;
+}
+
+#header-right{
+    text-align: right;
+}
+
+#flickr-gallery {
+    display: grid;
+    /* width: 100vw;
+    height: 100vh; */
+    width: 100%;
+    height: 100%;
+    /* height: auto; */
+    justify-items: stretch;
+    justify-content: center;
+    align-content: flex-start;
+    min-height: 0;  
+    min-width: 0;
+}
+
+#flickr-gallery img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    /* transition: width 0.2s ease-in-out;  */
+    flex: 1 1 auto;
+    /* Permitir ajuste pero sin generar reestructuración brusca */
+    min-width: 50px;
+    /* Evita que el flexbox intente reducir demasiado */
+    padding: 5px;
+}
+
+.card{
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+}
+
+.card-img{
+    width: 100%;
+    height: 100%;
+}
+
+.card-text{
+    background-color: red;
+}
+
+/* elimina la fletxeta dels links */
+a:after{ display: none; }
+
+a.img-to-note:link, a.img-to-note:visited, a.img-to-note:active {
+    background: transparent;
+    border: none;
+}
+
+a.img-to-note:hover, a.img-to-note:focus {
+    background: var(--color-hover-internal-link);
+    img {
+    /* opacity: 0; */
+    mix-blend-mode: multiply;
+    }
+}
+
+a.img-to-img:link, a.img-to-img:visited, a.img-to-img:active {
+    background: transparent;
+    border: none;
+}
+
+a.img-to-img:hover, a.img-to-img:focus {
+    background: var(--color-hover-external-link);
+    img {
+    /* opacity: 0; */
+    mix-blend-mode: multiply;
+    }
+}
+
+/* LQIP (Low Quality Image Placeholder)/blurry image placeholder/Blur up image technique */
+/* https://github.com/aFarkas/lazysizes */
+
+.blur-up {
+    /* -webkit-filter: blur(10px);
+    filter: blur(10px); */
+    /* transition: filter 400ms, -webkit-filter 400ms; */
+    image-rendering: pixelated;
+}
+
+.blur-up.lazyloaded {
+    /* -webkit-filter: blur(0);
+    filter: blur(0); */
+    image-rendering: auto;
+}
+
+/* @media (max-width: 820px) {
+
+    .main {
+      width: 100%;
+      padding: 1rem 1rem 0 1rem;
+    }
+  
+} */
+
+/* @media (max-width: 480px) {
+    body {
+      font-size: 0.85rem !important;
+    }
+} */

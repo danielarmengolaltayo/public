@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/_css/instagram.css">
+    <!-- <link rel="stylesheet" href="{{ site.baseurl }}/_css/gallery.css"> -->
+    {% if page.css %}
+        <link rel="stylesheet" href="{{ site.baseurl }}/_css/{{ page.css }}.css">
+    {% endif %}
     <title> {{ page.title }} </title>
 </head>
 
@@ -19,7 +22,11 @@
     </div>
 
     <script src="_scripts/lazysizes.min.js" async=""></script>
-    <script src="_scripts/instagram.js" async=""></script>
+
+    <!-- <script src="_scripts/gallery.js" async=""></script> -->
+    {% if page.javascript %}
+        <script src="_scripts/{{ page.javascript }}.js" async=""></script>
+    {% endif %}
 </body>
 
 </html>

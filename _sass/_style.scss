@@ -1,7 +1,7 @@
 $color-primary: black;
 $color-secondary: #bbb;
-$color-hover-internal-link: rgba(255, 219, 0, 1);
-$color-hover-external-link: #ddd;
+// $color-hover-internal-link: rgba(255, 219, 0, 1);
+// $color-hover-external-link: #ddd;
 $color-border: hsl(0, 0%, 85%);
 $color-box-background: #f2f2f2;
 $color-primary-background: white;
@@ -9,6 +9,13 @@ $color-secondary-background: white;
 $border-radius: 4px;
 $font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
   sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+
+
+:root{
+  --color-hover-internal-link: rgba(255, 219, 0, 1);
+  --color-hover-external-link: #ddd;
+}
+
 
 html{
   font-size: 15px;
@@ -26,7 +33,6 @@ body {
   box-sizing: content-box;
   font-family: $font-family;
   // margin: 0 auto;
-  margin: 0;
   line-height: 1.6;
   // padding: 4vh 6vw;
   // overflow-x: hidden;
@@ -35,14 +41,11 @@ body {
   color: $color-primary;
   font-size: 0.6rem;
   // max-width: 63em;
-
-  @media (min-width: 820px) {
-    font-size: 0.85rem;
-  }
 }
 
 .wrapper {
   display: flex;
+  height: 100%;
   // overflow: auto;
 }
 
@@ -97,7 +100,7 @@ body {
     &:focus {
       color: $color-primary !important;
       border-color: $color-primary !important;
-      background: $color-hover-internal-link;
+      background: var(--color-hover-internal-link);
     }
   }
 }
@@ -203,7 +206,7 @@ blockquote {
   a:hover, a:focus {
     color: #00f;
     border-bottom: 1px solid #00f;
-    background: $color-hover-external-link;
+    background: var(--color-hover-external-link);
   }
   a:hover:after, a:focus:after {
     color: #00f;
@@ -230,7 +233,7 @@ a {
   &:hover, &:focus {
     color: #00f;
     border-bottom: 1px solid #00f;
-    background: $color-hover-external-link;
+    background: var(--color-hover-external-link);
   }
   &:after, &:visited:after {
     position: relative;
@@ -253,17 +256,18 @@ a.disable-link-style {
 }
 
 a.internal-link {
-  &:link, &:visited, &:hover, &:active {
+  &:link, &:visited, &:active {
     color: $color-primary;
     background: transparent;
     border-color: $color-primary;
   }
-  &:focus {
+  &:hover, &:focus {
     color: $color-primary;
-    background: $color-hover-internal-link;
+    background: var(--color-hover-internal-link);
     border-color: $color-primary;
     img {
-      opacity: 0;
+      // opacity: 0;
+      mix-blend-mode: multiply;
     }
   }
 }
@@ -272,7 +276,7 @@ a.internal-link-disconnected{
   border-color: $color-primary;
   &:focus {
     color: $color-primary;
-    background: $color-hover-external-link;
+    background: var(--color-hover-external-link);
   }
 }
 
@@ -288,18 +292,19 @@ a.internal-link-disconnected{
 }
 
 a.img-link {
+  // width: 100%;
+  // height: 100%;
   margin: 0;
   padding: 0;
   display: block;
   border: none;
   width: fit-content;
-  background: transparent;
 }
 
 .highlight-backlink {
   color: $color-primary !important;
   border-color: $color-primary !important;
-  background: $color-hover-internal-link !important;
+  background: var(--color-hover-internal-link) !important;
   img {
     opacity: 0;
   }
@@ -443,11 +448,11 @@ nav {
 }
 
 ::selection {
-  background-color: $color-hover-external-link;
+  background-color: var(--color-hover-external-link);
 }
 
 #line{
-  stroke: $color-hover-internal-link;
+  stroke: var(--color-hover-internal-link);
   stroke-width: 2;
   stroke-linecap: round;
 }
@@ -482,12 +487,18 @@ nav {
 
 /* media query breaking points via https://gist.github.com/gokulkrishh/242e68d1ee94ad05f488 */
 
+@media (min-width: 820px) {
+  body {
+    font-size: 0.85rem;
+  }
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
 
 
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 480px) {
   body {
     font-size: 1rem;
   }
